@@ -1,0 +1,27 @@
+{
+  "id": "git",
+  "title": "Install Git",
+  "forCourse": "CPRG 216",
+  "summary": "Git saves snapshots of your project so you can undo and collaborate.",
+  "steps": [
+    {
+      "instruction": "Download Git for Windows from https://git-scm.com/download/win and run the installer. The defaults are fine.",
+      "expectedResult": "Git is installed. Git Bash appears in the Start menu."
+    },
+    {
+      "instruction": "Open a new terminal and confirm Git is on your PATH.",
+      "command": "git --version",
+      "expectedResult": "git version 2.x.x prints."
+    },
+    {
+      "instruction": "Set the name that will appear on your commits. Use your real name.",
+      "command": "git config --global user.name \"Your Name\"",
+      "expectedResult": "The command prints nothing. That is success."
+    },
+    {
+      "instruction": "Set the email that will appear on your commits.",
+      "command": "git config --global user.email \"you@example.com\"",
+      "expectedResult": "Again, no output means it worked. Check with git config --global --list."
+    }
+  ]
+}

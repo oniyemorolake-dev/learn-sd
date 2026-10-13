@@ -1,0 +1,26 @@
+{
+  "id": "jdk",
+  "title": "Install a JDK",
+  "forCourse": "CPRG 211",
+  "summary": "A JDK (Java Development Kit) compiles and runs Java programs.",
+  "steps": [
+    {
+      "instruction": "Download a current Temurin JDK from https://adoptium.net (Temurin is a free, widely used OpenJDK build).",
+      "expectedResult": "A Windows .msi installer is in Downloads."
+    },
+    {
+      "instruction": "Run the installer. Accept the option that sets JAVA_HOME and adds Java to the PATH.",
+      "expectedResult": "The installer completes."
+    },
+    {
+      "instruction": "Open a new terminal and check the compiler.",
+      "command": "javac -version",
+      "expectedResult": "A javac version line prints. javac is the compiler. java (next step) is the runner."
+    },
+    {
+      "instruction": "Check the runtime too.",
+      "command": "java -version",
+      "expectedResult": "A Java version block prints. You are ready for Object-Oriented Programming 2."
+    }
+  ]
+}

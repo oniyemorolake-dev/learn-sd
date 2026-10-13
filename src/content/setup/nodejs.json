@@ -1,0 +1,26 @@
+{
+  "id": "nodejs",
+  "title": "Install Node.js",
+  "forCourse": "CPRG 213",
+  "summary": "Node lets you run JavaScript files outside the browser.",
+  "steps": [
+    {
+      "instruction": "Open https://nodejs.org and download the LTS installer for Windows. LTS means the stable long-term version.",
+      "expectedResult": "An installer file is in your Downloads folder."
+    },
+    {
+      "instruction": "Run the installer. Leave the defaults, including the option that adds Node to your PATH.",
+      "expectedResult": "The installer finishes without errors."
+    },
+    {
+      "instruction": "Close any old terminals. Open a new one and check the version.",
+      "command": "node -v",
+      "expectedResult": "A version prints, such as v22.x.x. If you see “not recognized”, close the terminal and open a brand new one."
+    },
+    {
+      "instruction": "Confirm npm (the package installer that comes with Node) works too.",
+      "command": "npm -v",
+      "expectedResult": "A number prints, such as 10.x.x."
+    }
+  ]
+}

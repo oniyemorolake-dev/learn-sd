@@ -1,0 +1,24 @@
+{
+  "id": "cprg-213",
+  "title": "Set up for CPRG 213",
+  "forCourse": "CPRG 213",
+  "summary": "Editor, browser, and a live preview for web pages.",
+  "steps": [
+    {
+      "instruction": "Finish the VS Code/Cursor guide and the Node.js guide first so the editor and node command both work.",
+      "expectedResult": "node -v prints a version inside the editor terminal."
+    },
+    {
+      "instruction": "In VS Code or Cursor, open Extensions (Ctrl+Shift+X). Search for Live Server by Ritwick Dey and install it.",
+      "expectedResult": "Live Server shows Installed. This extension refreshes the browser when you save an HTML file."
+    },
+    {
+      "instruction": "Create a folder for the course. Add a file named index.html with a heading, such as <h1>Hello web</h1>.",
+      "expectedResult": "The folder contains index.html."
+    },
+    {
+      "instruction": "Right-click index.html and choose Open with Live Server. A browser tab should open.",
+      "expectedResult": "You see Hello web in the browser. Saving the file updates the page."
+    }
+  ]
+}

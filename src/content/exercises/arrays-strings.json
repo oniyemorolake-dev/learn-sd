@@ -1,0 +1,33 @@
+{
+  "topicId": "arrays-strings",
+  "title": "Arrays & Strings — try it",
+  "exercises": [
+    {
+      "id": "arr-ex-01",
+      "task": "Print the numbers 1 to 5, each on its own line.",
+      "language": "javascript",
+      "starterCode": "for (let i = 0; i < 5; i++) {\n  // print the right number here\n}\n",
+      "expectedOutput": "1\n2\n3\n4\n5",
+      "hint": "If i starts at 0, the number you want is i + 1.",
+      "solution": "for (let i = 0; i < 5; i++) {\n  console.log(i + 1);\n}\n"
+    },
+    {
+      "id": "arr-ex-02",
+      "task": "Fix the off-by-one bug so every item prints once.",
+      "language": "javascript",
+      "starterCode": "const pets = [\"cat\", \"dog\", \"owl\"];\nfor (let i = 0; i <= pets.length; i++) {\n  console.log(pets[i]);\n}\n",
+      "expectedOutput": "cat\ndog\nowl",
+      "hint": "The last valid index is length - 1. Use < instead of <=.",
+      "solution": "const pets = [\"cat\", \"dog\", \"owl\"];\nfor (let i = 0; i < pets.length; i++) {\n  console.log(pets[i]);\n}\n"
+    },
+    {
+      "id": "arr-ex-03",
+      "task": "Complete the function so it returns the largest number in the list.",
+      "language": "javascript",
+      "starterCode": "function largest(nums) {\n  let best = nums[0];\n  // walk the rest of the list and update best\n  return best;\n}\n\nconsole.log(largest([3, 9, 4, 1]));\n",
+      "expectedOutput": "9",
+      "hint": "Start at index 1. If nums[i] is bigger than best, replace best.",
+      "solution": "function largest(nums) {\n  let best = nums[0];\n  for (let i = 1; i < nums.length; i++) {\n    if (nums[i] > best) {\n      best = nums[i];\n    }\n  }\n  return best;\n}\n\nconsole.log(largest([3, 9, 4, 1]));\n"
+    }
+  ]
+}

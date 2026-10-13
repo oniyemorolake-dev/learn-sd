@@ -1,0 +1,26 @@
+{
+  "id": "python",
+  "title": "Install Python",
+  "forCourse": "CPRG 216",
+  "summary": "Python is the usual first programming language in this diploma.",
+  "steps": [
+    {
+      "instruction": "Open https://www.python.org/downloads/ and download the latest Windows installer.",
+      "expectedResult": "A python-3.x.x installer is in Downloads."
+    },
+    {
+      "instruction": "Run the installer. Check the box that says “Add python.exe to PATH” before you click Install Now.",
+      "expectedResult": "Setup succeeds. The PATH box is the easy-to-miss step."
+    },
+    {
+      "instruction": "Open a new terminal and check the version.",
+      "command": "python --version",
+      "expectedResult": "Python 3.x.x prints. On some machines the command is py --version instead."
+    },
+    {
+      "instruction": "Start and leave the interactive prompt so you know it runs.",
+      "command": "python -c \"print('hello')\"",
+      "expectedResult": "hello prints on the next line."
+    }
+  ]
+}

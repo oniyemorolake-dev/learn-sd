@@ -1,0 +1,81 @@
+{
+  "topicId": "arrays-strings",
+  "title": "Arrays & Strings",
+  "description": "Lists of values, character text, indexes, and simple loops.",
+  "screens": [
+    {
+      "heading": "A list in a box",
+      "body": "An array is a list that lives in one variable. You put values in order, then grab them later by position.\n\nThink of a row of cubbies. Each cubby holds one thing. The whole row is the array.",
+      "code": {
+        "language": "javascript",
+        "snippet": "const colours = [\"teal\", \"purple\", \"gold\"];\nconsole.log(colours);"
+      },
+      "keyPoint": "An array is one variable that holds several values in order."
+    },
+    {
+      "heading": "Indexes start at 0",
+      "body": "The first item is not number 1. It is number 0. That number is the index.\n\nSo colours[0] is \"teal\". colours[1] is \"purple\". The last index is always length minus 1.",
+      "code": {
+        "language": "javascript",
+        "snippet": "const colours = [\"teal\", \"purple\", \"gold\"];\nconsole.log(colours[0]);\nconsole.log(colours.length);"
+      },
+      "keyPoint": "The first slot is index 0. The last slot is length - 1."
+    },
+    {
+      "heading": "Change one slot",
+      "body": "You can replace a value without rebuilding the whole list. Point at the index, then assign a new value.\n\nIf you ask for an index that does not exist, JavaScript gives you undefined — it does not crash.",
+      "code": {
+        "language": "javascript",
+        "snippet": "const scores = [10, 20, 30];\nscores[1] = 99;\nconsole.log(scores);"
+      },
+      "keyPoint": "array[index] = value replaces whatever was in that slot."
+    },
+    {
+      "heading": "Strings are also sequences",
+      "body": "A string is text. Under the hood it is a sequence of characters, and those characters also have indexes starting at 0.\n\nYou can read one character with brackets. You cannot assign into a string the way you assign into an array — strings are immutable.",
+      "code": {
+        "language": "javascript",
+        "snippet": "const name = \"Byte\";\nconsole.log(name[0]);\nconsole.log(name.length);"
+      },
+      "keyPoint": "Strings have indexes too, but you cannot rewrite a character in place."
+    },
+    {
+      "heading": "Slice copies a piece",
+      "body": "slice(start, end) copies a section of an array into a new array. The start index is included. The end index is not.\n\nThe original array stays the same. That makes slice a safe way to peek at a range.",
+      "code": {
+        "language": "javascript",
+        "snippet": "const a = [1, 2, 3, 4];\nconsole.log(a.slice(1, 3));\nconsole.log(a);"
+      },
+      "keyPoint": "slice copies. The end index is not included."
+    },
+    {
+      "heading": "Walk the list with a loop",
+      "body": "When you want every item, do not type colours[0], colours[1], colours[2] by hand. Use a loop.\n\nA for loop with i going from 0 to length - 1 visits each index once. That pattern shows up everywhere.",
+      "code": {
+        "language": "javascript",
+        "snippet": "const nums = [2, 4, 6];\nfor (let i = 0; i < nums.length; i++) {\n  console.log(nums[i]);\n}"
+      },
+      "keyPoint": "Loop from 0 while i is less than length so you never skip or overshoot."
+    }
+  ],
+  "goDeeper": [
+    {
+      "label": "MDN: Array",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array"
+    },
+    {
+      "label": "MDN: String",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String"
+    },
+    {
+      "label": "MDN: Array.prototype.slice",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice"
+    }
+  ],
+  "checkIn": {
+    "prompt": "In const pets = [\"cat\", \"dog\", \"owl\"], what is pets[1]?",
+    "options": ["\"cat\"", "\"dog\"", "\"owl\"", "undefined"],
+    "answer": 1,
+    "explanation": "Index 1 is the second item because counting starts at 0."
+  }
+}

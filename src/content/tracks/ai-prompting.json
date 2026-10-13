@@ -1,0 +1,298 @@
+{
+  "id": "ai-prompting",
+  "title": "AI Prompting",
+  "description": "Talk to coding assistants so they help, instead of guessing.",
+  "lessons": [
+    {
+      "id": "good-prompt",
+      "title": "What makes a good prompt",
+      "description": "Goal, context, and what you want back.",
+      "screens": [
+        {
+          "heading": "A prompt is a brief",
+          "body": "The assistant does not live in your head. A good prompt is a short brief: what you want, what you already have, and what a good answer looks like.\n\nVague: \"fix my code.\" Clear: \"This loop should print 1 to 5. It never stops. Tell me why, then give a patched version.\"",
+          "keyPoint": "Say the goal, the situation, and the shape of the answer."
+        },
+        {
+          "heading": "Four pieces",
+          "body": "You do not need fancy words. Stack four things:\n\n1. Role or task — \"You are helping me debug.\"\n2. Context — the code, the error, the file name.\n3. Goal — what should happen when it works.\n4. Output — \"explain first, then show the new function.\"",
+          "keyPoint": "Task, context, goal, output. That is the whole trick."
+        },
+        {
+          "heading": "One job per prompt",
+          "body": "Ask for one thing at a time when you are stuck. \"Explain this function\" is easier to check than \"rewrite the app, add tests, and make it pretty.\"\n\nBig jobs come later, after you understand the small one.",
+          "keyPoint": "Small prompt. Check the answer. Then ask the next thing."
+        }
+      ],
+      "checkIn": {
+        "prompt": "Which prompt is stronger?",
+        "options": [
+          "Make this better.",
+          "This greet() should return Hi, Ada. It prints nothing. Show the bug, then the fix.",
+          "Do my assignment.",
+          "Write code."
+        ],
+        "answer": 1,
+        "explanation": "It names the function, the expected result, what actually happens, and what to return."
+      }
+    },
+    {
+      "id": "give-context",
+      "title": "Give the AI context",
+      "description": "Paste the code, the error, and your goal.",
+      "screens": [
+        {
+          "heading": "It cannot see your laptop",
+          "body": "Unless you paste it, the assistant does not have your file, your terminal, or the red squiggle in your editor.\n\nCopy the smallest chunk that shows the problem. A 20-line function beats a 400-line dump.",
+          "keyPoint": "Paste the slice that matters. Not the whole project by default."
+        },
+        {
+          "heading": "Three attachments in text",
+          "body": "Put these in the prompt:\n\n- The code (or a screenshot transcribed as text).\n- The exact error message, not \"it broke.\"\n- What you wanted to happen.\n\nIf you already tried something, say that too so it does not suggest the same dead end.",
+          "keyPoint": "Code + error + goal. That trio saves a round trip."
+        },
+        {
+          "heading": "Name the language",
+          "body": "\"This is Python 3\" or \"this is browser JavaScript\" changes the answer. The same loop looks different in each language.\n\nIf a library matters, name it once. You do not need a novel. One line is enough.",
+          "code": {
+            "language": "text",
+            "snippet": "Language: JavaScript (browser)\nError: Uncaught TypeError: Cannot read properties of undefined (reading 'length')\nGoal: print how many pets are in the list\n\nconst pets = undefined;\nconsole.log(pets.length);"
+          },
+          "keyPoint": "Language, error, goal, then the snippet."
+        }
+      ],
+      "checkIn": {
+        "prompt": "What should you paste when a function throws?",
+        "options": [
+          "Only the function name",
+          "The function, the exact error, and what you expected",
+          "Your entire repository",
+          "Nothing — the AI already knows"
+        ],
+        "answer": 1,
+        "explanation": "The assistant needs the code, the real error text, and the intended result."
+      }
+    },
+    {
+      "id": "iterate-prompts",
+      "title": "Iterate, don't one-shot",
+      "description": "Treat chat like a conversation, not a vending machine.",
+      "screens": [
+        {
+          "heading": "First drafts are drafts",
+          "body": "The first reply is a sketch. Read it. Run it. Then talk back.\n\n\"That throws on an empty list. Guard that case.\" is a better second prompt than starting a brand new chat and hoping.",
+          "keyPoint": "Stay in the thread. Point at what is still wrong."
+        },
+        {
+          "heading": "When to start over",
+          "body": "Start a new chat when the topic changed, or the assistant is stuck repeating a bad idea.\n\nIf you switched from CSS to SQL, a fresh thread is kinder to both of you. Short recap at the top: goal, language, what already failed.",
+          "keyPoint": "Same problem: keep the thread. New problem: new chat plus a recap."
+        },
+        {
+          "heading": "Ask it to retry a piece",
+          "body": "You can accept 80% of an answer. Quote the bit you like, and ask only for the rest.\n\n\"Keep the loop. Change only the stop condition. Do not rename variables.\" Constraints like that keep the diff small and easier to understand.",
+          "keyPoint": "Lock what works. Change one thing."
+        }
+      ],
+      "checkIn": {
+        "prompt": "The first answer almost works but fails on empty input. What next?",
+        "options": [
+          "Open a new chat and paste nothing",
+          "Reply in the same thread with the empty-input case",
+          "Accept it anyway",
+          "Ask it to rewrite the whole app"
+        ],
+        "answer": 1,
+        "explanation": "Stay in the conversation and name the remaining case."
+      }
+    },
+    {
+      "id": "ask-to-explain",
+      "title": "Ask it to explain",
+      "description": "Use the assistant as a patient tutor, not just a code vending machine.",
+      "screens": [
+        {
+          "heading": "Understanding beats paste",
+          "body": "If you cannot explain the code, you do not own it yet. Ask the assistant to walk through it in plain language, line by line, before you drop it in your project.\n\n\"Explain this like I am new to indexes. Do not add new features.\"",
+          "keyPoint": "If you cannot teach it back, do not ship it yet."
+        },
+        {
+          "heading": "Quiz yourself",
+          "body": "A strong pattern: \"After you explain, ask me two short questions to check I got it.\"\n\nYou can also paste your own summary and say \"Where am I wrong?\" That catches holes faster than rereading.",
+          "keyPoint": "Explanation plus a tiny check beats a wall of code."
+        },
+        {
+          "heading": "Compare two versions",
+          "body": "Paste your version and the assistant's version. Ask: \"What is different, and which is safer for empty arrays?\"\n\nNow you are reviewing, not copying. That is the skill you actually need in class and on a job.",
+          "keyPoint": "Ask for differences, not just a replacement."
+        }
+      ],
+      "checkIn": {
+        "prompt": "You got a working function you do not understand. Best next prompt?",
+        "options": [
+          "Thanks",
+          "Explain each line in plain language, then ask me one check question",
+          "Make it longer",
+          "Rewrite it in five languages"
+        ],
+        "answer": 1,
+        "explanation": "You want a walkthrough you can verify, not more mystery code."
+      }
+    },
+    {
+      "id": "debug-with-ai",
+      "title": "Debug with AI",
+      "description": "Errors, what you tried, and a small next experiment.",
+      "screens": [
+        {
+          "heading": "Debug is a loop",
+          "body": "A useful debug prompt has: the code, the error, what you expected, and what you already tried.\n\nThen ask for a hypothesis, not a rewrite of the universe. \"What is the most likely cause? What is one experiment I should run?\"",
+          "keyPoint": "Hypothesis first. Patch second."
+        },
+        {
+          "heading": "Paste the stack",
+          "body": "The error line number is gold. Copy the traceback or the browser console block as-is.\n\nIf the error is \"undefined is not a function,\" say which line you think it is. Wrong guesses are still useful — the assistant can correct them.",
+          "code": {
+            "language": "text",
+            "snippet": "I ran node hello.js\nTypeError: nums.map is not a function\n    at hello.js:4\n\nI already checked that nums is spelled right.\nI expected an array of doubled numbers."
+          },
+          "keyPoint": "The real error text beats a paraphrase."
+        },
+        {
+          "heading": "Do not skip running it",
+          "body": "The assistant can be confidently wrong. Run the experiment. Paste the new output. Repeat.\n\nYou are the one with the terminal. Treat the model as a lab partner, not an oracle.",
+          "keyPoint": "You run the code. The AI only suggests."
+        }
+      ],
+      "checkIn": {
+        "prompt": "Best debug prompt shape?",
+        "options": [
+          "It's broken, help",
+          "Code + exact error + expected result + what I already tried",
+          "Rewrite everything in a new language",
+          "Only the assignment PDF"
+        ],
+        "answer": 1,
+        "explanation": "Those four pieces let the assistant reason instead of guess."
+      }
+    },
+    {
+      "id": "prompt-patterns",
+      "title": "Useful prompt patterns",
+      "description": "Generate, explain, refactor, and write tests.",
+      "screens": [
+        {
+          "heading": "Generate",
+          "body": "Ask for a first draft with constraints. \"Write a function largest(nums) in JavaScript. Return the biggest number. Do not sort. Include one console.log example.\"\n\nConstraints keep the output small enough to read.",
+          "keyPoint": "Name the function, the rules, and a tiny example."
+        },
+        {
+          "heading": "Explain / refactor",
+          "body": "Explain: \"What does this do? Use short sentences. No new code.\"\n\nRefactor: \"Same behavior. Clearer names. Do not change the public function name. Show a diff in words: what moved and why.\"",
+          "keyPoint": "Explain with no code. Refactor with the same behavior."
+        },
+        {
+          "heading": "Write tests",
+          "body": "Tests pin down what 'works' means. \"Write three examples for largest: a normal list, a one-item list, and negatives. Show the input and the expected return value.\"\n\nYou can run those by hand even before you have a test framework.",
+          "keyPoint": "Ask for cases, including an awkward one."
+        }
+      ],
+      "checkIn": {
+        "prompt": "You want cleaner code that still does the same thing. Which pattern?",
+        "options": [
+          "Generate from scratch and throw away the old file",
+          "Refactor: same behavior, clearer names, say what changed",
+          "Ask it to explain a different program",
+          "Delete the tests"
+        ],
+        "answer": 1,
+        "explanation": "Refactor keeps behavior still and asks for a readable change list."
+      }
+    },
+    {
+      "id": "ai-limits",
+      "title": "AI limits",
+      "description": "Hallucinations are normal. Verifying is the job.",
+      "screens": [
+        {
+          "heading": "Confident is not correct",
+          "body": "The assistant will invent a function, a flag, or a library version that does not exist. It sounds sure. That is a hallucination: a fluent guess.\n\nYour job is to check. Run the code. Open the official docs. If a method looks new to you, search MDN, docs.python.org, or the Oracle Java Tutorials before you trust it.",
+          "keyPoint": "Fluent answers still need a run and a docs check."
+        },
+        {
+          "heading": "Always verify",
+          "body": "Minimum bar before you keep a suggestion:\n\n1. Does it run?\n2. Does it match the goal you stated?\n3. Do you understand it well enough to change one line?\n\nIf any answer is no, ask for an explanation or simplify. Do not submit mystery code.",
+          "keyPoint": "Run it. Match the goal. Be able to change it."
+        },
+        {
+          "heading": "What it is good at",
+          "body": "Great at: naming the error type, sketching a loop, listing test cases, restating your code in English.\n\nBad at: knowing your unmarked assignment rules, your private repo, or yesterday's lecture. You still own the thinking.",
+          "keyPoint": "Use it to think with you, not instead of you."
+        }
+      ],
+      "goDeeper": [
+        {
+          "label": "MDN: JavaScript error reference",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors"
+        },
+        {
+          "label": "Python docs: errors and exceptions",
+          "url": "https://docs.python.org/3/tutorial/errors.html"
+        }
+      ],
+      "checkIn": {
+        "prompt": "The assistant invented a method you have never seen. What do you do?",
+        "options": [
+          "Ship it because the tone was confident",
+          "Run it, then confirm the method in official docs",
+          "Assume your teacher is wrong",
+          "Paste it into five more files"
+        ],
+        "answer": 1,
+        "explanation": "Confidence is not evidence. Run the code and check official docs."
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "ai-pr-fix-loop",
+      "task": "Write a prompt that asks an assistant to fix this loop.",
+      "goal": "Print the numbers 1 to 5, each on its own line, then stop.",
+      "context": "for (let i = 0; i < 5; i--) {\n  console.log(i);\n}",
+      "language": "javascript",
+      "placeholder": "Include the goal, the code, and what is going wrong…",
+      "examplePrompt": "This is browser JavaScript. I want to print 1, 2, 3, 4, 5 each on its own line.\n\nThe loop never stops:\n\nfor (let i = 0; i < 5; i--) {\n  console.log(i);\n}\n\nExplain why, then give a corrected loop. Do not add extra features.",
+      "whyItWorks": "It names the language, the expected output, the broken snippet, and asks for an explanation plus a small fix — not a rewrite of the whole program."
+    },
+    {
+      "id": "ai-pr-explain",
+      "task": "Write a prompt that asks the assistant to explain this function back to you.",
+      "goal": "You should be able to tell a classmate what it returns, without jargon.",
+      "context": "def largest(nums):\n    best = nums[0]\n    for n in nums:\n        if n > best:\n            best = n\n    return best",
+      "language": "python",
+      "placeholder": "Ask for a plain-language walkthrough…",
+      "examplePrompt": "This is Python 3. Explain largest() in short sentences, as if I am new to loops. What does it return? What happens if nums has one item? Do not write a new version. After the explanation, ask me one check question.",
+      "whyItWorks": "It blocks a rewrite, asks for a beginner explanation, names an edge case, and requests a check question so you can verify you understood."
+    },
+    {
+      "id": "ai-pr-tests",
+      "task": "Write a prompt that asks for test cases, not more production code.",
+      "goal": "Three examples you could run by hand for a function that returns the last item in a list.",
+      "context": "function last(items) {\n  return items[items.length - 1];\n}",
+      "language": "javascript",
+      "placeholder": "Ask for inputs and expected outputs…",
+      "examplePrompt": "Language: JavaScript. Function last(items) should return the last item.\n\nGive me three cases as a table: input, expected output. Include a normal list, a one-item list, and an empty list. Do not rewrite the function yet. Flag which case might throw.",
+      "whyItWorks": "It asks for cases including an awkward one, keeps the function frozen, and wants a warning instead of hidden magic."
+    },
+    {
+      "id": "ai-pr-iterate",
+      "task": "The first prompt was too vague. Write the follow-up.",
+      "goal": "Stay in the same chat. Lock what worked. Fix only the empty-list case.",
+      "context": "Your last message to the AI:\n\"Make last() better.\"\n\nIts reply added sorting and renamed the function. You only wanted a guard when the list is empty.",
+      "language": "javascript",
+      "placeholder": "Reply in the same thread…",
+      "examplePrompt": "Keep the name last and do not sort. Restore the original behavior for normal lists. Only add a guard: if items is empty, return undefined. Show just the function.",
+      "whyItWorks": "It stays on the problem, names what to keep, and asks for one change instead of starting over."
+    }
+  ]
+}

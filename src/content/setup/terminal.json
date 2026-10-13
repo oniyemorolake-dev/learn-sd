@@ -1,0 +1,27 @@
+{
+  "id": "terminal",
+  "title": "Open a terminal",
+  "forCourse": null,
+  "summary": "The terminal is a text window where you type commands.",
+  "steps": [
+    {
+      "instruction": "On Windows, press the Windows key, type Terminal or PowerShell, and open it. In VS Code or Cursor, use Terminal → New Terminal.",
+      "expectedResult": "A window with a blinking cursor is waiting for a command."
+    },
+    {
+      "instruction": "See which folder you are in.",
+      "command": "pwd",
+      "expectedResult": "A folder path prints. In PowerShell, pwd and Get-Location both work."
+    },
+    {
+      "instruction": "List the files in this folder.",
+      "command": "ls",
+      "expectedResult": "File and folder names print. In PowerShell, dir does the same job."
+    },
+    {
+      "instruction": "Move into a folder you created for school work, or make one first.",
+      "command": "mkdir learn-sd-practice; cd learn-sd-practice",
+      "expectedResult": "The prompt now ends with learn-sd-practice. You are inside that folder."
+    }
+  ]
+}

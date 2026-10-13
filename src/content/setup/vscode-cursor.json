@@ -1,0 +1,24 @@
+{
+  "id": "vscode-cursor",
+  "title": "Install VS Code or Cursor",
+  "forCourse": null,
+  "summary": "Get a code editor on your machine.",
+  "steps": [
+    {
+      "instruction": "Pick one editor. VS Code is the common classroom default. Cursor is VS Code with an AI sidebar. Either one works for this program.",
+      "expectedResult": "You know which installer you are about to download."
+    },
+    {
+      "instruction": "Download the installer from the official site: https://code.visualstudio.com or https://cursor.com. Run it and accept the defaults.",
+      "expectedResult": "The app appears in your Start menu or Applications folder."
+    },
+    {
+      "instruction": "Open the editor. Use File → Open Folder and choose an empty folder such as C:\\LEARN-SD.",
+      "expectedResult": "The sidebar shows your folder name. You are looking at files, not a welcome maze."
+    },
+    {
+      "instruction": "Install the recommended language extras later as each course needs them. For now, you only need the editor itself.",
+      "expectedResult": "You can create a new file, type text, and save it."
+    }
+  ]
+}

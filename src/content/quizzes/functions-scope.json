@@ -1,0 +1,90 @@
+{
+  "topicId": "functions-scope",
+  "title": "Functions & Scope",
+  "description": "Parameters, return values, and where names live.",
+  "formatsUsed": [
+    "predict-output",
+    "spot-the-bug",
+    "arrange-order",
+    "fill-blanks",
+    "matching",
+    "translate-code"
+  ],
+  "questions": [
+    {
+      "id": "fn-01",
+      "format": "predict-output",
+      "prompt": "What does this print?",
+      "code": "def add(a, b):\n    return a + b\n\nprint(add(2, 3))",
+      "language": "python",
+      "options": ["2", "3", "5", "None"],
+      "answer": 2,
+      "explanation": "add returns 2 + 3. print displays that returned value, which is 5."
+    },
+    {
+      "id": "fn-02",
+      "format": "spot-the-bug",
+      "prompt": "This should return the bigger number. What is wrong?",
+      "code": "def largest(a, b):\n    if a > b:\n        print(a)\n    print(b)",
+      "language": "python",
+      "options": [
+        "It uses print instead of return, so callers get None",
+        "Python cannot compare two numbers",
+        "The function name is too long",
+        "It needs a semicolon after print"
+      ],
+      "answer": 0,
+      "explanation": "print only shows a value. The caller needs return so it can store or reuse the result."
+    },
+    {
+      "id": "fn-03",
+      "format": "arrange-order",
+      "prompt": "Arrange these lines into a function that greets a person.",
+      "lines": [
+        "    return \"Hi, \" + name",
+        "def greet(name):",
+        "print(greet(\"Ada\"))"
+      ],
+      "answer": [1, 0, 2],
+      "explanation": "Define the function first, return the greeting, then call it so the result can print."
+    },
+    {
+      "id": "fn-04",
+      "format": "fill-blanks",
+      "prompt": "Fill the blank so this function returns triple the number.",
+      "code": "def triple(n):\n    ___ n * 3",
+      "language": "python",
+      "options": ["print", "return", "global", "def"],
+      "answer": 1,
+      "explanation": "return hands n * 3 back to the caller."
+    },
+    {
+      "id": "fn-05",
+      "format": "matching",
+      "prompt": "Match each word to its meaning.",
+      "pairs": [
+        { "term": "parameter", "definition": "A named slot in the function definition" },
+        { "term": "argument", "definition": "The actual value you pass when calling" },
+        { "term": "return", "definition": "Sends a value back to the caller" },
+        { "term": "local variable", "definition": "A name that exists only inside the function" }
+      ],
+      "explanation": "Parameters, arguments, return, and local scope are the core vocabulary of functions."
+    },
+    {
+      "id": "fn-06",
+      "format": "translate-code",
+      "prompt": "Which Python function matches this JavaScript?",
+      "code": "function double(n) {\n  return n * 2;\n}",
+      "from": "javascript",
+      "to": "python",
+      "options": [
+        "def double(n):\n    return n * 2",
+        "function double(n):\n    return n * 2",
+        "def double n:\n    return n * 2",
+        "double = return n * 2"
+      ],
+      "answer": 0,
+      "explanation": "Python uses def, a colon, and indentation instead of braces."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "id": "first-file",
+  "title": "Run your first file",
+  "forCourse": null,
+  "summary": "Create a tiny program and run it from the terminal.",
+  "steps": [
+    {
+      "instruction": "In your editor, create a file named hello.js in an empty folder.",
+      "expectedResult": "hello.js is open and saved."
+    },
+    {
+      "instruction": "Type this one line, then save.",
+      "command": "console.log(\"Hello from Learn SD\");",
+      "expectedResult": "The file contains only that line."
+    },
+    {
+      "instruction": "In the terminal, cd to that folder and run the file with Node.",
+      "command": "node hello.js",
+      "expectedResult": "Hello from Learn SD prints. If Node is missing, finish the Node.js setup guide first."
+    },
+    {
+      "instruction": "Optional: create hello.py with print(\"Hello from Learn SD\") and run it.",
+      "command": "python hello.py",
+      "expectedResult": "The same greeting prints from Python. Two languages, same idea: a file in, text out."
+    }
+  ]
+}

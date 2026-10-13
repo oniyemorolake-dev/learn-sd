@@ -1,0 +1,68 @@
+{
+  "topicId": "functions-scope",
+  "title": "Functions & Scope",
+  "description": "Reusable blocks of code, inputs, return values, and who can see a variable.",
+  "screens": [
+    {
+      "heading": "A named recipe",
+      "body": "A function is a named chunk of code you can run whenever you need it. You write the steps once. Then you call the name.\n\nThat is how you stop copying the same five lines into ten places.",
+      "code": {
+        "language": "python",
+        "snippet": "def greet():\n    print(\"Hi, learner.\")\n\ngreet()\ngreet()"
+      },
+      "keyPoint": "def names a function. The name plus () runs it."
+    },
+    {
+      "heading": "Inputs are parameters",
+      "body": "Most functions need a little information. Those inputs are parameters — empty labeled slots in the definition.\n\nWhen you call the function, you pass arguments that fill those slots.",
+      "code": {
+        "language": "python",
+        "snippet": "def greet(name):\n    print(\"Hi, \" + name + \".\")\n\ngreet(\"Sam\")\ngreet(\"Byte\")"
+      },
+      "keyPoint": "Parameters are the slots. Arguments are the values you pass in."
+    },
+    {
+      "heading": "Give something back",
+      "body": "print shows a value on the screen. return hands a value back to whoever called the function so you can store it or use it later.\n\nIf you forget return, Python gives back None. The function still ran — it just had nothing to hand over.",
+      "code": {
+        "language": "python",
+        "snippet": "def double(n):\n    return n * 2\n\nresult = double(5)\nprint(result)"
+      },
+      "keyPoint": "return sends a value out. print only displays it."
+    },
+    {
+      "heading": "Scope is who can see a name",
+      "body": "A variable created inside a function lives only inside that function. Code outside cannot read it. That private space is local scope.\n\nA variable created outside functions is global — functions can read it, but it is easier to pass values in as parameters than to lean on globals.",
+      "code": {
+        "language": "python",
+        "snippet": "def demo():\n    secret = 7\n    print(secret)\n\ndemo()\n# print(secret)  # this would fail — secret is local"
+      },
+      "keyPoint": "Names created inside a function stay inside that function."
+    },
+    {
+      "heading": "Why this matters",
+      "body": "Small functions with clear inputs and a return value are easier to test, reuse, and explain. If a function does one job, you can understand it in one glance.\n\nWhen you get stuck, ask: what goes in, what comes out, and which names exist only inside?",
+      "code": {
+        "language": "python",
+        "snippet": "def largest(a, b):\n    if a > b:\n        return a\n    return b\n\nprint(largest(3, 10))"
+      },
+      "keyPoint": "One job per function. Pass data in, return data out."
+    }
+  ],
+  "goDeeper": [
+    {
+      "label": "Python docs: Defining functions",
+      "url": "https://docs.python.org/3/tutorial/controlflow.html#defining-functions"
+    },
+    {
+      "label": "Python docs: More on defining functions",
+      "url": "https://docs.python.org/3/tutorial/controlflow.html#more-on-defining-functions"
+    }
+  ],
+  "checkIn": {
+    "prompt": "What does a Python function return if it has no return statement?",
+    "options": ["0", "False", "None", "It cannot be called"],
+    "answer": 2,
+    "explanation": "Python hands back None when you do not return something yourself."
+  }
+}

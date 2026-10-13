@@ -1,0 +1,209 @@
+{
+  "semesters": [
+    {
+      "id": "semester-1",
+      "label": "Semester 1",
+      "courses": [
+        {
+          "id": "cprg-213",
+          "code": "CPRG 213",
+          "title": "Web Development 1",
+          "displayName": "Web Development 1",
+          "topics": [
+            "arrays-strings",
+            "how-the-web-works",
+            "html-pages",
+            "css-styling",
+            "page-layout",
+            "js-on-the-page"
+          ]
+        },
+        {
+          "id": "cprg-216",
+          "code": "CPRG 216",
+          "title": "Object-Oriented Programming 1",
+          "displayName": "Object-Oriented Programming 1",
+          "topics": [
+            "functions-scope",
+            "solving-problems",
+            "python-classes",
+            "git-basics"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "semester-2",
+      "label": "Semester 2",
+      "courses": [
+        {
+          "id": "cprg-211",
+          "code": "CPRG 211",
+          "title": "Object-Oriented Programming 2",
+          "displayName": "Object-Oriented Programming 2",
+          "topics": [
+            "java-objects",
+            "inheritance-polymorphism",
+            "exceptions-files",
+            "talking-to-a-database"
+          ]
+        },
+        {
+          "id": "cprg-250",
+          "code": "CPRG 250",
+          "title": "Database Design and Programming",
+          "displayName": "Database Design and Programming",
+          "topics": [
+            "tables-and-keys",
+            "sql-queries",
+            "changing-data",
+            "from-model-to-database"
+          ]
+        },
+        {
+          "id": "cpsy-200",
+          "code": "CPSY 200",
+          "title": "Software Analysis and Design",
+          "displayName": "Software Analysis and Design",
+          "topics": [
+            "what-to-build",
+            "requirements-in-plain-words",
+            "sketching-the-design",
+            "life-cycle-of-software"
+          ]
+        },
+        {
+          "id": "cpsy-202",
+          "code": "CPSY 202",
+          "title": "User Experience and Design",
+          "displayName": "User Experience and Design",
+          "topics": [
+            "people-not-pixels",
+            "research-before-screens",
+            "simple-interfaces",
+            "try-it-with-users"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "semester-3",
+      "label": "Semester 3",
+      "courses": [
+        {
+          "id": "cprg-303",
+          "code": "CPRG 303",
+          "title": "Mobile Application Development",
+          "displayName": "Mobile Application Development",
+          "topics": [
+            "mobile-building-blocks",
+            "screens-and-navigation",
+            "device-features",
+            "shipping-an-app"
+          ]
+        },
+        {
+          "id": "cprg-304",
+          "code": "CPRG 304",
+          "title": "Object-Oriented Programming 3",
+          "displayName": "Object-Oriented Programming 3",
+          "topics": [
+            "data-structures",
+            "search-and-sort",
+            "recursion",
+            "putting-pieces-together"
+          ]
+        },
+        {
+          "id": "cprg-306",
+          "code": "CPRG 306",
+          "title": "Web Development 2",
+          "displayName": "Web Development 2",
+          "topics": [
+            "full-stack-shape",
+            "front-end-frameworks",
+            "back-end-basics",
+            "deploy-a-web-app"
+          ]
+        },
+        {
+          "id": "cprg-307",
+          "code": "CPRG 307",
+          "title": "Database Programming",
+          "displayName": "Database Programming",
+          "topics": [
+            "sql-inside-code",
+            "procedures-and-events",
+            "faster-queries",
+            "safe-data-access"
+          ]
+        },
+        {
+          "id": "cpsy-301",
+          "code": "CPSY 301",
+          "title": "Software Projects: Analysis, Design, and Management",
+          "displayName": "Software Projects: Analysis, Design, and Management",
+          "topics": [
+            "working-as-a-team",
+            "planning-the-work",
+            "tracking-progress",
+            "shipping-together"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "semester-4",
+      "label": "Semester 4",
+      "courses": [
+        {
+          "id": "cprg-305",
+          "code": "CPRG 305",
+          "title": "Software Testing and Deployment",
+          "displayName": "Software Testing and Deployment",
+          "topics": [
+            "what-testing-is-for",
+            "manual-and-automated",
+            "quality-habits",
+            "getting-it-live"
+          ]
+        },
+        {
+          "id": "cpsy-300",
+          "code": "CPSY 300",
+          "title": "Operating Systems",
+          "displayName": "Operating Systems",
+          "topics": [
+            "what-the-cloud-is",
+            "services-not-servers",
+            "scale-and-cost",
+            "cloud-security-basics"
+          ]
+        },
+        {
+          "id": "intp-302",
+          "code": "INTP 302",
+          "title": "Emerging Trends in Software Development",
+          "displayName": "Emerging Trends in Software Development",
+          "topics": [
+            "spotting-new-tools",
+            "trying-a-proof-of-concept",
+            "what-actually-matters"
+          ]
+        },
+        {
+          "id": "itsc-320",
+          "code": "ITSC 320",
+          "title": "Software Security",
+          "displayName": "Software Security",
+          "topics": [
+            "think-like-a-defender",
+            "safe-coding-habits",
+            "web-attack-surfaces",
+            "when-something-goes-wrong"
+          ]
+        }
+      ]
+    }
+  ]
+}

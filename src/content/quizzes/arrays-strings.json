@@ -1,0 +1,92 @@
+{
+  "topicId": "arrays-strings",
+  "title": "Arrays & Strings",
+  "description": "Indexes, slicing, loops, and the two-pointer pattern.",
+  "formatsUsed": [
+    "predict-output",
+    "spot-the-bug",
+    "arrange-order",
+    "fill-blanks",
+    "matching",
+    "translate-code"
+  ],
+  "questions": [
+    {
+      "id": "arr-01",
+      "format": "predict-output",
+      "prompt": "What does this print?",
+      "code": "const a = [1, 2, 3, 4];\nconsole.log(a.slice(1, 3));",
+      "language": "javascript",
+      "options": ["[ 1, 2 ]", "[ 2, 3 ]", "[ 1, 2, 3 ]", "[ 2, 3, 4 ]"],
+      "answer": 1,
+      "explanation": "slice(1, 3) grabs indexes 1 and 2 — the end index is NOT included."
+    },
+    {
+      "id": "arr-02",
+      "format": "spot-the-bug",
+      "prompt": "This loop should print every item. What is wrong?",
+      "code": "const nums = [10, 20, 30];\nfor (let i = 0; i <= nums.length; i++) {\n  console.log(nums[i]);\n}",
+      "language": "javascript",
+      "options": [
+        "i should start at 1",
+        "i <= nums.length walks one step past the last index",
+        "console.log cannot print array items",
+        "The array needs to be a string first"
+      ],
+      "answer": 1,
+      "explanation": "Valid indexes are 0, 1, and 2. Using <= length also visits index 3, which is undefined."
+    },
+    {
+      "id": "arr-03",
+      "format": "arrange-order",
+      "prompt": "Arrange these lines so they join the words into one string.",
+      "lines": [
+        "parts.push(words[i]);",
+        "const words = [\"learn\", \"sd\"];",
+        "console.log(parts.join(\"-\"));",
+        "const parts = [];",
+        "for (let i = 0; i < words.length; i++) {"
+      ],
+      "answer": [1, 3, 4, 0, 2],
+      "explanation": "Create the list, create an empty collector, loop, push each word, then join."
+    },
+    {
+      "id": "arr-04",
+      "format": "fill-blanks",
+      "prompt": "Fill the blank so this prints the last item.",
+      "code": "const letters = [\"a\", \"b\", \"c\"];\nconsole.log(letters[___]);",
+      "language": "javascript",
+      "options": ["0", "letters.length", "letters.length - 1", "3"],
+      "answer": 2,
+      "explanation": "The last index is always length minus 1. Here that is 2, which is \"c\"."
+    },
+    {
+      "id": "arr-05",
+      "format": "matching",
+      "prompt": "Match each idea to what it does.",
+      "pairs": [
+        { "term": "index 0", "definition": "The first item in an array or string" },
+        { "term": "length", "definition": "How many items are in the list" },
+        { "term": "slice(1, 3)", "definition": "Copy items at indexes 1 and 2" },
+        { "term": "immutable", "definition": "Cannot be changed in place, like a string" }
+      ],
+      "explanation": "Index, length, slice, and immutability are the four ideas you will reuse constantly."
+    },
+    {
+      "id": "arr-06",
+      "format": "translate-code",
+      "prompt": "Which JavaScript line matches this Python list access?",
+      "code": "colours = [\"teal\", \"purple\"]\nprint(colours[0])",
+      "from": "python",
+      "to": "javascript",
+      "options": [
+        "console.log(colours(0));",
+        "console.log(colours[0]);",
+        "console.log(colours{0});",
+        "console.log(colours.0);"
+      ],
+      "answer": 1,
+      "explanation": "Both languages use square brackets and a zero-based index to read the first item."
+    }
+  ]
+}

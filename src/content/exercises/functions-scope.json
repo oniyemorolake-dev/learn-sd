@@ -1,0 +1,33 @@
+{
+  "topicId": "functions-scope",
+  "title": "Functions & Scope — try it",
+  "exercises": [
+    {
+      "id": "fn-ex-01",
+      "task": "Write greet so it prints Hi, then the name.",
+      "language": "python",
+      "starterCode": "def greet(name):\n    # print a short greeting using name\n    pass\n\ngreet(\"Ada\")\n",
+      "expectedOutput": "Hi, Ada",
+      "hint": "Inside the function, use print and add the name onto the words Hi, .",
+      "solution": "def greet(name):\n    print(\"Hi, \" + name)\n\ngreet(\"Ada\")\n"
+    },
+    {
+      "id": "fn-ex-02",
+      "task": "Return the larger of the two numbers.",
+      "language": "python",
+      "starterCode": "def largest(a, b):\n    # return the bigger value\n    pass\n\nprint(largest(3, 10))\n",
+      "expectedOutput": "10",
+      "hint": "Use if a > b: return a. Otherwise return b.",
+      "solution": "def largest(a, b):\n    if a > b:\n        return a\n    return b\n\nprint(largest(3, 10))\n"
+    },
+    {
+      "id": "fn-ex-03",
+      "task": "Fix the scope bug so the function returns 8.",
+      "language": "python",
+      "starterCode": "def add_one(n):\n    total = n + 1\n\nprint(total)\n",
+      "expectedOutput": "8",
+      "hint": "total is local. Return it from the function, then print the call with 7.",
+      "solution": "def add_one(n):\n    total = n + 1\n    return total\n\nprint(add_one(7))\n"
+    }
+  ]
+}

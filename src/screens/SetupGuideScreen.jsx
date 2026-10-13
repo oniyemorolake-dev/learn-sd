@@ -23,12 +23,14 @@ export default function SetupGuideScreen() {
 
   const current = guide.steps[step];
   const last = step === guide.steps.length - 1;
+  const course = findCourseByCode(guide.forCourse);
 
   return (
     <div className="stack">
       <ScreenHeader
         title={guide.title}
-        kicker={guide.forCourse ? `For ${guide.forCourse}` : `Step ${step + 1} of ${guide.steps.length}`}
+        course={course}
+        kicker={course ? null : `Step ${step + 1} of ${guide.steps.length}`}
         onBack={() => go('setup')}
       />
       <ProgressBar value={step + 1} max={guide.steps.length} />
@@ -46,3 +48,6 @@ export default function SetupGuideScreen() {
         <PrimaryButton onClick={() => setStep((n) => n + 1)}>Continue</PrimaryButton>
       )}
       <Footer />
+    </div>
+  );
+}

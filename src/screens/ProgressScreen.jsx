@@ -5,13 +5,14 @@ import ReviewDue from '../components/ReviewDue.jsx';
 import FocusAreas from '../components/FocusAreas.jsx';
 import ProgressBackup from '../components/ProgressBackup.jsx';
 import { useApp } from '../context/AppContext.jsx';
-import { flattenCodeLabTopics, flattenTopics, isTopicComplete } from '../lib/content.js';
+import { flattenCodeLabTopics, flattenTopics, isTopicComplete, topicProgress } from '../lib/content.js';
 import { shiftStamp, todayStamp, xpIntoLevel } from '../lib/storage.js';
 
 export default function ProgressScreen() {
   const { state, go, level, persistHint } = useApp();
   const topics = flattenTopics();
   const done = topics.filter((item) => isTopicComplete(item.topicId, state)).length;
+  const started = topics.filter((item) => topicProgress(item.topicId, state) === 'in progress').length;
   const byCourse = [];
   for (const item of topics) {
     let group = byCourse.find((entry) => entry.course.id === item.course.id);
@@ -81,7 +82,10 @@ export default function ProgressScreen() {
         <h2 style={{ margin: '4px 0' }}>
           {done} completed
         </h2>
-        <p className="muted">{topics.length} on the full path. Content-ready topics unlock first.</p>
+        <p className="muted">
+          {started} in progress · {topics.length} on the full path. Only a finished lesson and quiz count as
+          done.
+        </p>
       </section>
 
       <section className="stack">

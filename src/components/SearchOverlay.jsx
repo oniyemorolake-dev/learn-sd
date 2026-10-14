@@ -1,7 +1,8 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useApp } from '../context/AppContext.jsx';
 import { codeLabTopicParams, courseDisplayName, findCodeLabTopic } from '../lib/content.js';
-import { groupSearchResults, SEARCH_SUGGESTIONS, searchTopics, topicProgressLabel } from '../lib/search.js';
+import { groupSearchResults, SEARCH_SUGGESTIONS, searchTopics } from '../lib/search.js';
+import ProgressBadge from './ProgressBadge.jsx';
 
 const SearchContext = createContext(null);
 
@@ -31,7 +32,7 @@ export function useSearch() {
 }
 
 function SearchOverlay() {
-  const { state, go } = useApp();
+  const { go } = useApp();
   const { closeSearch } = useSearch();
   const [query, setQuery] = useState('');
   const inputRef = useRef(null);
@@ -88,9 +89,7 @@ function SearchOverlay() {
                 {courseDisplayName(group.course)}
                 {group.course.code ? ` · ${group.course.code}` : ''}
               </p>
-              {group.items.map((item) => {
-                const status = topicProgressLabel(item.topicId, state);
-                return (
+              {group.items.map((item) => (
                   <button
                     key={item.topicId}
                     type="button"
@@ -101,10 +100,9 @@ function SearchOverlay() {
                       <strong>{item.title}</strong>
                       <div className="muted">{courseDisplayName(item.course)}</div>
                     </span>
-                    <span className={`badge ${status === 'done' ? 'done' : ''}`}>{status}</span>
+                    <ProgressBadge topicId={item.topicId} />
                   </button>
-                );
-              })}
+              ))}
             </section>
           ))}
         </div>

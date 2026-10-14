@@ -2,10 +2,10 @@ import {
   courseDisplayName,
   flattenCodeLabTopics,
   flattenTopics,
-  isTopicComplete,
   lessons,
   quizzes,
   topicDescription,
+  topicProgress,
   topicTitle,
 } from './content.js';
 
@@ -55,9 +55,5 @@ export function groupSearchResults(results) {
 }
 
 export function topicProgressLabel(topicId, state) {
-  if (isTopicComplete(topicId, state)) return 'done';
-  if (state?.lessons?.[topicId] || state?.quizzes?.[topicId]) {
-    return 'in progress';
-  }
-  return 'not started';
+  return topicProgress(topicId, state);
 }

@@ -182,21 +182,40 @@ export function isTopicComplete(topicId, state) {
   return true;
 }
 
-export function getNodeState(topicId, state) {
-  if (isTopicComplete(topicId, state)) return 'completed';
+export function isTopicStarted(topicId, state) {
+  if (!state || isTopicComplete(topicId, state)) return false;
+  if (state.lessons?.[topicId]) return true;
+  if (state.quizzes?.[topicId]) return true;
+  return false;
+}
 
-  const ordered = flattenTopics();
-  const firstOpenIndex = ordered.findIndex(
+export function topicProgress(topicId, state) {
+  if (isTopicComplete(topicId, state)) return 'done';
+  if (isTopicStarted(topicId, state)) return 'in progress';
+  return 'not started';
+}
+
+export function pieceBadgeText(record, idle = 'Start') {
+  if (record?.completed) return 'Done';
+  if (record) return 'In progress';
+  return idle;
+}
+
+export function continueTopicId(state) {
+  for (const item of state?.recent || []) {
+    if (hasTopicContent(item.topicId) && !isTopicComplete(item.topicId, state)) return item.topicId;
+  }
+  const first = flattenTopics().find(
     (item) => hasTopicContent(item.topicId) && !isTopicComplete(item.topicId, state),
   );
-  const index = ordered.findIndex((item) => item.topicId === topicId);
+  return first?.topicId || null;
+}
 
-  if (firstOpenIndex === -1) {
-    return hasTopicContent(topicId) ? 'completed' : 'soon';
-  }
-  if (index > firstOpenIndex) return 'locked';
+export function getNodeState(topicId, state) {
+  if (isTopicComplete(topicId, state)) return 'completed';
   if (!hasTopicContent(topicId)) return 'soon';
-  return 'current';
+  if (isTopicStarted(topicId, state)) return 'started';
+  return 'open';
 }
 
 export const SETUP_ORDER = [

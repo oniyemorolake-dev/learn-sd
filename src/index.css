@@ -387,12 +387,19 @@ svg {
   color: var(--on-accent);
 }
 
+.node.started {
+  border-color: var(--primary-to);
+  background: var(--accent-dim);
+  color: var(--accent-text);
+}
+
 .node.soon {
   border-style: dashed;
 }
 
-.node.locked {
-  opacity: 0.55;
+.node.locked,
+.node.open {
+  opacity: 1;
 }
 
 .node-caption {
@@ -459,6 +466,11 @@ svg {
 .badge.done {
   background: var(--accent-dim);
   color: var(--accent-text);
+}
+
+.badge.started {
+  background: rgba(124, 58, 237, 0.16);
+  color: var(--text);
 }
 
 .choice {

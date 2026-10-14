@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ScreenHeader from '../components/ScreenHeader.jsx';
 import ProgressBar from '../components/ProgressBar.jsx';
 import PrimaryButton from '../components/PrimaryButton.jsx';
@@ -27,7 +27,7 @@ function reviewCelebrateBody(isReview, score, total, clearedFocus) {
 }
 
 export default function QuizScreen() {
-  const { view, go, state, completeQuiz, toggleBookmark, isBookmarked } = useApp();
+  const { view, go, state, completeQuiz, toggleBookmark, isBookmarked, touchTopic } = useApp();
   const topicId = view.params.topicId;
   const quiz = quizzes[topicId];
   const [attempt, setAttempt] = useState(0);
@@ -39,6 +39,11 @@ export default function QuizScreen() {
   const [wrongFormats, setWrongFormats] = useState([]);
   const [finished, setFinished] = useState(false);
   const [clearedFocus, setClearedFocus] = useState(false);
+
+  useEffect(() => {
+    if (quiz) touchTopic(topicId, 'quiz');
+    else touchTopic(topicId);
+  }, [quiz, topicId, touchTopic]);
 
   function goHome() {
     if (view.params.from === 'review' || view.params.from === 'focus') go(view.params.returnTo || 'path');

@@ -8,6 +8,7 @@ import {
   persistMessage,
   readProgress,
   saveState,
+  pushRecent,
   saveTheme,
   todayStamp,
   touchStreak,
@@ -97,6 +98,36 @@ export function AppProvider({ children }) {
 
   const patch = useCallback((updater) => {
     commit(updater);
+  }, [commit]);
+
+  const touchTopic = useCallback((topicId, kind) => {
+    if (!topicId) return;
+    commit((prev) => {
+      let next = { ...prev, recent: pushRecent(prev.recent, topicId) };
+      if (kind === 'lesson' && !next.lessons[topicId]?.completed) {
+        next = {
+          ...next,
+          lessons: {
+            ...next.lessons,
+            [topicId]: {
+              completed: false,
+              ...next.lessons[topicId],
+              openedAt: next.lessons[topicId]?.openedAt || Date.now(),
+            },
+          },
+        };
+      }
+      if (kind === 'quiz' && !next.quizzes[topicId]?.completed) {
+        next = {
+          ...next,
+          quizzes: {
+            ...next.quizzes,
+            [topicId]: { completed: false, ...next.quizzes[topicId] },
+          },
+        };
+      }
+      return next;
+    });
   }, [commit]);
 
   const earn = useCallback((amount) => {
@@ -272,6 +303,7 @@ export function AppProvider({ children }) {
       theme,
       go,
       patch,
+      touchTopic,
       earn,
       completeLesson,
       completeQuiz,
@@ -292,6 +324,7 @@ export function AppProvider({ children }) {
       theme,
       go,
       patch,
+      touchTopic,
       earn,
       completeLesson,
       completeQuiz,

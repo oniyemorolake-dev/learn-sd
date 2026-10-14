@@ -1,15 +1,11 @@
 import ScreenHeader from '../components/ScreenHeader.jsx';
 import ComingSoon from '../components/ComingSoon.jsx';
 import { useApp } from '../context/AppContext.jsx';
-import {
-  findCodeLabLanguage,
-  isTopicComplete,
-  topicDescription,
-  topicTitle,
-} from '../lib/content.js';
+import { findCodeLabLanguage, topicDescription, topicTitle } from '../lib/content.js';
+import ProgressBadge from '../components/ProgressBadge.jsx';
 
 export default function CodeLanguageScreen() {
-  const { view, go, state } = useApp();
+  const { view, go } = useApp();
   const language = findCodeLabLanguage(view.params.languageId);
 
   if (!language) {
@@ -31,9 +27,7 @@ export default function CodeLanguageScreen() {
       <p className="lede">{language.tagline}</p>
 
       <div className="card-grid">
-        {language.topics.map((topicId, i) => {
-          const done = isTopicComplete(topicId, state);
-          return (
+        {language.topics.map((topicId, i) => (
             <button
               key={topicId}
               type="button"
@@ -46,10 +40,9 @@ export default function CodeLanguageScreen() {
                 </strong>
                 {topicDescription(topicId) ? <div className="muted">{topicDescription(topicId)}</div> : null}
               </span>
-              <span className={`badge ${done ? 'done' : ''}`}>{done ? 'Done' : 'Open'}</span>
+              <ProgressBadge topicId={topicId} />
             </button>
-          );
-        })}
+        ))}
       </div>
     </div>
   );

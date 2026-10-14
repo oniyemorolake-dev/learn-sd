@@ -1,13 +1,23 @@
 import ScreenHeader from '../components/ScreenHeader.jsx';
 import CourseLabel from '../components/CourseLabel.jsx';
 import ReviewDue from '../components/ReviewDue.jsx';
+import ProgressBadge from '../components/ProgressBadge.jsx';
 import { useApp } from '../context/AppContext.jsx';
-import { courses, getNodeState, topicTitle } from '../lib/content.js';
+import { continueTopicId, courses, getNodeState, topicTitle } from '../lib/content.js';
 import { focusTopicIds } from '../lib/focus.js';
+
+function nodeGlyph(nodeState) {
+  if (nodeState === 'completed') return '✓';
+  if (nodeState === 'started') return '◐';
+  if (nodeState === 'soon') return '…';
+  return '▶';
+}
 
 export default function PathScreen() {
   const { state, go, persistHint } = useApp();
   const focusIds = focusTopicIds(state.attempts);
+  const continueId = continueTopicId(state);
+  const recent = (state.recent || []).slice(0, 5);
 
   return (
     <div>
@@ -20,12 +30,43 @@ export default function PathScreen() {
           </div>
         }
       />
-      <p className="lede">One topic at a time. Follow the glowing node.</p>
+      <p className="lede">Jump to what you are learning now. Come back to the rest whenever you like.</p>
       {persistHint ? (
         <div className="feedback" role="status">
           {persistHint}
         </div>
       ) : null}
+
+      <div className="stack">
+        {continueId ? (
+          <button type="button" className="track-entry" onClick={() => go('topic', { topicId: continueId })}>
+            <span>
+              <strong>Continue</strong>
+              <div className="muted">{topicTitle(continueId)}</div>
+            </span>
+            <ProgressBadge topicId={continueId} />
+          </button>
+        ) : null}
+
+        {recent.length ? (
+          <section className="stack">
+            <p className="kicker">Recently viewed</p>
+            {recent.map((item) => (
+              <button
+                key={item.topicId}
+                type="button"
+                className="list-row"
+                onClick={() => go('topic', { topicId: item.topicId })}
+              >
+                <span>
+                  <strong>{topicTitle(item.topicId)}</strong>
+                </span>
+                <ProgressBadge topicId={item.topicId} />
+              </button>
+            ))}
+          </section>
+        ) : null}
+      </div>
 
       <ReviewDue
         reviews={state.reviews}
@@ -60,18 +101,17 @@ export default function PathScreen() {
                 <div className="path-list">
                   {course.topics.map((topicId) => {
                     const nodeState = getNodeState(topicId, state);
-                    const locked = nodeState === 'locked';
                     const needsLook = focusIds.has(topicId);
+                    const glowing = topicId === continueId && nodeState !== 'completed';
                     return (
                       <div className="node-row" key={topicId}>
                         <button
                           type="button"
-                          className={`node ${nodeState}`}
-                          disabled={locked}
+                          className={`node ${nodeState}${glowing ? ' current' : ''}`}
                           onClick={() => go('topic', { topicId })}
-                          aria-label={`${topicTitle(topicId)}, ${nodeState}${needsLook ? ', could use another look' : ''}`}
+                          aria-label={`${topicTitle(topicId)}, ${nodeState === 'started' ? 'in progress' : nodeState}${needsLook ? ', could use another look' : ''}`}
                         >
-                          {nodeState === 'completed' ? '✓' : nodeState === 'locked' ? '🔒' : nodeState === 'soon' ? '…' : '▶'}
+                          {nodeGlyph(nodeState)}
                           {needsLook ? <span className="node-focus-dot" aria-hidden="true" /> : null}
                           <span className="node-caption">{topicTitle(topicId)}</span>
                         </button>

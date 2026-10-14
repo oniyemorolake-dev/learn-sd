@@ -48,6 +48,7 @@ export function emptyState() {
     reviews: {},
     attempts: {},
     examSeen: [],
+    recent: [],
     xp: 0,
     streak: { count: 0, lastDate: null, days: {} },
   };
@@ -59,6 +60,7 @@ export function hasProgress(state) {
   if (state.streak?.count > 0) return true;
   if (state.bookmarks?.length) return true;
   if (state.examSeen?.length) return true;
+  if (state.recent?.length) return true;
   for (const key of ['lessons', 'quizzes', 'exercises', 'tracks', 'reviews', 'attempts']) {
     if (state[key] && typeof state[key] === 'object' && Object.keys(state[key]).length) return true;
   }
@@ -80,6 +82,7 @@ export function normalizeState(raw) {
     reviews: asMap(raw.reviews),
     attempts: asMap(raw.attempts),
     examSeen: Array.isArray(raw.examSeen) ? raw.examSeen : [],
+    recent: Array.isArray(raw.recent) ? raw.recent.filter((item) => item && item.topicId) : [],
     xp: Number(raw.xp) || 0,
     streak: {
       count: Number(streak.count) || 0,
@@ -91,6 +94,16 @@ export function normalizeState(raw) {
 
 function asMap(value) {
   return value && typeof value === 'object' && !Array.isArray(value) ? { ...value } : {};
+}
+
+export const RECENT_CAP = 8;
+
+export function pushRecent(recent, topicId) {
+  if (!topicId) return Array.isArray(recent) ? recent : [];
+  return [{ topicId, at: Date.now() }, ...(recent || []).filter((item) => item.topicId !== topicId)].slice(
+    0,
+    RECENT_CAP,
+  );
 }
 
 export function persistMessage(reason) {

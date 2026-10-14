@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ScreenHeader from '../components/ScreenHeader.jsx';
 import CodeBlock from '../components/CodeBlock.jsx';
 import ProgressBar from '../components/ProgressBar.jsx';
@@ -10,7 +10,7 @@ import { codeLabTopicParams, findCodeLabTopic, findInterviewLesson, lessons, top
 import { shuffleAnswerBlock } from '../lib/shuffle.js';
 
 export default function LessonScreen() {
-  const { view, go, completeLesson, completeTrackLesson, toggleBookmark, isBookmarked } = useApp();
+  const { view, go, completeLesson, completeTrackLesson, toggleBookmark, isBookmarked, touchTopic } = useApp();
   const topicId = view.params.topicId;
   const interviewLesson = findInterviewLesson(topicId);
   const lesson = lessons[topicId] || interviewLesson;
@@ -28,6 +28,11 @@ export default function LessonScreen() {
   const [checkPick, setCheckPick] = useState(null);
   const [done, setDone] = useState(false);
   const [shuffledCheckIn] = useState(() => shuffleAnswerBlock(lesson?.checkIn));
+
+  useEffect(() => {
+    if (lesson) touchTopic(topicId, 'lesson');
+    else touchTopic(topicId);
+  }, [lesson, topicId, touchTopic]);
 
   if (!lesson) {
     return (

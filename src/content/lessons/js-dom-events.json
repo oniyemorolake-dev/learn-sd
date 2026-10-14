@@ -1,0 +1,138 @@
+{
+  "description": "Finding elements on the page, changing them, and reacting to clicks and typing.",
+  "screens": [
+    {
+      "body": "The DOM (Document Object Model) is the browser's live map of your page: every heading, button, and input is an object JavaScript can find and change.\n\nWhen your JS edits the DOM, the page updates instantly — no reload. That's how apps feel alive.",
+      "check": {
+        "answer": 0,
+        "options": [
+          "The browser's live, editable map of the page",
+          "A database for websites",
+          "A styling language"
+        ],
+        "question": "What is the DOM?"
+      },
+      "heading": "The page is a tree you can touch",
+      "keyPoint": "The DOM = the page, as objects your code can change.",
+      "code": {
+        "language": "javascript",
+        "snippet": "// display-only: the DOM as a tree\ndocument           // the whole page\n  .querySelector(\"h1\")  // find the main heading\n  .textContent;         // read its text"
+      }
+    },
+    {
+      "body": "document.querySelector(\"h1\") finds the first h1 on the page. Pass a CSS selector — \"#save-btn\" finds the element with id=\"save-btn\", \".card\" finds the first element with class=\"card\".\n\nIf you only ever learn one selection method, make it this one — it handles almost everything.",
+      "check": {
+        "answer": 0,
+        "options": [
+          "document.querySelector(\"#save-btn\")",
+          "document.querySelector(\".save-btn\")",
+          "document.querySelector(\"save-btn\")"
+        ],
+        "question": "How do you select the element with id=\"save-btn\"?"
+      },
+      "code": {
+        "language": "javascript",
+        "snippet": "// display-only: selecting elements\nconst title = document.querySelector(\"h1\");\nconst btn = document.querySelector(\"#save-btn\");\nconst firstCard = document.querySelector(\".card\");"
+      },
+      "heading": "Selecting elements",
+      "keyPoint": "querySelector + a CSS selector finds nearly anything."
+    },
+    {
+      "body": "textContent reads or replaces an element's text. Assign to it and the page updates right away.\n\nYou can also tweak styles directly with element.style — handy for quick changes, though classes are cleaner for bigger styling.",
+      "check": {
+        "answer": 0,
+        "options": [
+          "title.textContent = \"Welcome back!\";",
+          "title = \"Welcome back!\";",
+          "document.text = \"Welcome back!\";"
+        ],
+        "question": "How do you change an h1's text to \"Welcome back!\"?"
+      },
+      "code": {
+        "language": "javascript",
+        "snippet": "// display-only: changing text and style\nconst title = document.querySelector(\"h1\");\ntitle.textContent = \"Welcome back!\";\ntitle.style.color = \"purple\";"
+      },
+      "heading": "Changing text and style",
+      "keyPoint": "textContent for words, style for quick looks."
+    },
+    {
+      "body": "An event is something that happens: a click, a keypress, a form submit. addEventListener wires your function to an event so it runs when the event fires.\n\nCrucial detail: pass the function itself (handleClick), NOT the result of calling it (handleClick()). Parentheses = \"run it now\"; no parentheses = \"run it on click\".",
+      "check": {
+        "answer": 0,
+        "options": [
+          "btn.addEventListener(\"click\", handleClick);",
+          "btn.addEventListener(\"click\", handleClick());",
+          "btn.onClick(handleClick);"
+        ],
+        "question": "Which correctly runs handleClick when the button is clicked?"
+      },
+      "code": {
+        "language": "javascript",
+        "snippet": "// display-only: listening for clicks\nconst btn = document.querySelector(\"#like-btn\");\nbtn.addEventListener(\"click\", () => {\n  console.log(\"Liked!\");\n});"
+      },
+      "heading": "Listening for events",
+      "keyPoint": "Pass the function — don't call it."
+    },
+    {
+      "body": "Your handler can receive the event object (usually called e). e.target is the element that was clicked — useful when one handler serves many buttons.\n\nFor forms, e.preventDefault() stops the page from reloading on submit, so your JavaScript can handle the data instead.",
+      "check": {
+        "answer": 0,
+        "options": [
+          "e.preventDefault();",
+          "e.stopReload();",
+          "return false only"
+        ],
+        "question": "How do you stop a form submit from reloading the page?"
+      },
+      "code": {
+        "language": "javascript",
+        "snippet": "// display-only: the event object\nform.addEventListener(\"submit\", (e) => {\n  e.preventDefault(); // stay on the page\n  console.log(e.target); // the form element itself\n});"
+      },
+      "heading": "The event object",
+      "keyPoint": "e.target = what was clicked. preventDefault = don't reload."
+    },
+    {
+      "body": "Inputs hold what the user typed in their .value property — always a string, even for number inputs.\n\nRead .value when you need the data (on submit or on a button click), then validate it before using it.",
+      "check": {
+        "answer": 0,
+        "options": [
+          "input.value",
+          "input.textContent",
+          "input.innerText"
+        ],
+        "question": "How do you read what the user typed into an input?"
+      },
+      "code": {
+        "language": "javascript",
+        "snippet": "// display-only: reading user input\nconst nameInput = document.querySelector(\"#name\");\nconst name = nameInput.value; // whatever the user typed\nconsole.log(\"Hello, \" + name);"
+      },
+      "heading": "Reading input values",
+      "keyPoint": ".value holds what the user typed — always a string."
+    },
+    {
+      "body": "classList.toggle(\"hidden\") adds the class if it's missing and removes it if it's there — perfect for show/hide menus, dark mode, or marking items done.\n\nYou can also create elements from scratch with document.createElement and drop them into the page with appendChild.",
+      "check": {
+        "answer": 0,
+        "options": [
+          "It adds the class if missing, removes it if present",
+          "It deletes the element",
+          "It only works once"
+        ],
+        "question": "What does element.classList.toggle(\"hidden\") do?"
+      },
+      "code": {
+        "language": "javascript",
+        "snippet": "// display-only: toggling and creating\nmenu.classList.toggle(\"hidden\"); // show/hide in one line\n\nconst li = document.createElement(\"li\");\nli.textContent = \"New task\";\nlist.appendChild(li);"
+      },
+      "heading": "Toggling and creating elements",
+      "keyPoint": "toggle flips a class on/off — instant show/hide."
+    },
+    {
+      "body": "Official references for everything in this lesson:\n\n• Document Object Model — MDN: https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model\n• Document.querySelector() — MDN: https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector\n• EventTarget.addEventListener() — MDN: https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener",
+      "heading": "Go deeper",
+      "keyPoint": "The addEventListener reference shows every event type."
+    }
+  ],
+  "title": "DOM & Events",
+  "topicId": "js-dom-events"
+}

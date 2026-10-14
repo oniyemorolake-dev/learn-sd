@@ -3,8 +3,9 @@ import ProgressBar from '../components/ProgressBar.jsx';
 import CourseLabel from '../components/CourseLabel.jsx';
 import ReviewDue from '../components/ReviewDue.jsx';
 import FocusAreas from '../components/FocusAreas.jsx';
+import ProgressBackup from '../components/ProgressBackup.jsx';
 import { useApp } from '../context/AppContext.jsx';
-import { flattenTopics, isTopicComplete } from '../lib/content.js';
+import { flattenCodeLabTopics, flattenTopics, isTopicComplete } from '../lib/content.js';
 import { shiftStamp, todayStamp, xpIntoLevel } from '../lib/storage.js';
 
 export default function ProgressScreen() {
@@ -17,6 +18,16 @@ export default function ProgressScreen() {
     if (!group) {
       group = { course: item.course, total: 0, complete: 0 };
       byCourse.push(group);
+    }
+    group.total += 1;
+    if (isTopicComplete(item.topicId, state)) group.complete += 1;
+  }
+  const byLab = [];
+  for (const item of flattenCodeLabTopics()) {
+    let group = byLab.find((entry) => entry.course.id === item.course.id);
+    if (!group) {
+      group = { course: item.course, total: 0, complete: 0 };
+      byLab.push(group);
     }
     group.total += 1;
     if (isTopicComplete(item.topicId, state)) group.complete += 1;
@@ -79,6 +90,18 @@ export default function ProgressScreen() {
         ))}
       </section>
 
+      <section className="stack">
+        <p className="kicker">Code Lab</p>
+        {byLab.map((group) => (
+          <div key={group.course.id} className="list-row">
+            <CourseLabel course={group.course} />
+            <span className={`badge ${group.complete === group.total ? 'done' : ''}`}>
+              {group.complete}/{group.total}
+            </span>
+          </div>
+        ))}
+      </section>
+
       <button type="button" className="list-row" onClick={() => go('bookmarks')}>
         <span>
           <strong>Bookmarks</strong>
@@ -86,6 +109,8 @@ export default function ProgressScreen() {
         </span>
         <span className="badge">Open</span>
       </button>
+
+      <ProgressBackup />
     </div>
   );
 }

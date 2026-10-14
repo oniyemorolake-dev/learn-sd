@@ -3,7 +3,9 @@ import ComingSoon from '../components/ComingSoon.jsx';
 import PrimaryButton from '../components/PrimaryButton.jsx';
 import { useApp } from '../context/AppContext.jsx';
 import {
+  codeLabTopicParams,
   exercises,
+  findCodeLabTopic,
   findTopic,
   hasExercises,
   hasLesson,
@@ -17,9 +19,19 @@ export default function TopicScreen() {
   const { view, go, state } = useApp();
   const topicId = view.params.topicId;
   const meta = findTopic(topicId);
+  const lab = findCodeLabTopic(topicId);
   const title = topicTitle(topicId);
   const lessonDone = Boolean(state.lessons[topicId]?.completed);
   const quizDone = Boolean(state.quizzes[topicId]?.completed);
+
+  function goBack() {
+    if (lab) go('code-language', { languageId: view.params.languageId || lab.language.id });
+    else go('path');
+  }
+
+  function open(name, extra = {}) {
+    go(name, codeLabTopicParams(topicId, extra));
+  }
 
   if (!hasTopicContent(topicId)) {
     return (
@@ -28,9 +40,9 @@ export default function TopicScreen() {
           title={title}
           course={meta?.course}
           kicker={meta ? null : 'Topic'}
-          onBack={() => go('path')}
+          onBack={goBack}
         />
-        <ComingSoon title={title} onContinue={() => go('path')} />
+        <ComingSoon title={title} onContinue={goBack} />
       </div>
     );
   }
@@ -48,11 +60,11 @@ export default function TopicScreen() {
 
   return (
     <div className="stack">
-      <ScreenHeader title={title} course={meta?.course} onBack={() => go('path')} />
+      <ScreenHeader title={title} course={meta?.course} onBack={goBack} />
       {topicDescription(topicId) ? <p className="lede">{topicDescription(topicId)}</p> : null}
 
       {lessonReady ? (
-        <button type="button" className="list-row" onClick={() => go('lesson', { topicId })}>
+        <button type="button" className="list-row" onClick={() => open('lesson')}>
           <span>
             <strong>Lesson</strong>
             <div className="muted">Bite-sized screens, then a quick check-in</div>
@@ -62,7 +74,7 @@ export default function TopicScreen() {
       ) : null}
 
       {quizReady ? (
-        <button type="button" className="list-row" onClick={() => go('quiz', { topicId })}>
+        <button type="button" className="list-row" onClick={() => open('quiz')}>
           <span>
             <strong>Quiz</strong>
             <div className="muted">Six question styles, instant feedback</div>
@@ -74,7 +86,7 @@ export default function TopicScreen() {
       ) : null}
 
       {hasExercises(topicId) ? (
-        <button type="button" className="list-row" onClick={() => go('exercise', { topicId })}>
+        <button type="button" className="list-row" onClick={() => open('exercise')}>
           <span>
             <strong>Practice</strong>
             <div className="muted">{exercises[topicId].exercises.length} try-it exercises</div>
@@ -85,10 +97,10 @@ export default function TopicScreen() {
 
       <PrimaryButton
         onClick={() => {
-          if (primary === 'lesson') go('lesson', { topicId });
-          else if (primary === 'quiz') go('quiz', { topicId });
-          else if (primary === 'practice') go('exercise', { topicId });
-          else go('path');
+          if (primary === 'lesson') open('lesson');
+          else if (primary === 'quiz') open('quiz');
+          else if (primary === 'practice') open('exercise');
+          else goBack();
         }}
       >
         {primary === 'lesson'
@@ -97,7 +109,9 @@ export default function TopicScreen() {
             ? 'Start quiz'
             : primary === 'practice'
               ? 'Practice'
-              : 'Back to path'}
+              : lab
+                ? 'Back to Code'
+                : 'Back to path'}
       </PrimaryButton>
     </div>
   );

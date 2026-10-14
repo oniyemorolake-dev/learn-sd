@@ -1,5 +1,6 @@
 import {
   courseDisplayName,
+  flattenCodeLabTopics,
   flattenTopics,
   isTopicComplete,
   lessons,
@@ -10,19 +11,21 @@ import {
 
 export const SEARCH_SUGGESTIONS = ['recursion', 'SQL', 'security'];
 
+function indexEntry({ topicId, course }) {
+  const title = topicTitle(topicId);
+  const description = topicDescription(topicId);
+  const lessonTitle = lessons[topicId]?.title || '';
+  const quizTitle = quizzes[topicId]?.title || '';
+  const courseName = courseDisplayName(course);
+  const haystack = [title, lessonTitle, quizTitle, description, courseName, course.code, course.id, topicId]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+  return { topicId, title, description, course, haystack };
+}
+
 function buildSearchIndex() {
-  return flattenTopics().map(({ topicId, course }) => {
-    const title = topicTitle(topicId);
-    const description = topicDescription(topicId);
-    const lessonTitle = lessons[topicId]?.title || '';
-    const quizTitle = quizzes[topicId]?.title || '';
-    const courseName = courseDisplayName(course);
-    const haystack = [title, lessonTitle, quizTitle, description, courseName, course.code, course.id, topicId]
-      .filter(Boolean)
-      .join(' ')
-      .toLowerCase();
-    return { topicId, title, description, course, haystack };
-  });
+  return [...flattenTopics(), ...flattenCodeLabTopics()].map(indexEntry);
 }
 
 export const SEARCH_INDEX = buildSearchIndex();

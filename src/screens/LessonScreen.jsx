@@ -6,7 +6,7 @@ import PrimaryButton from '../components/PrimaryButton.jsx';
 import Celebrate from '../components/Celebrate.jsx';
 import ComingSoon from '../components/ComingSoon.jsx';
 import { useApp } from '../context/AppContext.jsx';
-import { findInterviewLesson, lessons, topicTitle } from '../lib/content.js';
+import { codeLabTopicParams, findCodeLabTopic, findInterviewLesson, lessons, topicTitle } from '../lib/content.js';
 
 export default function LessonScreen() {
   const { view, go, completeLesson, completeTrackLesson, toggleBookmark, isBookmarked } = useApp();
@@ -18,6 +18,7 @@ export default function LessonScreen() {
   function goHome() {
     if (view.params.from === 'focus') go(view.params.returnTo || 'progress');
     else if (fromInterview) go('interview-track', { from: view.params.entryFrom });
+    else if (findCodeLabTopic(topicId)) go('topic', codeLabTopicParams(topicId, view.params));
     else go('topic', { topicId });
   }
   const [index, setIndex] = useState(0);

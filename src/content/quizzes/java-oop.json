@@ -1,0 +1,178 @@
+{
+  "description": "Classes, objects, and constructors — the blueprint and the house.",
+  "formatsUsed": [
+    "predict-output",
+    "spot-the-bug",
+    "arrange-order",
+    "fill-blanks",
+    "matching",
+    "translate-code"
+  ],
+  "questions": [
+    {
+      "answer": 0,
+      "code": "class Dog {\n  private String name;\n  Dog(String n) { name = n; }\n  String getName() { return name; }\n}\nDog d = new Dog(\"Rex\");\nSystem.out.println(d.getName());",
+      "explanation": "The constructor stores \"Rex\" in the field, and getName() hands it back.",
+      "format": "predict-output",
+      "id": "jo-01",
+      "language": "java",
+      "options": [
+        "Rex",
+        "null",
+        "Dog@1a2b3c",
+        "It won't compile"
+      ],
+      "prompt": "What does this print?"
+    },
+    {
+      "answer": 1,
+      "code": "public class Dog {\n  public void Dog(String name) {\n    this.name = name;\n  }\n}",
+      "explanation": "A constructor has no return type at all. With void, Java treats Dog(...) as an ordinary method — and the real constructor is missing.",
+      "format": "spot-the-bug",
+      "id": "jo-02",
+      "language": "java",
+      "options": [
+        "The name should be lowercase",
+        "Constructors can't have a return type — `void` makes this a regular method",
+        "Constructors must be private",
+        "Nothing is wrong"
+      ],
+      "prompt": "The programmer meant this to be a constructor. What's wrong?"
+    },
+    {
+      "answer": [
+        1,
+        0,
+        2,
+        3
+      ],
+      "explanation": "Create the object first, then use it: new → bark → getName → print.",
+      "format": "arrange-order",
+      "id": "jo-03",
+      "lines": [
+        "d.bark();",
+        "Dog d = new Dog(\"Rex\");",
+        "String n = d.getName();",
+        "System.out.println(n);"
+      ],
+      "prompt": "Arrange these statements in the order they must run."
+    },
+    {
+      "answer": 1,
+      "code": "___ String name; // only this class's methods can touch it",
+      "explanation": "private locks the field inside the class — outsiders go through getters/setters.",
+      "format": "fill-blanks",
+      "id": "jo-04",
+      "language": "java",
+      "options": [
+        "public",
+        "private",
+        "static",
+        "void"
+      ],
+      "prompt": "Which keyword hides the field?"
+    },
+    {
+      "explanation": "The core vocabulary of OOP.",
+      "format": "matching",
+      "id": "jo-05",
+      "pairs": [
+        {
+          "definition": "Blueprint for objects",
+          "term": "Class"
+        },
+        {
+          "definition": "One instance built from a class",
+          "term": "Object"
+        },
+        {
+          "definition": "Builds new objects, sets starting values",
+          "term": "Constructor"
+        },
+        {
+          "definition": "Data each object carries",
+          "term": "Field"
+        }
+      ],
+      "prompt": "Match each OOP word to its meaning."
+    },
+    {
+      "answer": 2,
+      "code": "class Dog {\n  String name;\n  Dog(String name) {\n    this.name = name;\n  }\n}",
+      "explanation": "JS uses the constructor keyword and drops the type declarations.",
+      "format": "translate-code",
+      "from": "java",
+      "id": "jo-06",
+      "options": [
+        "class Dog {\n  Dog(String name) {\n    this.name = name;\n  }\n}",
+        "class Dog {\n  constructor(String name) {\n    this.name = name;\n  }\n}",
+        "class Dog {\n  constructor(name) {\n    this.name = name;\n  }\n}",
+        "function Dog(name) {\n  String name = name;\n}"
+      ],
+      "prompt": "Which JavaScript class matches this Java class?",
+      "to": "javascript"
+    },
+    {
+      "answer": 1,
+      "code": "class Counter {\n  static int total = 0;\n  Counter() { total++; }\n}\nnew Counter();\nnew Counter();\nSystem.out.println(Counter.total);",
+      "explanation": "static total is shared by ALL Counter objects — two constructions bump it to 2.",
+      "format": "predict-output",
+      "id": "jo-07",
+      "language": "java",
+      "options": [
+        "1",
+        "2",
+        "0",
+        "It won't compile"
+      ],
+      "prompt": "What does this print?"
+    },
+    {
+      "answer": 2,
+      "code": "class Dog {\n  void bark() { System.out.println(\"woof\"); }\n}\nDog.bark();",
+      "explanation": "Instance methods need an object: Dog d = new Dog(); d.bark();",
+      "format": "spot-the-bug",
+      "id": "jo-08",
+      "language": "java",
+      "options": [
+        "bark should be static",
+        "Dog needs a constructor first",
+        "bark() is an instance method — call it on an object, not the class",
+        "Nothing is wrong"
+      ],
+      "prompt": "This won't compile. Why?"
+    },
+    {
+      "answer": 1,
+      "code": "Dog d = ___ Dog(\"Rex\");",
+      "explanation": "new constructs the object in memory and returns a reference to it.",
+      "format": "fill-blanks",
+      "id": "jo-09",
+      "language": "java",
+      "options": [
+        "make",
+        "new",
+        "create",
+        "dog"
+      ],
+      "prompt": "Which keyword builds the object?"
+    },
+    {
+      "answer": 1,
+      "code": "class Dog {\n  private String name;\n  Dog(String n) { name = n; }\n  void setName(String n) { name = n; }\n  String getName() { return name; }\n}\nDog d = new Dog(\"Rex\");\nd.setName(\"Bo\");\nSystem.out.println(d.getName());",
+      "explanation": "setName overwrites the field — getName then returns \"Bo\".",
+      "format": "predict-output",
+      "id": "jo-10",
+      "language": "java",
+      "options": [
+        "Rex",
+        "Bo",
+        "null",
+        "It won't compile"
+      ],
+      "prompt": "What does this print?"
+    }
+  ],
+  "title": "Java OOP Basics",
+  "topicId": "java-oop"
+}

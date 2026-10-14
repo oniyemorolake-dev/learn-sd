@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useApp } from '../context/AppContext.jsx';
-import { courseDisplayName } from '../lib/content.js';
+import { codeLabTopicParams, courseDisplayName, findCodeLabTopic } from '../lib/content.js';
 import { groupSearchResults, SEARCH_SUGGESTIONS, searchTopics, topicProgressLabel } from '../lib/search.js';
 
 const SearchContext = createContext(null);
@@ -52,7 +52,7 @@ function SearchOverlay() {
   const openTopic = useCallback(
     (topicId) => {
       closeSearch();
-      go('topic', { topicId });
+      go('topic', findCodeLabTopic(topicId) ? codeLabTopicParams(topicId) : { topicId });
     },
     [closeSearch, go],
   );

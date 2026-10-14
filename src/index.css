@@ -251,7 +251,7 @@ svg {
   height: calc(var(--tab-h) + env(safe-area-inset-bottom));
   padding-bottom: env(safe-area-inset-bottom);
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   background: var(--tab-bg);
   border-top: 1px solid var(--border);
   backdrop-filter: blur(12px);
@@ -266,9 +266,10 @@ svg {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 2px;
   min-height: 44px;
-  font-size: 0.72rem;
+  padding: 0 2px;
+  font-size: 0.64rem;
   font-weight: 800;
 }
 
@@ -400,6 +401,15 @@ svg {
   color: var(--warn);
   font-weight: 800;
   font-size: 0.9rem;
+}
+
+.code-lang-card span:first-child {
+  flex: 1;
+  min-width: 0;
+}
+
+.code-lang-card .progress-track {
+  margin-top: 10px;
 }
 
 .topic-row,
@@ -829,6 +839,23 @@ svg {
   font-weight: 600;
   letter-spacing: 0.04em;
   color: var(--muted);
+}
+
+.backup-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.backup-confirm {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.backup-confirm .btn-primary,
+.backup-confirm .btn-secondary {
+  flex: 1;
 }
 
 .screen-header-actions {

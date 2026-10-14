@@ -1,0 +1,47 @@
+{
+  "id": "code-lab",
+  "title": "Code Lab",
+  "description": "Practice the languages you will actually write.",
+  "languages": [
+    {
+      "id": "python",
+      "name": "Python",
+      "emoji": "🐍",
+      "tagline": "Clear syntax. A friendly first language.",
+      "topics": [
+        "python-basics",
+        "python-control-flow",
+        "python-data-structures",
+        "python-functions",
+        "python-oop"
+      ]
+    },
+    {
+      "id": "javascript",
+      "name": "JavaScript",
+      "emoji": "✨",
+      "tagline": "The language of the web.",
+      "topics": ["js-basics", "js-functions", "js-arrays-objects", "js-dom-events", "js-async"]
+    },
+    {
+      "id": "java",
+      "name": "Java",
+      "emoji": "☕",
+      "tagline": "Types, classes, and structure.",
+      "topics": ["java-basics", "java-oop", "java-inheritance", "java-collections", "java-exceptions"]
+    },
+    {
+      "id": "sql",
+      "name": "SQL",
+      "emoji": "🗄️",
+      "tagline": "Ask a database the right question.",
+      "topics": [
+        "sql-basics",
+        "sql-filtering-sorting",
+        "sql-joins",
+        "sql-aggregation",
+        "sql-writing-data"
+      ]
+    }
+  ]
+}

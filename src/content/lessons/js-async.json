@@ -1,0 +1,138 @@
+{
+  "description": "Code that waits: callbacks, promises, and the async/await that tames them.",
+  "screens": [
+    {
+      "body": "Most JavaScript runs top to bottom, one line after another. But some things take time: loading data, waiting a second, reading a file.\n\nJavaScript doesn't freeze while waiting — it starts the slow job, keeps running the rest of your code, and handles the result when it's ready. That's asynchronous code.",
+      "check": {
+        "answer": 0,
+        "options": [
+          "It keeps running other code and handles the result when it arrives",
+          "It freezes the whole page until the data loads",
+          "It skips the slow job entirely"
+        ],
+        "question": "When JavaScript starts a slow job (like loading data), what does it do?"
+      },
+      "heading": "Some code has to wait",
+      "keyPoint": "Async = start the slow job, handle the result later.",
+      "code": {
+        "language": "javascript",
+        "snippet": "console.log(\"order placed\");\nloadMenu();          // slow job starts in the background\nconsole.log(\"keep chatting\"); // this runs while we wait"
+      }
+    },
+    {
+      "body": "The oldest way to handle \"later\": hand JavaScript a function (a callback) to run when the job finishes.\n\nsetTimeout says \"run this function after 1000 milliseconds.\" The rest of your code doesn't wait — \"done waiting\" prints a second later.",
+      "check": {
+        "answer": 0,
+        "options": [
+          "It runs after about 1 second, while other code continues",
+          "It pauses everything for 1 second",
+          "It runs immediately"
+        ],
+        "question": "What does setTimeout(() => console.log(\"hi\"), 1000) do?"
+      },
+      "code": {
+        "language": "javascript",
+        "snippet": "console.log(\"start\");\nsetTimeout(() => {\n  console.log(\"one second later\");\n}, 1000);\nconsole.log(\"end\");\n// prints: start, end, THEN \"one second later\""
+      },
+      "heading": "Callbacks: \"call me when you're done\"",
+      "keyPoint": "A callback is a function you hand over to run later."
+    },
+    {
+      "body": "Callbacks work, but stacking them gets ugly fast: each step nests inside the previous one, drifting rightward into a pyramid.\n\nDevelopers called this \"callback hell\" — hard to read, harder to debug. JavaScript needed a cleaner way to say \"do this, then that.\"",
+      "check": {
+        "answer": 0,
+        "options": [
+          "Deeply nested callbacks that are hard to read",
+          "Too many functions in one file",
+          "Callbacks that run too fast"
+        ],
+        "question": "What is \"callback hell\"?"
+      },
+      "code": {
+        "language": "javascript",
+        "snippet": "getUser((user) => {\n  getOrders(user, (orders) => {\n    getDetails(orders, (details) => {\n      console.log(details); // pyramid of doom\n    });\n  });\n});"
+      },
+      "heading": "Too many callbacks gets messy",
+      "keyPoint": "Nested callbacks become unreadable — hence promises."
+    },
+    {
+      "body": "A promise is a receipt for a value that isn't ready yet. It starts as pending, then settles as fulfilled (with the value) or rejected (with an error).\n\nYou create one with new Promise, and it takes a function with resolve (\"here's the value\") and reject (\"something broke\").",
+      "check": {
+        "answer": 0,
+        "options": [
+          "pending — waiting to settle",
+          "fulfilled — it's done forever",
+          "broken — promises can't wait"
+        ],
+        "question": "A promise whose value hasn't arrived yet is in what state?"
+      },
+      "code": {
+        "language": "javascript",
+        "snippet": "const order = new Promise((resolve, reject) => {\n  // ... slow work happens here ...\n  resolve(\"pizza\"); // the future value\n});"
+      },
+      "heading": "Promises: receipts for future values",
+      "keyPoint": "pending → fulfilled (value) or rejected (error)."
+    },
+    {
+      "body": "To use the future value, chain .then(): it runs your function when the promise fulfills, receiving the value.\n\nYou can chain multiple .thens — each one gets the previous step's result. The code reads top to bottom again, no nesting pyramid.",
+      "check": {
+        "answer": 0,
+        "options": [
+          "\"Got: pizza\"",
+          "\"pizza\" immediately, before anything else",
+          "undefined"
+        ],
+        "question": "order.then(food => console.log(\"Got: \" + food)) with order resolving to \"pizza\" — what prints?"
+      },
+      "code": {
+        "language": "javascript",
+        "snippet": "order.then((food) => {\n  console.log(\"Got: \" + food); // \"Got: pizza\"\n  return food + \" with extra cheese\";\n}).then((betterFood) => {\n  console.log(betterFood);\n});"
+      },
+      "heading": ".then() runs when it's ready",
+      "keyPoint": ".then() receives the value when the promise fulfills."
+    },
+    {
+      "body": "Promises can fail: bad network, missing file, wrong password. Add .catch() at the end of the chain to handle rejections in one place.\n\nWithout .catch(), a rejection crashes or silently dies. Always end promise chains with error handling — future you will be grateful.",
+      "check": {
+        "answer": 0,
+        "options": [
+          "Add .catch() to handle the rejection",
+          "Wrap everything in a callback",
+          "Promises can't fail"
+        ],
+        "question": "A promise might reject. What's the fix?"
+      },
+      "code": {
+        "language": "javascript",
+        "snippet": "loadProfile()\n  .then(showProfile)\n  .catch((err) => {\n    console.log(\"Something went wrong: \" + err);\n  });"
+      },
+      "heading": "Handling failures with .catch()",
+      "keyPoint": "Always handle rejections — end chains with .catch()."
+    },
+    {
+      "body": "async/await is the modern way: mark a function async, then use await to pause that function until a promise settles. The code reads like normal top-to-bottom code.\n\nawait only works inside async functions. An async function always returns a promise — so callers can still .then() or await it.",
+      "check": {
+        "answer": 0,
+        "options": [
+          "Pauses until the promise settles, then continues",
+          "Makes the promise run faster",
+          "Deletes the promise"
+        ],
+        "question": "What does await do inside an async function?"
+      },
+      "code": {
+        "language": "javascript",
+        "snippet": "async function getFood() {\n  const food = await order; // pauses HERE until order settles\n  console.log(\"Got: \" + food);\n}\ngetFood();"
+      },
+      "heading": "async/await: waiting, the readable way",
+      "keyPoint": "await pauses one function — not the whole program."
+    },
+    {
+      "body": "Official references for everything in this lesson:\n\n• Using promises — MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises\n• async function — MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function\n• await — MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await",
+      "heading": "Go deeper",
+      "keyPoint": "The MDN promises guide has excellent visual examples."
+    }
+  ],
+  "title": "Async JavaScript",
+  "topicId": "js-async"
+}

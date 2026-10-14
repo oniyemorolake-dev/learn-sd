@@ -10,6 +10,7 @@ import {
   todayStamp,
   touchStreak,
 } from '../lib/storage';
+import { applyBackup } from '../lib/backup';
 import { scheduleReview } from '../lib/review';
 import { appendAttempt, topicFocus } from '../lib/focus';
 
@@ -184,6 +185,12 @@ export function AppProvider({ children }) {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
   }, []);
 
+  const restoreProgress = useCallback((backup) => {
+    const next = applyBackup(backup);
+    setState(next);
+    setTheme(loadTheme());
+  }, []);
+
   const value = useMemo(
     () => ({
       state,
@@ -200,6 +207,7 @@ export function AppProvider({ children }) {
       toggleBookmark,
       isBookmarked,
       toggleTheme,
+      restoreProgress,
       level: levelFromXp(state.xp),
     }),
     [
@@ -217,6 +225,7 @@ export function AppProvider({ children }) {
       toggleBookmark,
       isBookmarked,
       toggleTheme,
+      restoreProgress,
     ],
   );
 

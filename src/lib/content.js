@@ -1,4 +1,5 @@
 import courses from '../content/courses.json';
+import codeLab from '../content/code-lab.json';
 import aiPromptingTrack from '../content/tracks/ai-prompting.json';
 import interviewPrepTrack from '../content/tracks/interview-prep.json';
 
@@ -35,7 +36,7 @@ export const setupGuides = byFileName(setupModules);
 
 export const INTERVIEW_EXERCISE_IDS = ['ip-warmups', 'ip-logic', 'ip-patterns', 'ip-classics'];
 
-export { courses, aiPromptingTrack, interviewPrepTrack };
+export { courses, codeLab, aiPromptingTrack, interviewPrepTrack };
 
 export function courseDisplayName(course) {
   if (!course) return '';
@@ -126,8 +127,52 @@ export function flattenTopics() {
   return list;
 }
 
+export function codeLabCourse(language) {
+  if (!language) return null;
+  return {
+    id: `code-${language.id}`,
+    code: 'Code Lab',
+    displayName: language.name,
+    title: language.name,
+  };
+}
+
+export function flattenCodeLabTopics() {
+  return codeLab.languages.flatMap((language) =>
+    language.topics.map((topicId) => ({
+      topicId,
+      course: codeLabCourse(language),
+      language,
+    })),
+  );
+}
+
+export function findCodeLabLanguage(languageId) {
+  return codeLab.languages.find((item) => item.id === languageId) || null;
+}
+
+export function findCodeLabTopic(topicId) {
+  for (const language of codeLab.languages) {
+    if (language.topics.includes(topicId)) {
+      return { topicId, course: codeLabCourse(language), language };
+    }
+  }
+  return null;
+}
+
 export function findTopic(topicId) {
-  return flattenTopics().find((item) => item.topicId === topicId) || null;
+  return flattenTopics().find((item) => item.topicId === topicId) || findCodeLabTopic(topicId);
+}
+
+export function codeLabTopicParams(topicId, extra = {}) {
+  const lab = findCodeLabTopic(topicId);
+  if (!lab) return { topicId, ...extra };
+  return {
+    ...extra,
+    topicId,
+    from: extra.from || 'code-lab',
+    languageId: extra.languageId || lab.language.id,
+  };
 }
 
 export function isTopicComplete(topicId, state) {

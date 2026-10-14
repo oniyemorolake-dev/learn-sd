@@ -1,0 +1,138 @@
+{
+  "description": "Named storage boxes, the main data types, and the operators that work on them.",
+  "screens": [
+    {
+      "body": "A variable is a named box that holds a value. You create one with let, then you can change what's inside later.\n\nThink of it like a labeled container on a shelf: the label stays the same, but you can swap the contents whenever you need.\n\n(You might see var in old tutorials — it's the outdated way. Modern code uses let and const.)",
+      "check": {
+        "answer": 0,
+        "options": [
+          "let — it's made for values that change",
+          "const — values never change with it",
+          "var — the modern choice"
+        ],
+        "question": "Which keyword do you use for a value that will change later?"
+      },
+      "code": {
+        "language": "javascript",
+        "snippet": "let score = 0;\nscore = 10; // totally fine — the box gets a new value\nconsole.log(score); // 10"
+      },
+      "heading": "Variables with let",
+      "keyPoint": "let = a box you can refill later."
+    },
+    {
+      "body": "Some values should never change: your app name, a tax rate, a birth year. That's const — short for constant.\n\nIf you try to reassign a const, JavaScript throws an error. That error is actually helpful — it protects you from accidental changes.",
+      "check": {
+        "answer": 0,
+        "options": [
+          "JavaScript throws an error",
+          "It works fine",
+          "The old value stays forever in memory"
+        ],
+        "question": "What happens if you reassign a const?"
+      },
+      "code": {
+        "language": "javascript",
+        "snippet": "const APP_NAME = \"SwiftGigs\";\nAPP_NAME = \"SomethingElse\"; // ERROR: can't reassign a const"
+      },
+      "heading": "const — values that stay put",
+      "keyPoint": "const = set it once, then it's locked."
+    },
+    {
+      "body": "Every value has a type. The three you'll use constantly:\n\nA string is text in quotes: \"hello\". A number is math-ready: 42 or 3.14 (no quotes). A boolean is just true or false — perfect for on/off, yes/no questions.",
+      "check": {
+        "answer": 0,
+        "options": [
+          "true",
+          "\"true\"",
+          "42"
+        ],
+        "question": "Which of these is a boolean?"
+      },
+      "code": {
+        "language": "javascript",
+        "snippet": "const name = \"Roli\";   // string\nconst age = 19;      // number\nconst isStudent = true; // boolean"
+      },
+      "heading": "Three types you'll use daily",
+      "keyPoint": "string = text, number = math, boolean = true/false."
+    },
+    {
+      "body": "Two special values trip up beginners. undefined means \"no value was ever put here\" — like an empty box nobody filled.\n\nnull means \"I deliberately emptied this box.\" You set null yourself when you want to say \"nothing here, on purpose.\"",
+      "check": {
+        "answer": 0,
+        "options": [
+          "undefined — nothing was ever assigned",
+          "null — it means the same as zero",
+          "It prints the word 'empty'"
+        ],
+        "question": "What does this print: let x; console.log(x);"
+      },
+      "code": {
+        "language": "javascript",
+        "snippet": "let nickname;          // undefined — never assigned\nlet middleName = null; // null — set to 'nothing' on purpose"
+      },
+      "heading": "null vs undefined",
+      "keyPoint": "undefined = never filled. null = emptied on purpose."
+    },
+    {
+      "body": "typeof tells you a value's type — handy for debugging.\n\nWatch out for coercion: when you mix a string and a number with +, JavaScript converts the number to a string and glues them together. \"5\" + 5 gives \"55\", not 10.",
+      "check": {
+        "answer": 0,
+        "options": [
+          "\"32\"",
+          "5",
+          "NaN"
+        ],
+        "question": "What does console.log(\"3\" + 2) print?"
+      },
+      "code": {
+        "language": "javascript",
+        "snippet": "console.log(typeof \"hello\"); // \"string\"\nconsole.log(typeof 42);        // \"number\"\nconsole.log(\"5\" + 5);          // \"55\" — string glue, not math!"
+      },
+      "heading": "typeof and sneaky coercion",
+      "keyPoint": "String + anything = glue, not math."
+    },
+    {
+      "body": "= puts a value in a box. == and === compare two values.\n\n=== (strict) checks value AND type: 5 === \"5\" is false. == (loose) converts types first: 5 == \"5\" is true — which surprises people. Use === almost always.",
+      "check": {
+        "answer": 0,
+        "options": [
+          "false — the types differ",
+          "true — the values look the same",
+          "It throws an error"
+        ],
+        "question": "What does console.log(5 === \"5\") print?"
+      },
+      "code": {
+        "language": "javascript",
+        "snippet": "console.log(5 === \"5\"); // false — number vs string\nconsole.log(5 == \"5\");  // true — loose comparison converts types"
+      },
+      "heading": "=== vs ==",
+      "keyPoint": "=== compares value and type. Prefer it."
+    },
+    {
+      "body": "Arithmetic operators: + - * / and % (remainder — 7 % 3 is 1).\n\nComparison operators: > < >= <=. Logical operators combine true/false: && means AND (both must be true), || means OR (at least one), ! flips a boolean.",
+      "check": {
+        "answer": 0,
+        "options": [
+          "true — both conditions pass",
+          "false — the age is too low",
+          "It throws an error"
+        ],
+        "question": "const age = 19; const hasId = true; — what does (age >= 18 && hasId) give?"
+      },
+      "code": {
+        "language": "javascript",
+        "snippet": "const age = 19;\nconst hasId = true;\nconst canEnter = age >= 18 && hasId;\nconsole.log(canEnter); // true"
+      },
+      "heading": "Operators: math and logic",
+      "keyPoint": "&& needs both true. || needs just one."
+    },
+    {
+      "body": "Want the full reference? The official docs cover everything in this lesson:\n\n• let — MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let\n• const — MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const\n• Expressions and operators — MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators",
+      "heading": "Go deeper",
+      "keyPoint": "MDN is the dictionary of JavaScript — bookmark it."
+    }
+  ],
+  "title": "JavaScript Basics",
+  "topicId": "js-basics"
+}

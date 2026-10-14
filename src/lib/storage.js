@@ -1,5 +1,7 @@
-const STORAGE_KEY = 'learn-sd-v1';
+export const STORAGE_PREFIX = 'learn-sd';
+export const STORAGE_KEY = 'learn-sd-v1';
 export const THEME_KEY = 'learn-sd-theme';
+// New localStorage keys should start with STORAGE_PREFIX so backup/restore picks them up.
 
 export function loadTheme() {
   try {

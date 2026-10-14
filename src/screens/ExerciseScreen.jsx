@@ -4,7 +4,7 @@ import ProgressBar from '../components/ProgressBar.jsx';
 import PrimaryButton from '../components/PrimaryButton.jsx';
 import ComingSoon from '../components/ComingSoon.jsx';
 import { useApp } from '../context/AppContext.jsx';
-import { exercises, topicTitle } from '../lib/content.js';
+import { codeLabTopicParams, exercises, findCodeLabTopic, topicTitle } from '../lib/content.js';
 import { outputsMatch, runJavaScript } from '../lib/jsRunner.js';
 import { runPython } from '../lib/pythonRunner.js';
 
@@ -25,7 +25,9 @@ export default function ExerciseScreen() {
 
   function goHome() {
     if (view.params.from === 'interview-track') go('interview-track', { from: view.params.entryFrom });
-    else go('practice');
+    else if (view.params.from === 'code-lab' || findCodeLabTopic(topicId)) {
+      go('topic', codeLabTopicParams(topicId, view.params));
+    } else go('practice');
   }
 
   if (!pack) {

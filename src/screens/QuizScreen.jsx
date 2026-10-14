@@ -6,7 +6,7 @@ import PrimaryButton from '../components/PrimaryButton.jsx';
 import Celebrate from '../components/Celebrate.jsx';
 import ComingSoon from '../components/ComingSoon.jsx';
 import { useApp } from '../context/AppContext.jsx';
-import { quizzes, topicTitle } from '../lib/content.js';
+import { codeLabTopicParams, findCodeLabTopic, quizzes, topicTitle } from '../lib/content.js';
 import { shuffle, shuffleChoices } from '../lib/shuffle.js';
 import { appendAttempt, conqueredLine, topicFocus } from '../lib/focus.js';
 import { todayStamp } from '../lib/storage.js';
@@ -86,6 +86,7 @@ export default function QuizScreen() {
   function goHome() {
     if (view.params.from === 'review' || view.params.from === 'focus') go(view.params.returnTo || 'path');
     else if (view.params.from === 'interview-track') go('interview-track', { from: view.params.entryFrom });
+    else if (findCodeLabTopic(topicId)) go('topic', codeLabTopicParams(topicId, view.params));
     else go('topic', { topicId });
   }
 

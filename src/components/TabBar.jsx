@@ -4,13 +4,14 @@ import { tabForView } from '../lib/nav.js';
 const TABS = [
   { id: 'path', label: 'Path', view: 'path', icon: PathIcon },
   { id: 'practice', label: 'Practice', view: 'practice', icon: PracticeIcon },
+  { id: 'code', label: 'Code', view: 'code-lab', icon: CodeIcon },
   { id: 'setup', label: 'Setup', view: 'setup', icon: SetupIcon },
   { id: 'progress', label: 'Progress', view: 'progress', icon: ProgressIcon },
 ];
 
 export default function TabBar() {
   const { view, go } = useApp();
-  const active = tabForView(view.name);
+  const active = tabForView(view);
 
   return (
     <nav className="tab-bar" aria-label="Main">
@@ -45,6 +46,20 @@ function PracticeIcon() {
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path d="M5 7h14v12H5z" stroke="currentColor" strokeWidth="2" />
       <path d="M8 11h8M8 15h5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function CodeIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M8 7L3 12l5 5M16 7l5 5-5 5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }

@@ -1,0 +1,32 @@
+{
+  "exercises": [
+    {
+      "expectedOutput": "42",
+      "hint": "use(name) just needs to hand back registry[name] \u2014 the define() function already stored it.",
+      "id": "nodem-ex-01",
+      "language": "javascript",
+      "solution": "const registry = {};\nfunction define(name, value) { registry[name] = value; }\nfunction use(name) {\n  return registry[name];\n}\ndefine(\"math\", { double: (n) => n * 2 });\nconsole.log(use(\"math\").double(21));",
+      "starterCode": "const registry = {};\nfunction define(name, value) { registry[name] = value; }\nfunction use(name) {\n  // TODO: return the module that define() stored under this name\n  return { double: (n) => 0 };\n}\ndefine(\"math\", { double: (n) => n * 2 });\nconsole.log(use(\"math\").double(21));",
+      "task": "Simulate a tiny module system: define(name, value) already stores a module in the registry. Write use(name) to return the stored module \u2014 like require() does."
+    },
+    {
+      "expectedOutput": "import fs from \"fs\";",
+      "hint": "Match the variable name and the module path with a regex like /const (\\w+) = require\\(\"(.+)\"\\);/ \u2014 in a regex literal, quotes need no escaping but parentheses do.",
+      "id": "nodem-ex-02",
+      "language": "javascript",
+      "solution": "function cjsToEsm(line) {\n  const m = line.match(/const (\\w+) = require\\(\"(.+)\"\\);/);\n  return \"import \" + m[1] + \" from \\\"\" + m[2] + \"\\\";\";\n}\nconsole.log(cjsToEsm('const fs = require(\"fs\");'));",
+      "starterCode": "function cjsToEsm(line) {\n  // TODO: turn 'const fs = require(\"fs\");' into 'import fs from \"fs\";'\n  // pull the variable name and module path out of the line, then build the import\n  return line;\n}\nconsole.log(cjsToEsm('const fs = require(\"fs\");'));",
+      "task": "Write cjsToEsm(line): it takes a CommonJS require line like 'const fs = require(\"fs\");' and returns the ESM equivalent 'import fs from \"fs\";'."
+    },
+    {
+      "expectedOutput": "default\nnamed",
+      "hint": "Object.keys(mod) tells you what's exported. Check for a \"default\" key first, then whether any keys exist at all.",
+      "id": "nodem-ex-03",
+      "language": "javascript",
+      "solution": "function describe(mod) {\n  const keys = Object.keys(mod);\n  if (keys.includes(\"default\")) console.log(\"default\");\n  else if (keys.length > 0) console.log(\"named\");\n  else console.log(\"none\");\n}\nconst modA = { default: { start() {} }, port: 3000 };\nconst modB = { port: 3000 };\ndescribe(modA);\ndescribe(modB);",
+      "starterCode": "function describe(mod) {\n  // TODO: print \"default\" if the module has a default export,\n  // \"named\" if it only has named exports, \"none\" if it exports nothing\n}\nconst modA = { default: { start() {} }, port: 3000 };\nconst modB = { port: 3000 };\ndescribe(modA);\ndescribe(modB);",
+      "task": "Write describe(mod): given an object representing a module's exports, print \"default\" if it has a default export, \"named\" if it only has named exports, or \"none\" if it's empty."
+    }
+  ],
+  "topicId": "node-modules"
+}

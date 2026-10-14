@@ -42,6 +42,78 @@
         "sql-aggregation",
         "sql-writing-data"
       ]
+    },
+    {
+      "id": "html",
+      "name": "HTML",
+      "emoji": "📄",
+      "tagline": "Tags, structure, and what the browser reads.",
+      "topics": [
+        "html-basics",
+        "html-text-media",
+        "html-forms",
+        "html-semantic",
+        "html-tables-lists"
+      ]
+    },
+    {
+      "id": "css",
+      "name": "CSS",
+      "emoji": "🎨",
+      "tagline": "Layout, space, and how it looks.",
+      "topics": [
+        "css-basics",
+        "css-box-model",
+        "css-flexbox",
+        "css-grid-responsive",
+        "css-specificity"
+      ]
+    },
+    {
+      "id": "react",
+      "name": "React",
+      "emoji": "⚛️",
+      "tagline": "Components, state, and thinking in UI.",
+      "topics": [
+        "react-basics",
+        "react-state",
+        "react-effects",
+        "react-events-forms",
+        "react-thinking"
+      ]
+    },
+    {
+      "id": "node",
+      "name": "Node & Tooling",
+      "emoji": "🟢",
+      "tagline": "Runtime, packages, and the project.",
+      "topics": [
+        "node-basics",
+        "npm-basics",
+        "npx-scripts",
+        "node-modules",
+        "node-project"
+      ]
+    },
+    {
+      "id": "security",
+      "name": "Cybersecurity for Developers",
+      "emoji": "🔒",
+      "tagline": "Defend the code you write.",
+      "topics": [
+        "sec-foundations",
+        "sec-auth",
+        "sec-injection",
+        "sec-secure-coding",
+        "sec-incidents"
+      ]
+    },
+    {
+      "id": "typescript",
+      "name": "TypeScript",
+      "emoji": "🔷",
+      "tagline": "JavaScript with types that catch mistakes early.",
+      "topics": ["ts-basics", "ts-functions", "ts-interfaces", "ts-generics", "ts-react"]
     }
   ]
 }

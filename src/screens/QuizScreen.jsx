@@ -7,7 +7,7 @@ import Celebrate from '../components/Celebrate.jsx';
 import ComingSoon from '../components/ComingSoon.jsx';
 import { useApp } from '../context/AppContext.jsx';
 import { codeLabTopicParams, findCodeLabTopic, quizzes, topicTitle } from '../lib/content.js';
-import { shuffle, shuffleChoices } from '../lib/shuffle.js';
+import { prepareQuizQuestions } from '../lib/quiz.js';
 import { appendAttempt, conqueredLine, topicFocus } from '../lib/focus.js';
 import { todayStamp } from '../lib/storage.js';
 
@@ -26,6 +26,7 @@ const CODE_LANGUAGES = new Set([
   'json',
   'text',
   'typescript',
+  'tsx',
 ]);
 
 function reviewCelebrateBody(isReview, score, total, clearedFocus) {
@@ -48,33 +49,11 @@ function blockLanguage(question) {
   return CODE_LANGUAGES.has(String(raw).toLowerCase()) ? raw : undefined;
 }
 
-function prepareQuestions(raw) {
-  return shuffle(raw).map((question) => {
-    if (question.format === 'arrange-order') {
-      const items = question.lines.map((text, originalIndex) => ({ text, originalIndex }));
-      return { ...question, items: shuffle(items) };
-    }
-    if (question.format === 'matching') {
-      return {
-        ...question,
-        terms: shuffle(question.pairs.map((pair, i) => ({ ...pair, i }))),
-        defs: shuffle(question.pairs.map((pair) => pair.definition)),
-        matches: {},
-      };
-    }
-    if (Array.isArray(question.options) && typeof question.answer === 'number') {
-      const mixed = shuffleChoices(question.options, question.answer);
-      return { ...question, options: mixed.options, answer: mixed.answer };
-    }
-    return { ...question };
-  });
-}
-
 export default function QuizScreen() {
   const { view, go, state, completeQuiz, toggleBookmark, isBookmarked } = useApp();
   const topicId = view.params.topicId;
   const quiz = quizzes[topicId];
-  const [questions, setQuestions] = useState(() => (quiz ? prepareQuestions(quiz.questions) : []));
+  const [questions, setQuestions] = useState(() => (quiz ? prepareQuizQuestions(quiz.questions) : []));
   const [index, setIndex] = useState(0);
   const [picked, setPicked] = useState(null);
   const [revealed, setRevealed] = useState(false);
@@ -145,7 +124,7 @@ export default function QuizScreen() {
   }
 
   function retry() {
-    setQuestions(prepareQuestions(quiz.questions));
+    setQuestions(prepareQuizQuestions(quiz.questions));
     setIndex(0);
     setPicked(null);
     setRevealed(false);
@@ -255,7 +234,7 @@ function QuestionCard({ question, picked, setPicked, revealed, onMoveItems, onMa
         if (revealed && i === question.answer) cls += ' correct';
         if (revealed && picked === i && i !== question.answer) cls += ' wrong';
         return (
-          <button key={option} type="button" className={cls} onClick={() => !revealed && setPicked(i)}>
+          <button key={i} type="button" className={cls} onClick={() => !revealed && setPicked(i)}>
             <pre style={{ margin: 0, fontFamily: 'inherit', whiteSpace: 'pre-wrap' }}>{option}</pre>
           </button>
         );

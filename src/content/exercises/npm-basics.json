@@ -1,0 +1,32 @@
+{
+  "exercises": [
+    {
+      "expectedOutput": "1",
+      "hint": "Split both versions on \".\", convert to numbers, and compare part by part: major, then minor, then patch.",
+      "id": "npmb-ex-01",
+      "language": "javascript",
+      "solution": "function compare(v1, v2) {\n  const a = v1.split(\".\").map(Number);\n  const b = v2.split(\".\").map(Number);\n  for (let i = 0; i < 3; i++) {\n    if (a[i] > b[i]) return 1;\n    if (a[i] < b[i]) return -1;\n  }\n  return 0;\n}\nconsole.log(compare(\"1.10.2\", \"1.9.9\"));",
+      "starterCode": "function compare(v1, v2) {\n  // TODO: print-free helper \u2014 return 1 if v1 is newer, -1 if older, 0 if equal\n  // remember: \"10\" > \"9\" as numbers, but \"10\" < \"9\" as strings!\n  return 0;\n}\nconsole.log(compare(\"1.10.2\", \"1.9.9\"));",
+      "task": "npm compares semver versions to decide what ^ and ~ allow. Write compare(v1, v2): return 1 if v1 is newer, -1 if v1 is older, 0 if they're equal. (Careful: compare numerically, not as strings!)"
+    },
+    {
+      "expectedOutput": "valid",
+      "hint": "Check pkg.name is a non-empty string, and test pkg.version against a digits-dot-digits-dot-digits pattern like 1.4.2.",
+      "id": "npmb-ex-02",
+      "language": "javascript",
+      "solution": "const pkg = { name: \"my-app\", version: \"1.4.2\" };\nconst hasName = typeof pkg.name === \"string\" && pkg.name.length > 0;\nconst hasVersion = /^\\d+\\.\\d+\\.\\d+$/.test(pkg.version);\nconsole.log(hasName && hasVersion ? \"valid\" : \"invalid\");",
+      "starterCode": "const pkg = { name: \"my-app\", version: \"1.4.2\" };\n// TODO: print \"valid\" if pkg has a non-empty name and a version like \"1.4.2\" (digits.digits.digits)\n// otherwise print \"invalid\"\n",
+      "task": "Validate a package.json object: print \"valid\" if it has a non-empty name and a version matching the pattern digits.digits.digits (e.g. \"1.4.2\"); otherwise print \"invalid\"."
+    },
+    {
+      "expectedOutput": "installing lodash@^4.17.21\ninstalling jest@^29.7.0",
+      "hint": "Object.entries(deps) gives [name, version] pairs. Loop over them and print each install line.",
+      "id": "npmb-ex-03",
+      "language": "javascript",
+      "solution": "const deps = { lodash: \"^4.17.21\", jest: \"^29.7.0\" };\nfor (const [name, version] of Object.entries(deps)) {\n  console.log(\"installing \" + name + \"@\" + version);\n}",
+      "starterCode": "const deps = { lodash: \"^4.17.21\", jest: \"^29.7.0\" };\n// TODO: for each dependency, print \"installing <name>@<version>\"\n",
+      "task": "Simulate npm install: given a dependencies object, print one line per package in the form \"installing <name>@<version>\"."
+    }
+  ],
+  "topicId": "npm-basics"
+}

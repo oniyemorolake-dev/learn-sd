@@ -9,7 +9,7 @@ export default function CodeLabScreen() {
   return (
     <div className="stack">
       <ScreenHeader title="Code Lab" kicker="Languages" />
-      <p className="lede">Pick a language. Five topics. Same lesson → quiz → practice flow.</p>
+      <p className="lede">Pick a group. Five topics. Same lesson → quiz → practice flow.</p>
 
       {codeLab.languages.map((language) => {
         const done = language.topics.filter((topicId) => isTopicComplete(topicId, state)).length;

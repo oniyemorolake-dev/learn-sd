@@ -8,10 +8,13 @@ export function shuffle(list) {
 }
 
 export function shuffleChoices(options, answerIndex) {
-  const packed = options.map((label, index) => ({ label, index }));
+  const list = Array.isArray(options) ? options : [];
+  const source = Number(answerIndex);
+  const packed = list.map((label, index) => ({ label, index }));
   const mixed = shuffle(packed);
+  const answer = mixed.findIndex((item) => item.index === source);
   return {
     options: mixed.map((item) => item.label),
-    answer: mixed.findIndex((item) => item.index === answerIndex),
+    answer: answer === -1 ? source : answer,
   };
 }

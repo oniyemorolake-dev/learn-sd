@@ -1,0 +1,111 @@
+{
+  "topicId": "er-modeling",
+  "title": "ER Modeling",
+  "description": "Entities, relationships, ER diagrams",
+  "courseId": "cprg-250",
+  "screens": [
+    {
+      "heading": "Entities: the things you store",
+      "body": "An entity is a real-world thing you want to remember — a Student, a Course, a Book. In an ER diagram, each entity becomes a rectangle.\n\nPick entities by looking for nouns in the problem description. If the business cares about tracking it, it's probably an entity.",
+      "keyPoint": "Entities are the nouns worth tracking.",
+      "check": {
+        "question": "In a library system, which is an entity?",
+        "options": [
+          "Book",
+          "Borrowed",
+          "Quickly"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Attributes: the details",
+      "body": "Attributes are the properties of an entity — a Student has a name, email, and birth date. They're drawn as ovals attached to the entity rectangle.\n\nThe key attribute (like student_id) gets underlined: it uniquely identifies each instance. Choose it carefully — everything else hangs off it.",
+      "keyPoint": "Attributes describe; the key attribute identifies.",
+      "check": {
+        "question": "The key attribute of an entity is…",
+        "options": [
+          "The one that uniquely identifies each instance",
+          "The longest one",
+          "Always the name"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Relationships: how entities connect",
+      "body": "A relationship captures how two entities interact — a Student enrolls in a Course, an Author writes a Book. In ER diagrams it's drawn as a diamond between the rectangles.\n\nRelationships have names because the verb matters: 'teaches' and 'takes' between Instructor and Course are two different relationships.",
+      "keyPoint": "Diamonds capture the verbs between entities.",
+      "check": {
+        "question": "In an ER diagram, a diamond represents…",
+        "options": [
+          "A relationship between entities",
+          "A primary key",
+          "A data type"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Cardinality: how many?",
+      "body": "Cardinality says how many of each side can participate. One-to-many: one instructor teaches many courses. Many-to-many: students enroll in many courses, and courses have many students.\n\nOne-to-one is rarest: one person has one passport. Getting cardinality right decides where foreign keys go later.",
+      "keyPoint": "Cardinality = how many on each side.",
+      "check": {
+        "question": "Students enroll in many courses; each course has many students. That's…",
+        "options": [
+          "Many-to-many",
+          "One-to-one",
+          "One-to-many"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Reading an ER diagram",
+      "body": "Put it together: rectangles are entities, ovals are attributes (underlined = key), diamonds are relationships, and the numbers or crow's-foot marks on the lines show cardinality.\n\nTrace a path with your finger: 'one Department offers many Courses; each Course has many Students.' If you can narrate it, you can read it.",
+      "keyPoint": "Narrate the diagram out loud to read it.",
+      "check": {
+        "question": "Crow's-foot marks on a relationship line show…",
+        "options": [
+          "The 'many' side of the cardinality",
+          "The primary key",
+          "A deleted relationship"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Weak entities",
+      "body": "A weak entity can't be identified by its own attributes alone — it needs its parent. Order items need their order; a room needs its building.\n\nWeak entities are drawn with double rectangles, and their relationship to the parent is called identifying. Their key borrows from the parent's key.",
+      "keyPoint": "Weak entities borrow identity from their parent.",
+      "check": {
+        "question": "An OrderItem is a weak entity because…",
+        "options": [
+          "It can't be identified without its Order",
+          "It has no attributes",
+          "It's drawn with a circle"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "From ER diagram to tables",
+      "body": "Every entity becomes a table; its attributes become columns; the key attribute becomes the primary key. That's the straightforward part.\n\nRelationships become foreign keys: a one-to-many puts the 'one' side's key into the 'many' side's table. Many-to-many needs a whole new junction table holding both keys.",
+      "keyPoint": "Entities → tables. Relationships → keys (or a junction table).",
+      "check": {
+        "question": "A many-to-many relationship between Students and Courses becomes…",
+        "options": [
+          "A junction table holding both keys",
+          "A single column",
+          "Two separate databases"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Go deeper",
+      "body": "Oracle Database Concepts guide — Data Modeling (official): https://docs.oracle.com/en/database/oracle/oracle-database/19/cncpt/\n\nPostgreSQL documentation — Data Definition: https://www.postgresql.org/docs/current/ddl.html",
+      "keyPoint": "Official docs on modeling and turning models into tables."
+    }
+  ]
+}

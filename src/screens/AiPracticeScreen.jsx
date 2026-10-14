@@ -3,7 +3,6 @@ import ScreenHeader from '../components/ScreenHeader.jsx';
 import CodeBlock from '../components/CodeBlock.jsx';
 import PrimaryButton from '../components/PrimaryButton.jsx';
 import ComingSoon from '../components/ComingSoon.jsx';
-import Footer from '../components/Footer.jsx';
 import { useApp } from '../context/AppContext.jsx';
 import { findAiPractice } from '../lib/content.js';
 
@@ -61,7 +60,6 @@ export default function AiPracticeScreen() {
           <PrimaryButton onClick={() => go('ai-track', { from })}>Continue</PrimaryButton>
         </>
       )}
-      <Footer />
     </div>
   );
 }

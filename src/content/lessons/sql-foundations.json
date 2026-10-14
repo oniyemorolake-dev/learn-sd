@@ -1,0 +1,135 @@
+{
+  "topicId": "sql-foundations",
+  "title": "SQL Foundations",
+  "description": "SELECT, WHERE, INSERT/UPDATE/DELETE",
+  "courseId": "cprg-250",
+  "screens": [
+    {
+      "heading": "SQL is a question language",
+      "body": "SQL (Structured Query Language) is how you talk to a relational database. You describe WHAT you want — 'all students in Calgary' — and the DBMS figures out how to get it.\n\nThat makes SQL declarative: you state the result, not the steps. Most of your SQL life is four verbs: SELECT, INSERT, UPDATE, DELETE.",
+      "keyPoint": "Describe what you want; the DBMS handles the how.",
+      "check": {
+        "question": "SQL is called declarative because you…",
+        "options": [
+          "Describe the result you want, not the steps",
+          "Declare variables first",
+          "Write very long queries"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "SELECT: ask for columns",
+      "body": "SELECT picks which columns to show. SELECT name, email FROM Students returns just those two columns for every row.\n\nSELECT * returns everything — handy for exploring, lazy in production. Name your columns: it's faster, clearer, and won't break when the table gains a column.",
+      "keyPoint": "SELECT chooses columns; FROM chooses the table.",
+      "code": {
+        "language": "sql",
+        "snippet": "SELECT name, email\nFROM Students;"
+      },
+      "check": {
+        "question": "SELECT name FROM Students returns…",
+        "options": [
+          "The name column for every student row",
+          "One student's full record",
+          "The table's schema"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "WHERE: filter the rows",
+      "body": "WHERE keeps only the rows that match a condition. SELECT * FROM Students WHERE city = 'Calgary' returns just Calgary students.\n\nConditions use =, <>, >, <, AND, OR, NOT. Text values need single quotes; numbers don't. Get the quotes wrong and the query fails — or worse, matches nothing silently.",
+      "keyPoint": "WHERE filters rows; quote text, not numbers.",
+      "code": {
+        "language": "sql",
+        "snippet": "SELECT name\nFROM Students\nWHERE city = 'Calgary' AND age >= 18;"
+      },
+      "check": {
+        "question": "WHERE age >= 18 AND city = 'Calgary' keeps rows where…",
+        "options": [
+          "Both conditions are true",
+          "Either condition is true",
+          "Neither is true"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "ORDER BY and LIMIT",
+      "body": "ORDER BY sorts the results — ORDER BY name puts them A to Z; add DESC for Z to A. Without it, the database returns rows in whatever order is convenient.\n\nLIMIT caps how many rows come back. LIMIT 10 gives the first ten. Together they're how you build 'top 10' lists and paged results.",
+      "keyPoint": "ORDER BY sorts; LIMIT caps the count.",
+      "code": {
+        "language": "sql",
+        "snippet": "SELECT name, score\nFROM Players\nORDER BY score DESC\nLIMIT 5;"
+      },
+      "check": {
+        "question": "ORDER BY score DESC LIMIT 5 returns…",
+        "options": [
+          "The 5 highest scores",
+          "The 5 lowest scores",
+          "5 random rows"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "INSERT: add rows",
+      "body": "INSERT adds new rows. Name the columns and give the values in the same order: INSERT INTO Students (name, city) VALUES ('Ava', 'Calgary').\n\nSkip a nullable column and it gets NULL (or its default). Skip a required one and the database rejects the row — constraints doing their job.",
+      "keyPoint": "Columns and values must line up in order.",
+      "code": {
+        "language": "sql",
+        "snippet": "INSERT INTO Students (name, city)\nVALUES ('Ava', 'Calgary');"
+      },
+      "check": {
+        "question": "INSERT INTO Students (name, city) VALUES ('Ava') fails because…",
+        "options": [
+          "A value is missing for the city column",
+          "Ava is too short",
+          "Single quotes are wrong"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "UPDATE and DELETE: handle with care",
+      "body": "UPDATE changes existing rows and DELETE removes them — both usually pair with WHERE to target specific rows. Forget the WHERE and you update or delete everything.\n\nThis is the most common SQL disaster: DELETE FROM Students with no WHERE empties the table. Always write the WHERE first, or test it with a SELECT.",
+      "keyPoint": "No WHERE = every row. Write WHERE first.",
+      "code": {
+        "language": "sql",
+        "snippet": "UPDATE Students\nSET city = 'Edmonton'\nWHERE name = 'Ava';"
+      },
+      "check": {
+        "question": "DELETE FROM Students with no WHERE clause…",
+        "options": [
+          "Deletes every row in the table",
+          "Deletes nothing",
+          "Deletes one random row"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Aggregates: math on groups",
+      "body": "Aggregate functions summarize many rows into one value: COUNT counts, SUM totals, AVG averages, MIN/MAX find extremes.\n\nGROUP BY splits rows into groups first, then aggregates each one — 'average score per course' is GROUP BY course with AVG(score). It's the engine behind every dashboard.",
+      "keyPoint": "GROUP BY splits; aggregates summarize each group.",
+      "code": {
+        "language": "sql",
+        "snippet": "SELECT course, AVG(score) AS avg_score\nFROM Grades\nGROUP BY course;"
+      },
+      "check": {
+        "question": "SELECT course, COUNT(*) FROM Enrollments GROUP BY course returns…",
+        "options": [
+          "One row per course with its enrollment count",
+          "One total count",
+          "The course names only"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Go deeper",
+      "body": "PostgreSQL SELECT reference (official): https://www.postgresql.org/docs/current/sql-select.html\n\nSQLite SELECT syntax (official): https://www.sqlite.org/lang_select.html\n\nMySQL SELECT reference (official): https://dev.mysql.com/doc/refman/8.4/en/select.html",
+      "keyPoint": "The official SELECT references, three dialects."
+    }
+  ]
+}

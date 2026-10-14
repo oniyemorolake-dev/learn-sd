@@ -1,4 +1,6 @@
 import CourseLabel from './CourseLabel.jsx';
+import SearchButton from './SearchButton.jsx';
+import ThemeToggle from './ThemeToggle.jsx';
 
 export default function ScreenHeader({ title, kicker, course, onBack, extra }) {
   return (
@@ -12,7 +14,11 @@ export default function ScreenHeader({ title, kicker, course, onBack, extra }) {
         {course ? <CourseLabel course={course} /> : kicker ? <p className="kicker">{kicker}</p> : null}
         <h1>{title}</h1>
       </div>
-      {extra}
+      <div className="screen-header-actions">
+        {extra}
+        <SearchButton />
+        <ThemeToggle />
+      </div>
     </header>
   );
 }

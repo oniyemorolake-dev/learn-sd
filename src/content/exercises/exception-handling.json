@@ -1,0 +1,32 @@
+{
+  "topicId": "exception-handling",
+  "exercises": [
+    {
+      "id": "eh-ex-01",
+      "task": "Wrap the risky parse in try/catch and return a friendly message. Then run the test.",
+      "language": "javascript",
+      "starterCode": "function parseAge(text) {\n  // TODO: try parseInt; throw new Error(\"bad number\") if NaN;\n  // catch and return \"not a number\"\n}\nconsole.log(parseAge(\"42\"));\nconsole.log(parseAge(\"abc\"));",
+      "expectedOutput": "42\nnot a number",
+      "hint": "throw new Error(...) when isNaN, catch it and return the friendly message.",
+      "solution": "function parseAge(text) {\n  try {\n    const n = parseInt(text);\n    if (Number.isNaN(n)) throw new Error(\"bad number\");\n    return n;\n  } catch (e) {\n    return \"not a number\";\n  }\n}\nconsole.log(parseAge(\"42\"));\nconsole.log(parseAge(\"abc\"));"
+    },
+    {
+      "id": "eh-ex-02",
+      "task": "Throw an Error when the password is too short. Then run the test.",
+      "language": "javascript",
+      "starterCode": "function setPassword(pw) {\n  // TODO: throw new Error(\"too short\") if pw.length < 8\n  return \"password set\";\n}\ntry {\n  console.log(setPassword(\"hunter2!\"));\n  console.log(setPassword(\"abc\"));\n} catch (e) {\n  console.log(\"error:\", e.message);\n}",
+      "expectedOutput": "password set\nerror: too short",
+      "hint": "Check the length first, throw before returning.",
+      "solution": "function setPassword(pw) {\n  if (pw.length < 8) throw new Error(\"too short\");\n  return \"password set\";\n}\ntry {\n  console.log(setPassword(\"hunter2!\"));\n  console.log(setPassword(\"abc\"));\n} catch (e) {\n  console.log(\"error:\", e.message);\n}"
+    },
+    {
+      "id": "eh-ex-03",
+      "task": "Create a custom OutOfStockError and throw it. Then run the test.",
+      "language": "javascript",
+      "starterCode": "// TODO: class OutOfStockError extends Error\n// constructor(msg) passes msg to super, sets this.name\nfunction buy(stock) {\n  if (stock === 0) throw new OutOfStockError(\"none left\");\n  return \"sold!\";\n}\ntry {\n  console.log(buy(0));\n} catch (e) {\n  console.log(e.name + \":\", e.message);\n}",
+      "expectedOutput": "OutOfStockError: none left",
+      "hint": "constructor(msg) { super(msg); this.name = 'OutOfStockError'; }",
+      "solution": "class OutOfStockError extends Error {\n  constructor(msg) {\n    super(msg);\n    this.name = \"OutOfStockError\";\n  }\n}\nfunction buy(stock) {\n  if (stock === 0) throw new OutOfStockError(\"none left\");\n  return \"sold!\";\n}\ntry {\n  console.log(buy(0));\n} catch (e) {\n  console.log(e.name + \":\", e.message);\n}"
+    }
+  ]
+}

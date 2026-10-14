@@ -1,0 +1,32 @@
+{
+  "topicId": "sql-foundations",
+  "exercises": [
+    {
+      "id": "sf-ex-01",
+      "task": "Write selectNames() — the SELECT name of SQL. Then run the test.",
+      "language": "javascript",
+      "starterCode": "const students = [\n  { name: \"Ava\", city: \"Calgary\" },\n  { name: \"Ben\", city: \"Edmonton\" },\n];\nfunction selectNames(rows) {\n  // TODO: return just the names\n}\nconsole.log(selectNames(students));",
+      "expectedOutput": "[ 'Ava', 'Ben' ]",
+      "hint": ".map(r => r.name) projects one column.",
+      "solution": "const students = [\n  { name: \"Ava\", city: \"Calgary\" },\n  { name: \"Ben\", city: \"Edmonton\" },\n];\nfunction selectNames(rows) {\n  return rows.map(r => r.name);\n}\nconsole.log(selectNames(students));"
+    },
+    {
+      "id": "sf-ex-02",
+      "task": "Write whereCity() — the WHERE of SQL. Then run the test.",
+      "language": "javascript",
+      "starterCode": "const students = [\n  { name: \"Ava\", city: \"Calgary\" },\n  { name: \"Ben\", city: \"Edmonton\" },\n];\nfunction whereCity(rows, city) {\n  // TODO: keep rows matching the city\n}\nconsole.log(whereCity(students, \"Calgary\").length);\nconsole.log(whereCity(students, \"Calgary\")[0].name);",
+      "expectedOutput": "1\nAva",
+      "hint": ".filter(r => r.city === city) keeps matching rows.",
+      "solution": "const students = [\n  { name: \"Ava\", city: \"Calgary\" },\n  { name: \"Ben\", city: \"Edmonton\" },\n];\nfunction whereCity(rows, city) {\n  return rows.filter(r => r.city === city);\n}\nconsole.log(whereCity(students, \"Calgary\").length);\nconsole.log(whereCity(students, \"Calgary\")[0].name);"
+    },
+    {
+      "id": "sf-ex-03",
+      "task": "Write countByCity() — GROUP BY city with COUNT(*). Then run the test.",
+      "language": "javascript",
+      "starterCode": "const students = [\n  { name: \"Ava\", city: \"Calgary\" },\n  { name: \"Ben\", city: \"Calgary\" },\n  { name: \"Cy\", city: \"Edmonton\" },\n];\nfunction countByCity(rows) {\n  // TODO: return a { city: count } object\n}\nconsole.log(countByCity(students));",
+      "expectedOutput": "{ Calgary: 2, Edmonton: 1 }",
+      "hint": "Loop and tally into an object keyed by city.",
+      "solution": "const students = [\n  { name: \"Ava\", city: \"Calgary\" },\n  { name: \"Ben\", city: \"Calgary\" },\n  { name: \"Cy\", city: \"Edmonton\" },\n];\nfunction countByCity(rows) {\n  const counts = {};\n  for (const r of rows) counts[r.city] = (counts[r.city] || 0) + 1;\n  return counts;\n}\nconsole.log(countByCity(students));"
+    }
+  ]
+}

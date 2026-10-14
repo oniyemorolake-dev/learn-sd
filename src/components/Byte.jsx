@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useApp } from '../context/AppContext.jsx';
 import { askByte, hasGeminiKey } from '../lib/gemini.js';
-import { aiLessonContextText, lessonContextText } from '../lib/content.js';
+import { aiLessonContextText, interviewLessonContextText, lessonContextText } from '../lib/content.js';
 import ByteMark from './ByteMark.jsx';
 
 export default function Byte() {
@@ -17,6 +17,7 @@ export default function Byte() {
   const lessonId = view.params?.lessonId;
   const lessonContext = useMemo(() => {
     if (view.name === 'ai-lesson' && lessonId) return aiLessonContextText(lessonId);
+    if (topicId && interviewLessonContextText(topicId)) return interviewLessonContextText(topicId);
     if (topicId) return lessonContextText(topicId);
     return '';
   }, [view.name, topicId, lessonId]);

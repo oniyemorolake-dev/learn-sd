@@ -10,12 +10,11 @@
           "title": "Web Development 1",
           "displayName": "Web Development 1",
           "topics": [
-            "arrays-strings",
-            "how-the-web-works",
-            "html-pages",
+            "how-websites-work",
+            "html-foundations",
             "css-styling",
-            "page-layout",
-            "js-on-the-page"
+            "js-interactivity",
+            "publishing-websites"
           ]
         },
         {
@@ -24,10 +23,11 @@
           "title": "Object-Oriented Programming 1",
           "displayName": "Object-Oriented Programming 1",
           "topics": [
-            "functions-scope",
-            "solving-problems",
-            "python-classes",
-            "git-basics"
+            "programming-basics",
+            "java-syntax",
+            "conditionals",
+            "loops",
+            "methods-arrays"
           ]
         }
       ]
@@ -42,10 +42,11 @@
           "title": "Object-Oriented Programming 2",
           "displayName": "Object-Oriented Programming 2",
           "topics": [
-            "java-objects",
+            "classes-objects",
+            "encapsulation-uml",
             "inheritance-polymorphism",
-            "exceptions-files",
-            "talking-to-a-database"
+            "exception-handling",
+            "serialization-testing"
           ]
         },
         {
@@ -54,10 +55,11 @@
           "title": "Database Design and Programming",
           "displayName": "Database Design and Programming",
           "topics": [
-            "tables-and-keys",
-            "sql-queries",
-            "changing-data",
-            "from-model-to-database"
+            "database-concepts",
+            "er-modeling",
+            "normalization",
+            "sql-foundations",
+            "joins-relationships"
           ]
         },
         {
@@ -66,10 +68,11 @@
           "title": "Software Analysis and Design",
           "displayName": "Software Analysis and Design",
           "topics": [
-            "what-to-build",
-            "requirements-in-plain-words",
-            "sketching-the-design",
-            "life-cycle-of-software"
+            "sdlc-phases",
+            "requirements-elicitation",
+            "use-case-modeling",
+            "system-design-basics",
+            "design-validation"
           ]
         },
         {
@@ -78,10 +81,11 @@
           "title": "User Experience and Design",
           "displayName": "User Experience and Design",
           "topics": [
-            "people-not-pixels",
-            "research-before-screens",
-            "simple-interfaces",
-            "try-it-with-users"
+            "ux-foundations",
+            "usability-heuristics",
+            "user-research",
+            "wireframing-prototyping",
+            "usability-testing"
           ]
         }
       ]
@@ -96,10 +100,11 @@
           "title": "Mobile Application Development",
           "displayName": "Mobile Application Development",
           "topics": [
-            "mobile-building-blocks",
-            "screens-and-navigation",
-            "device-features",
-            "shipping-an-app"
+            "mobile-platforms",
+            "mobile-ui",
+            "navigation",
+            "mobile-data",
+            "publishing-apps"
           ]
         },
         {
@@ -109,7 +114,8 @@
           "displayName": "Object-Oriented Programming 3",
           "topics": [
             "data-structures",
-            "search-and-sort",
+            "big-o-complexity",
+            "sorting-searching",
             "recursion",
             "putting-pieces-together"
           ]
@@ -120,10 +126,11 @@
           "title": "Web Development 2",
           "displayName": "Web Development 2",
           "topics": [
-            "full-stack-shape",
-            "front-end-frameworks",
-            "back-end-basics",
-            "deploy-a-web-app"
+            "web-app-architecture",
+            "frontend-frameworks",
+            "rest-apis",
+            "backend-basics",
+            "fullstack-project"
           ]
         },
         {
@@ -132,10 +139,11 @@
           "title": "Database Programming",
           "displayName": "Database Programming",
           "topics": [
-            "sql-inside-code",
-            "procedures-and-events",
-            "faster-queries",
-            "safe-data-access"
+            "db-programming-basics",
+            "plsql-blocks",
+            "loops-conditionals",
+            "error-handling",
+            "triggers-events"
           ]
         },
         {
@@ -144,10 +152,11 @@
           "title": "Software Projects: Analysis, Design, and Management",
           "displayName": "Software Projects: Analysis, Design, and Management",
           "topics": [
-            "working-as-a-team",
-            "planning-the-work",
-            "tracking-progress",
-            "shipping-together"
+            "process-models",
+            "requirements-model",
+            "uml-design",
+            "architecture-design",
+            "project-planning"
           ]
         }
       ]
@@ -162,10 +171,11 @@
           "title": "Software Testing and Deployment",
           "displayName": "Software Testing and Deployment",
           "topics": [
-            "what-testing-is-for",
-            "manual-and-automated",
-            "quality-habits",
-            "getting-it-live"
+            "testing-foundations",
+            "unit-testing",
+            "integration-testing",
+            "test-strategy",
+            "cicd-deployment"
           ]
         },
         {
@@ -174,10 +184,11 @@
           "title": "Operating Systems",
           "displayName": "Operating Systems",
           "topics": [
-            "what-the-cloud-is",
-            "services-not-servers",
-            "scale-and-cost",
-            "cloud-security-basics"
+            "os-foundations",
+            "processes-threads",
+            "memory-management",
+            "file-systems",
+            "concurrency"
           ]
         },
         {
@@ -186,9 +197,11 @@
           "title": "Emerging Trends in Software Development",
           "displayName": "Emerging Trends in Software Development",
           "topics": [
-            "spotting-new-tools",
-            "trying-a-proof-of-concept",
-            "what-actually-matters"
+            "ai-in-software",
+            "cloud-native",
+            "edge-iot",
+            "new-paradigms",
+            "tech-evaluation"
           ]
         },
         {
@@ -197,10 +210,11 @@
           "title": "Software Security",
           "displayName": "Software Security",
           "topics": [
-            "think-like-a-defender",
-            "safe-coding-habits",
-            "web-attack-surfaces",
-            "when-something-goes-wrong"
+            "security-foundations",
+            "authentication",
+            "common-attacks",
+            "secure-coding",
+            "appsec-process"
           ]
         }
       ]

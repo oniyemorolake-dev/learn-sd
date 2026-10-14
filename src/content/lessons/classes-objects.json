@@ -1,0 +1,131 @@
+{
+  "topicId": "classes-objects",
+  "title": "Classes & Objects",
+  "description": "Classes, objects, instance vs static, access modifiers",
+  "courseId": "cprg-211",
+  "screens": [
+    {
+      "heading": "A class is a blueprint",
+      "body": "A class is a blueprint for making things. It describes what every object of that type will know (its data) and what it can do (its actions).\n\nAn object is one actual thing built from the blueprint. If the class is the recipe, the object is the cake you baked from it.",
+      "keyPoint": "Class = blueprint. Object = the thing built from it.",
+      "check": {
+        "question": "A class is best described as…",
+        "options": [
+          "A blueprint that objects are built from",
+          "A finished object in memory",
+          "A type of loop"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Fields hold the data",
+      "body": "Fields (also called instance variables) store each object's data. A Dog object might have fields for name and age.\n\nEvery object gets its own copy of the fields. Two Dog objects can have different names — changing one doesn't touch the other.",
+      "keyPoint": "Each object carries its own copy of the fields.",
+      "code": {
+        "language": "java",
+        "snippet": "class Dog {\n    String name;\n    int age;\n}"
+      },
+      "check": {
+        "question": "Two Dog objects are created with different names. What happens to the fields?",
+        "options": [
+          "Each object has its own separate copy",
+          "They share one copy of name",
+          "Only the first object keeps a name"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Constructors build the object",
+      "body": "A constructor is a special method that runs when you create an object. It sets up the starting values so the object begins life in a good state.\n\nIt has the same name as the class and no return type — not even void. If you don't write one, Java gives you a free default constructor.",
+      "keyPoint": "The constructor runs once at creation and sets the starting state.",
+      "code": {
+        "language": "java",
+        "snippet": "class Dog {\n    String name;\n    Dog(String name) {\n        this.name = name;\n    }\n}"
+      },
+      "check": {
+        "question": "What makes a constructor different from a normal method?",
+        "options": [
+          "Same name as the class, no return type",
+          "It must be declared private",
+          "It can only be called twice"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Methods are the actions",
+      "body": "Methods describe what an object can do. A Dog can bark(), a BankAccount can deposit().\n\nMethods usually work with the object's own fields. That's the point: the data and the actions that use it live together in one place.",
+      "keyPoint": "Data and the actions that use it live together.",
+      "code": {
+        "language": "java",
+        "snippet": "class Dog {\n    String name;\n    void bark() {\n        System.out.println(name + \" says woof!\");\n    }\n}"
+      },
+      "check": {
+        "question": "Why do methods and fields live in the same class?",
+        "options": [
+          "So actions can work directly with the object's data",
+          "So the program runs faster",
+          "It's just a style preference"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Instance vs static",
+      "body": "Instance members belong to each object — every Dog has its own name. Static members belong to the class itself and are shared by all objects.\n\nUse static for things that don't differ per object, like a counter of how many dogs exist, or utility methods like Math.max().",
+      "keyPoint": "Instance = per object. Static = shared by the class.",
+      "code": {
+        "language": "java",
+        "snippet": "class Dog {\n    static int count = 0;   // shared by all dogs\n    String name;            // each dog's own\n    Dog(String name) {\n        this.name = name;\n        count++;\n    }\n}"
+      },
+      "check": {
+        "question": "Dog.count is static. Three dogs are created. What is count?",
+        "options": [
+          "3",
+          "1",
+          "It depends on which dog you ask"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "new brings objects to life",
+      "body": "The new keyword asks Java for memory and runs the constructor. Dog d = new Dog(\"Rex\") creates a real Dog object and stores a reference to it in d.\n\nd is not the object — it's a remote control pointing at the object. Two variables can point at the same object, and then a change through one is visible through the other.",
+      "keyPoint": "new creates the object; the variable just points at it.",
+      "check": {
+        "question": "After Dog a = new Dog(\"Rex\"); Dog b = a; — how many Dog objects exist?",
+        "options": [
+          "One",
+          "Two",
+          "Zero"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Access modifiers guard the doors",
+      "body": "Access modifiers decide who can touch what. public means anyone can use it; private means only code inside the same class can.\n\nprotected opens the door to subclasses, and the default (no keyword) opens it to classes in the same package. A common pattern: private fields, public methods.",
+      "keyPoint": "Keep fields private; expose controlled public methods.",
+      "code": {
+        "language": "java",
+        "snippet": "class BankAccount {\n    private double balance;      // hidden\n    public void deposit(double amount) {\n        balance += amount;       // controlled access\n    }\n}"
+      },
+      "check": {
+        "question": "A field is declared private. Who can read it directly?",
+        "options": [
+          "Only code inside the same class",
+          "Any class in the program",
+          "Only subclasses"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Go deeper",
+      "body": "Oracle Java Tutorials — Classes and Objects: https://docs.oracle.com/javase/tutorial/java/javaOO/index.html\n\nOracle Java Tutorials — Controlling Access to Members of a Class: https://docs.oracle.com/javase/tutorial/java/javaOO/accesscontrol.html",
+      "keyPoint": "The official tutorials, straight from the source."
+    }
+  ]
+}

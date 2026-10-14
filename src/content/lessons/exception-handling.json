@@ -1,0 +1,131 @@
+{
+  "topicId": "exception-handling",
+  "title": "Exception Handling",
+  "description": "Exceptions, try/catch/throw, custom exceptions",
+  "courseId": "cprg-211",
+  "screens": [
+    {
+      "heading": "What is an exception?",
+      "body": "An exception is an object Java creates when something goes wrong at runtime — a missing file, a bad number format, a null reference.\n\nInstead of crashing silently, the program throws this object up the call chain until something handles it. If nothing does, the program stops and prints a stack trace.",
+      "keyPoint": "An exception is a problem report traveling up the call chain.",
+      "check": {
+        "question": "When nothing catches an exception, the program…",
+        "options": [
+          "Stops and prints a stack trace",
+          "Keeps running normally",
+          "Restarts itself"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "try and catch",
+      "body": "Wrap risky code in a try block. If something throws inside it, Java jumps straight to the matching catch block instead of crashing.\n\nThe catch names the exception type it handles and receives the exception object (e), so you can log it or react to it.",
+      "keyPoint": "try the risky code; catch the failure gracefully.",
+      "code": {
+        "language": "java",
+        "snippet": "try {\n    int n = Integer.parseInt(\"abc\");\n} catch (NumberFormatException e) {\n    System.out.println(\"Not a number!\");\n}"
+      },
+      "check": {
+        "question": "What runs when parseInt(\"abc\") throws inside the try?",
+        "options": [
+          "The catch block",
+          "The rest of the try block",
+          "Nothing at all"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Multiple catches and finally",
+      "body": "You can stack catch blocks for different exception types — Java picks the first match, so put specific types before general ones.\n\nA finally block runs no matter what: success, caught exception, even an uncaught one. It's where you close files and release resources.",
+      "keyPoint": "Specific catches first; finally always runs.",
+      "code": {
+        "language": "java",
+        "snippet": "try {\n    readFile();\n} catch (FileNotFoundException e) {\n    System.out.println(\"Missing!\");\n} catch (IOException e) {\n    System.out.println(\"IO trouble!\");\n} finally {\n    closeFile();\n}"
+      },
+      "check": {
+        "question": "The finally block runs…",
+        "options": [
+          "Always — success or failure",
+          "Only when an exception is caught",
+          "Only when no exception happens"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "throw: raise your own",
+      "body": "throw creates and throws an exception object yourself. Use it when your method spots a problem the caller should know about.\n\nPair it with validation: check the input, and throw immediately if it's bad. This is called failing fast — bad data never sneaks deeper into the program.",
+      "keyPoint": "Validate, then throw immediately on bad input.",
+      "code": {
+        "language": "java",
+        "snippet": "void setAge(int age) {\n    if (age < 0) {\n        throw new IllegalArgumentException(\"Age can't be negative\");\n    }\n    this.age = age;\n}"
+      },
+      "check": {
+        "question": "Throwing on bad input right away is called…",
+        "options": [
+          "Failing fast",
+          "Lazy loading",
+          "Silent recovery"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Checked vs unchecked",
+      "body": "Java splits exceptions in two. Checked exceptions (like IOException) must be handled or declared — the compiler enforces it. They signal problems you should plan for.\n\nUnchecked exceptions (RuntimeException and its children, like NullPointerException) signal programmer mistakes. The compiler doesn't force you to handle them, but you still can.",
+      "keyPoint": "Checked = compiler forces handling. Unchecked = your bug.",
+      "check": {
+        "question": "IOException is a checked exception, so you must…",
+        "options": [
+          "Catch it or declare it with throws",
+          "Ignore it",
+          "Only log it"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "throws: pass the duty up",
+      "body": "If your method can't sensibly handle a checked exception, declare it with throws. You're telling callers: 'this might happen — your turn to deal with it.'\n\nThe duty travels up the chain until some method is ready to try/catch it. Small programs often just declare throws on main and let Java print the error.",
+      "keyPoint": "throws declares the risk; the caller handles it.",
+      "code": {
+        "language": "java",
+        "snippet": "void load() throws IOException {\n    Files.readString(Path.of(\"data.txt\")); // might throw\n}"
+      },
+      "check": {
+        "question": "A method declares 'throws IOException'. Who handles it?",
+        "options": [
+          "The calling method",
+          "The method itself, automatically",
+          "Nobody — it's ignored"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Custom exceptions",
+      "body": "Sometimes Java's built-in exceptions don't say what you mean. Create your own by extending Exception (checked) or RuntimeException (unchecked).\n\nGive it a constructor that takes a message and passes it to super. Now your code throws InsufficientFundsException instead of a vague IllegalArgumentException.",
+      "keyPoint": "Extend Exception, pass the message to super.",
+      "code": {
+        "language": "java",
+        "snippet": "class InsufficientFundsException extends Exception {\n    InsufficientFundsException(String msg) {\n        super(msg);\n    }\n}"
+      },
+      "check": {
+        "question": "To make a custom checked exception, you…",
+        "options": [
+          "Extend Exception and pass the message to super",
+          "Extend String",
+          "Annotate any method with @Exception"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Go deeper",
+      "body": "Oracle Java Tutorials — Exceptions: https://docs.oracle.com/javase/tutorial/essential/exceptions/index.html",
+      "keyPoint": "The official tutorial: definitions, catching, throwing, and custom types."
+    }
+  ]
+}

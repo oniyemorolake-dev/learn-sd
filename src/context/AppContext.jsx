@@ -1,12 +1,17 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
   addXp,
+  applyTheme,
   levelFromXp,
   loadState,
+  loadTheme,
   saveState,
+  saveTheme,
   todayStamp,
   touchStreak,
 } from '../lib/storage';
+import { scheduleReview } from '../lib/review';
+import { appendAttempt, topicFocus } from '../lib/focus';
 
 const AppContext = createContext(null);
 const VIEW_KEY = 'learn-sd-view';
@@ -22,10 +27,16 @@ function loadView() {
 export function AppProvider({ children }) {
   const [state, setState] = useState(loadState);
   const [view, setView] = useState(loadView);
+  const [theme, setTheme] = useState(loadTheme);
 
   useEffect(() => {
     saveState(state);
   }, [state]);
+
+  useEffect(() => {
+    applyTheme(theme);
+    saveTheme(theme);
+  }, [theme]);
 
   useEffect(() => {
     sessionStorage.setItem(VIEW_KEY, JSON.stringify(view));
@@ -63,17 +74,33 @@ export function AppProvider({ children }) {
     });
   }, []);
 
-  const completeQuiz = useCallback((topicId, score, total) => {
+  const completeQuiz = useCallback((topicId, score, total, wrongFormats = []) => {
     setState((prev) => {
       const already = prev.quizzes[topicId]?.completed;
+      const nextAttempts = appendAttempt(prev.attempts?.[topicId], {
+        score,
+        total,
+        wrongFormats,
+        date: todayStamp(),
+      });
       const next = {
         ...prev,
         quizzes: {
           ...prev.quizzes,
           [topicId]: { completed: true, score, total, at: todayStamp() },
         },
+        attempts: {
+          ...prev.attempts,
+          [topicId]: nextAttempts,
+        },
+        reviews: {
+          ...prev.reviews,
+          [topicId]: scheduleReview(prev.reviews?.[topicId], score, total, Date.now(), {
+            pinInterval: Boolean(topicFocus(nextAttempts)),
+          }),
+        },
       };
-      return addXp(touchStreak(next), already ? 0 : 25);
+      return addXp(touchStreak(next), already ? 5 : 25);
     });
   }, []);
 
@@ -153,10 +180,15 @@ export function AppProvider({ children }) {
     [state.bookmarks],
   );
 
+  const toggleTheme = useCallback(() => {
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  }, []);
+
   const value = useMemo(
     () => ({
       state,
       view,
+      theme,
       go,
       patch,
       earn,
@@ -167,11 +199,13 @@ export function AppProvider({ children }) {
       completeTrackPractice,
       toggleBookmark,
       isBookmarked,
+      toggleTheme,
       level: levelFromXp(state.xp),
     }),
     [
       state,
       view,
+      theme,
       go,
       patch,
       earn,
@@ -182,6 +216,7 @@ export function AppProvider({ children }) {
       completeTrackPractice,
       toggleBookmark,
       isBookmarked,
+      toggleTheme,
     ],
   );
 

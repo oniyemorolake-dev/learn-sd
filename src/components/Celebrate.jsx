@@ -1,5 +1,7 @@
 import { useMemo } from 'react';
 import PrimaryButton from './PrimaryButton.jsx';
+import SearchButton from './SearchButton.jsx';
+import ThemeToggle from './ThemeToggle.jsx';
 
 const COLORS = ['#2DD4BF', '#A855F7', '#F59E0B', '#7C3AED', '#ffffff'];
 
@@ -16,6 +18,13 @@ export default function Celebrate({ title, body, actionLabel = 'Continue', onCon
 
   return (
     <div className="celebrate">
+      <header className="screen-header">
+        <div style={{ flex: 1 }} />
+        <div className="screen-header-actions">
+          <SearchButton />
+          <ThemeToggle />
+        </div>
+      </header>
       <div className="confetti" aria-hidden="true">
         {bits.map((bit) => (
           <i

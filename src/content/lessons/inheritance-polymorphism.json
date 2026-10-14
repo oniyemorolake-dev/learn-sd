@@ -1,0 +1,131 @@
+{
+  "topicId": "inheritance-polymorphism",
+  "title": "Inheritance & Polymorphism",
+  "description": "Inheritance, polymorphism, abstract classes, interfaces",
+  "courseId": "cprg-211",
+  "screens": [
+    {
+      "heading": "Inheritance: the is-a relationship",
+      "body": "Inheritance lets a new class reuse an existing one. A Dog is an Animal, so Dog extends Animal and automatically gets Animal's fields and methods.\n\nThe parent is called the superclass; the child is the subclass. You write the shared stuff once, in the parent, and every child inherits it.",
+      "keyPoint": "Subclass gets the parent's members for free: code reuse.",
+      "code": {
+        "language": "java",
+        "snippet": "class Animal {\n    void eat() { System.out.println(\"eating...\"); }\n}\nclass Dog extends Animal {\n    void bark() { System.out.println(\"woof!\"); }\n}"
+      },
+      "check": {
+        "question": "Dog extends Animal. Which methods can a Dog object call?",
+        "options": [
+          "eat() and bark()",
+          "Only bark()",
+          "Only eat()"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Overriding and super",
+      "body": "A subclass can replace a parent's method with its own version — that's overriding. Mark it with @Override so Java warns you if the signature doesn't match.\n\nInside the override, super lets you reach the parent's version. And super() as the first line of a constructor calls the parent's constructor.",
+      "keyPoint": "@Override replaces; super reaches the parent.",
+      "code": {
+        "language": "java",
+        "snippet": "class Dog extends Animal {\n    @Override\n    void speak() {\n        super.speak();          // parent's version first\n        System.out.println(\"woof!\");\n    }\n}"
+      },
+      "check": {
+        "question": "What does @Override do for you?",
+        "options": [
+          "Lets the compiler check the method really overrides a parent's",
+          "Makes the method run faster",
+          "Prevents anyone from calling the method"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Polymorphism: many forms",
+      "body": "Polymorphism means one interface, many behaviors. Animal pet = new Dog() — the variable is typed Animal, but the object is a Dog.\n\nThis is powerful: a method that takes an Animal can accept a Dog, a Cat, or anything new you invent later, without changing the method.",
+      "keyPoint": "Same call, different behavior depending on the real object.",
+      "code": {
+        "language": "java",
+        "snippet": "void makeSpeak(Animal a) {\n    a.speak();   // Dog barks, Cat meows — same call\n}"
+      },
+      "check": {
+        "question": "Animal pet = new Dog(); pet.speak(); calls…",
+        "options": [
+          "Dog's version of speak()",
+          "Animal's version of speak()",
+          "Both versions at once"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "The call is decided at runtime",
+      "body": "With polymorphism, Java looks at the actual object — not the variable type — to pick which method runs. That's called dynamic dispatch.\n\nThis happens at runtime, while the program runs. Add new subclasses later and old code automatically works with them.",
+      "keyPoint": "The real object decides which method runs.",
+      "check": {
+        "question": "Dynamic dispatch means the method is chosen…",
+        "options": [
+          "At runtime, based on the actual object",
+          "At compile time, based on the variable type",
+          "Randomly"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Abstract classes: unfinished blueprints",
+      "body": "An abstract class is a parent you can't instantiate — new Animal() is illegal if Animal is abstract. It exists to be extended.\n\nIt can mix finished methods with abstract ones (no body). Every concrete subclass must fill in the abstract methods, like filling in the blanks.",
+      "keyPoint": "Can't instantiate; subclasses complete the blanks.",
+      "code": {
+        "language": "java",
+        "snippet": "abstract class Animal {\n    abstract void speak();      // no body — subclass must write it\n    void sleep() {\n        System.out.println(\"sleeping...\");\n    }\n}"
+      },
+      "check": {
+        "question": "What must every concrete subclass of an abstract class do?",
+        "options": [
+          "Implement all its abstract methods",
+          "Re-declare all its fields",
+          "Nothing special"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Interfaces: pure contracts",
+      "body": "An interface is a contract: it lists methods with no bodies, and any class that signs it (with implements) must provide them.\n\nUnlike classes, a class can implement many interfaces. That's how Java gets flexibility without the mess of inheriting from two parents.",
+      "keyPoint": "A contract of methods; a class can sign many.",
+      "code": {
+        "language": "java",
+        "snippet": "interface Flyable {\n    void fly();\n}\nclass Bird implements Flyable {\n    public void fly() { System.out.println(\"flapping!\"); }\n}"
+      },
+      "check": {
+        "question": "A class can…",
+        "options": [
+          "Implement many interfaces but extend only one class",
+          "Extend many classes",
+          "Implement at most one interface"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Abstract class vs interface",
+      "body": "Use an abstract class when subclasses share real code and a true 'is-a' bond — Dog and Cat are both Animals. Use an interface when you need a capability across unrelated classes — a Bird and a Plane can both be Flyable.\n\nQuick test: if every implementer would copy-paste the same method body, an abstract class saves that duplication. If the classes have nothing else in common, an interface is cleaner.",
+      "keyPoint": "Shared code + is-a → abstract class. Shared capability → interface.",
+      "check": {
+        "question": "Bird and Airplane both need fly(). Best choice?",
+        "options": [
+          "A Flyable interface",
+          "An abstract Airplane class",
+          "Copy the method into both"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Go deeper",
+      "body": "Oracle Java Tutorials — Inheritance: https://docs.oracle.com/javase/tutorial/java/IandI/subclasses.html\n\nOracle Java Tutorials — Interfaces: https://docs.oracle.com/javase/tutorial/java/IandI/createinterface.html",
+      "keyPoint": "The official tutorials on both sides of the divide."
+    }
+  ]
+}

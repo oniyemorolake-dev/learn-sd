@@ -1,5 +1,4 @@
 import ScreenHeader from '../components/ScreenHeader.jsx';
-import Footer from '../components/Footer.jsx';
 import { useApp } from '../context/AppContext.jsx';
 import { aiPromptingTrack } from '../lib/content.js';
 
@@ -53,7 +52,6 @@ export default function AiTrackScreen() {
           </button>
         );
       })}
-      <Footer />
     </div>
   );
 }

@@ -1,0 +1,32 @@
+{
+  "topicId": "classes-objects",
+  "exercises": [
+    {
+      "id": "co-ex-01",
+      "task": "Create a Book class with title and pages, plus a summary() method. Then run the test.",
+      "language": "javascript",
+      "starterCode": "class Book {\n  // TODO: constructor(title, pages) and summary()\n  // summary() returns \"TITLE (PAGES pages)\"\n}\nconst b = new Book(\"Dune\", 412);\nconsole.log(b.summary());",
+      "expectedOutput": "Dune (412 pages)",
+      "hint": "The constructor sets this.title and this.pages; summary() returns a template string.",
+      "solution": "class Book {\n  constructor(title, pages) {\n    this.title = title;\n    this.pages = pages;\n  }\n  summary() {\n    return `${this.title} (${this.pages} pages)`;\n  }\n}\nconst b = new Book(\"Dune\", 412);\nconsole.log(b.summary());"
+    },
+    {
+      "id": "co-ex-02",
+      "task": "Add a static count of how many players exist. Then run the test.",
+      "language": "javascript",
+      "starterCode": "class Player {\n  static count = 0;\n  constructor(name) {\n    this.name = name;\n    // TODO: increase the shared count\n  }\n}\nconst p1 = new Player(\"Ava\");\nconst p2 = new Player(\"Ben\");\nconsole.log(\"players:\", Player.count);",
+      "expectedOutput": "players: 2",
+      "hint": "Inside the constructor, write Player.count++ — the class name, not this.",
+      "solution": "class Player {\n  static count = 0;\n  constructor(name) {\n    this.name = name;\n    Player.count++;\n  }\n}\nconst p1 = new Player(\"Ava\");\nconst p2 = new Player(\"Ben\");\nconsole.log(\"players:\", Player.count);"
+    },
+    {
+      "id": "co-ex-03",
+      "task": "Make age private and add a setter that rejects negatives. Then run the test.",
+      "language": "javascript",
+      "starterCode": "class Person {\n  #age = 0;\n  setAge(n) {\n    // TODO: only accept n >= 0\n  }\n  getAge() { return this.#age; }\n}\nconst p = new Person();\np.setAge(20);\np.setAge(-5);\nconsole.log(\"age:\", p.getAge());",
+      "expectedOutput": "age: 20",
+      "hint": "Guard with if (n >= 0) before assigning to this.#age.",
+      "solution": "class Person {\n  #age = 0;\n  setAge(n) {\n    if (n >= 0) this.#age = n;\n  }\n  getAge() { return this.#age; }\n}\nconst p = new Person();\np.setAge(20);\np.setAge(-5);\nconsole.log(\"age:\", p.getAge());"
+    }
+  ]
+}

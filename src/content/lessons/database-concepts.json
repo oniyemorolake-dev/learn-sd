@@ -1,0 +1,119 @@
+{
+  "topicId": "database-concepts",
+  "title": "Database Concepts",
+  "description": "Databases, DBMS, tables, keys",
+  "courseId": "cprg-250",
+  "screens": [
+    {
+      "heading": "What is a database?",
+      "body": "A database is an organized collection of data, stored so you can find and change it quickly and reliably. Your contacts app, bank app, and class schedule all sit on databases.\n\nA spreadsheet holds data too — but a database adds rules, speed, and safety for many users at once. That's the leap from a file to a system.",
+      "keyPoint": "Organized data + rules + many users = database.",
+      "check": {
+        "question": "A database differs from a plain spreadsheet mainly by…",
+        "options": [
+          "Rules, speed, and safety for many users",
+          "Having more rows",
+          "Using fancier fonts"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "The DBMS does the heavy lifting",
+      "body": "A DBMS — database management system — is the software that runs the database. MySQL, PostgreSQL, and SQLite are popular examples.\n\nYou never touch the raw files. You ask the DBMS questions in SQL, and it finds, protects, and updates the data for you.",
+      "keyPoint": "You talk to the DBMS; it handles the data.",
+      "check": {
+        "question": "The DBMS is…",
+        "options": [
+          "The software that manages the database for you",
+          "A type of table",
+          "A backup file"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Tables, rows, columns",
+      "body": "Data in a relational database lives in tables. A table is about one kind of thing — Students, Courses, Orders.\n\nEach row is one item (one student). Each column is one attribute (name, email). Where a row meets a column sits a single value.",
+      "keyPoint": "Table = one kind of thing. Row = one item. Column = one attribute.",
+      "check": {
+        "question": "In a Students table, one row represents…",
+        "options": [
+          "One student",
+          "One column",
+          "The whole database"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Primary keys: every row's ID",
+      "body": "A primary key is the column (or columns) that uniquely identifies each row. No two rows share it, and it's never empty.\n\nStudent IDs, order numbers, and unique emails make good primary keys. Names don't — two students can share a name.",
+      "keyPoint": "Unique, never empty — the row's identity.",
+      "code": {
+        "language": "sql",
+        "snippet": "CREATE TABLE Students (\n    student_id INT PRIMARY KEY,\n    name TEXT\n);"
+      },
+      "check": {
+        "question": "Which makes the best primary key?",
+        "options": [
+          "student_id",
+          "first_name",
+          "city"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Foreign keys: the links between tables",
+      "body": "A foreign key is a column that points at another table's primary key. An Enrollments row holds a student_id that matches a row in Students.\n\nForeign keys are how tables connect. Without them you'd have isolated piles of data; with them you have a web you can query across.",
+      "keyPoint": "A foreign key points at another table's primary key.",
+      "code": {
+        "language": "sql",
+        "snippet": "CREATE TABLE Enrollments (\n    student_id INT REFERENCES Students(student_id),\n    course_code TEXT\n);"
+      },
+      "check": {
+        "question": "A foreign key in Enrollments lets you…",
+        "options": [
+          "Find which student each enrollment belongs to",
+          "Delete the Students table",
+          "Rename columns"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Schema: the blueprint",
+      "body": "The schema is the database's blueprint: which tables exist, their columns, data types, and keys. It describes the structure, not the data inside.\n\nChanging the schema (adding a column) is a bigger deal than changing data (adding a row). Good design up front saves painful migrations later.",
+      "keyPoint": "Schema = structure. Data = contents.",
+      "check": {
+        "question": "Adding a new column to a table changes the…",
+        "options": [
+          "Schema",
+          "Data only",
+          "Nothing"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Types and constraints keep data clean",
+      "body": "Columns have data types — INT, TEXT, DATE — so a birth date can't accidentally hold 'banana'. Types are the first line of defense.\n\nConstraints add more rules: NOT NULL forbids empties, UNIQUE forbids duplicates, CHECK enforces conditions like price > 0. The database rejects bad data before it ever gets in.",
+      "keyPoint": "Types and constraints reject bad data at the door.",
+      "check": {
+        "question": "A CHECK (price > 0) constraint…",
+        "options": [
+          "Rejects any row with a zero or negative price",
+          "Sorts prices",
+          "Deletes cheap products"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Go deeper",
+      "body": "SQLite documentation (great first DBMS to learn): https://www.sqlite.org/docs.html\n\nPostgreSQL documentation — Database Concepts: https://www.postgresql.org/docs/current/tutorial-concepts.html",
+      "keyPoint": "Two official doc sets worth bookmarking."
+    }
+  ]
+}

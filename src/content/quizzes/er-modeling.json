@@ -1,0 +1,179 @@
+{
+  "topicId": "er-modeling",
+  "title": "ER Modeling",
+  "description": "Entities, attributes, relationships, and turning diagrams into tables.",
+  "formatsUsed": [
+    "predict-output",
+    "spot-the-bug",
+    "arrange-order",
+    "fill-blanks",
+    "matching",
+    "translate-code"
+  ],
+  "questions": [
+    {
+      "id": "er-01",
+      "format": "predict-output",
+      "prompt": "A student has many courses — a one-to-many. What does this print?",
+      "code": "const enrollment = { student: \"Ava\", courses: [\"CPRG 211\", \"CPRG 250\"] };\nconsole.log(enrollment.courses.length);",
+      "language": "javascript",
+      "options": [
+        "2",
+        "1",
+        "3",
+        "undefined"
+      ],
+      "answer": 0,
+      "explanation": "Two courses on the 'many' side — length is 2."
+    },
+    {
+      "id": "er-02",
+      "format": "spot-the-bug",
+      "prompt": "A student takes many courses and a course has many students. What's wrong?",
+      "code": "Student ──1── <Enrolls> ──1── Course",
+      "language": "text",
+      "options": [
+        "Cardinality should be many-to-many, not one-to-one",
+        "The diamond shape is wrong",
+        "Entities should be diamonds",
+        "Nothing is wrong"
+      ],
+      "answer": 0,
+      "explanation": "Both sides can have many — the diagram must show many-to-many."
+    },
+    {
+      "id": "er-03",
+      "format": "arrange-order",
+      "prompt": "Order the design steps.",
+      "lines": [
+        "Draw the ER diagram",
+        "List the nouns (entities)",
+        "Build the tables",
+        "Add relationships and cardinality"
+      ],
+      "answer": [
+        1,
+        0,
+        3,
+        2
+      ],
+      "explanation": "Nouns first, then the diagram, then relationships, then tables."
+    },
+    {
+      "id": "er-04",
+      "format": "fill-blanks",
+      "prompt": "In ER diagrams, relationships are drawn as ___.",
+      "code": "[Student] ──◇── ___ ──◇── [Course]",
+      "language": "text",
+      "options": [
+        "diamonds",
+        "rectangles",
+        "ovals",
+        "arrows"
+      ],
+      "answer": 0,
+      "explanation": "Rectangles = entities, ovals = attributes, diamonds = relationships."
+    },
+    {
+      "id": "er-05",
+      "format": "matching",
+      "prompt": "Match each ER shape to its meaning.",
+      "pairs": [
+        {
+          "term": "Entity",
+          "definition": "A thing worth tracking, drawn as a rectangle"
+        },
+        {
+          "term": "Attribute",
+          "definition": "A property of an entity, drawn as an oval"
+        },
+        {
+          "term": "Relationship",
+          "definition": "A connection between entities, drawn as a diamond"
+        },
+        {
+          "term": "Key attribute",
+          "definition": "Uniquely identifies each entity instance"
+        }
+      ],
+      "explanation": "Rectangle, oval, diamond, underlined."
+    },
+    {
+      "id": "er-06",
+      "format": "translate-code",
+      "prompt": "This entity — which SQL creates it as a table?",
+      "code": "Entity: Book (book_id [key], title, author)",
+      "from": "er-diagram",
+      "to": "sql",
+      "options": [
+        "CREATE TABLE Book (\n    book_id INT PRIMARY KEY,\n    title TEXT,\n    author TEXT\n);",
+        "CREATE TABLE Book (title TEXT);",
+        "CREATE Book (book_id);",
+        "TABLE Book ADD book_id;"
+      ],
+      "answer": 0,
+      "explanation": "Entity → table, attributes → columns, key attribute → primary key."
+    },
+    {
+      "id": "er-07",
+      "format": "predict-output",
+      "prompt": "What does this print?",
+      "code": "const course = { code: \"CPRG 211\", students: [\"Ava\", \"Ben\", \"Cy\"] };\nconsole.log(course.students[0]);",
+      "language": "javascript",
+      "options": [
+        "Ava",
+        "Ben",
+        "Cy",
+        "CPRG 211"
+      ],
+      "answer": 0,
+      "explanation": "Index 0 of the students array — the first on the 'many' side."
+    },
+    {
+      "id": "er-08",
+      "format": "spot-the-bug",
+      "prompt": "OrderItem is meant to be a weak entity of Order. What's wrong?",
+      "code": "-- OrderItem identified only by item_name\nCREATE TABLE OrderItem (\n    item_name TEXT PRIMARY KEY,\n    qty INT\n);",
+      "language": "sql",
+      "options": [
+        "A weak entity needs its parent's key — item_name alone can't identify it",
+        "qty should be TEXT",
+        "PRIMARY KEY is wrong syntax",
+        "Nothing is wrong"
+      ],
+      "answer": 0,
+      "explanation": "Weak entities borrow identity: the key should include order_id."
+    },
+    {
+      "id": "er-09",
+      "format": "fill-blanks",
+      "prompt": "A many-to-many relationship becomes a ___ table holding both keys.",
+      "code": "-- Students × Courses → ___ table",
+      "language": "text",
+      "options": [
+        "junction",
+        "weak",
+        "primary",
+        "foreign"
+      ],
+      "answer": 0,
+      "explanation": "The junction table holds one row per pair, with both foreign keys."
+    },
+    {
+      "id": "er-10",
+      "format": "translate-code",
+      "prompt": "Which JavaScript models the same entity?",
+      "code": "CREATE TABLE Students (\n    student_id INT PRIMARY KEY,\n    name TEXT\n);",
+      "from": "sql",
+      "to": "javascript",
+      "options": [
+        "const students = [{ student_id: 1, name: \"Ava\" }];",
+        "const students = \"Ava\";",
+        "const id = 1;",
+        "[1, 2, 3].map(Number);"
+      ],
+      "answer": 0,
+      "explanation": "A table is an array of row-objects; columns become properties."
+    }
+  ]
+}

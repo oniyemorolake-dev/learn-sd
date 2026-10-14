@@ -23,11 +23,16 @@ export default function ExerciseScreen() {
   const [showSolution, setShowSolution] = useState(false);
   const [matched, setMatched] = useState(false);
 
+  function goHome() {
+    if (view.params.from === 'interview-track') go('interview-track', { from: view.params.entryFrom });
+    else go('practice');
+  }
+
   if (!pack) {
     return (
       <div>
-        <ScreenHeader title={topicTitle(topicId)} onBack={() => go('practice')} />
-        <ComingSoon title="Exercises coming soon" onContinue={() => go('practice')} />
+        <ScreenHeader title={topicTitle(topicId)} onBack={goHome} />
+        <ComingSoon title="Exercises coming soon" onContinue={goHome} />
       </div>
     );
   }
@@ -52,10 +57,14 @@ export default function ExerciseScreen() {
     setError('');
     setMatched(false);
     try {
+      const lang = (exercise.language || '').toLowerCase();
+      if (lang === 'sql' || lang === 'plsql' || lang === 'pl/sql') {
+        setOutput('');
+        setError('SQL and PL/SQL are display-only here. These exercises run in Python.');
+        return;
+      }
       const result =
-        exercise.language === 'python'
-          ? await runPython(code, setStatus)
-          : await runJavaScript(code);
+        lang === 'python' ? await runPython(code, setStatus) : await runJavaScript(code);
       setOutput(result.output);
       setError(result.error || '');
       if (!result.error && outputsMatch(result.output, exercise.expectedOutput)) {
@@ -74,7 +83,7 @@ export default function ExerciseScreen() {
       <ScreenHeader
         title={pack.title || topicTitle(topicId)}
         kicker={`Exercise ${index + 1} of ${list.length}`}
-        onBack={() => go('practice')}
+        onBack={goHome}
       />
       <ProgressBar value={index} max={list.length} />
       <article className="card">
@@ -114,7 +123,7 @@ export default function ExerciseScreen() {
       {index + 1 < list.length ? (
         <PrimaryButton onClick={() => load(index + 1)}>Next exercise</PrimaryButton>
       ) : (
-        <PrimaryButton onClick={() => go('practice')}>Done for now</PrimaryButton>
+        <PrimaryButton onClick={goHome}>Done for now</PrimaryButton>
       )}
       {state.exercises[exercise.id] ? (
         <p className="muted" style={{ textAlign: 'center' }}>

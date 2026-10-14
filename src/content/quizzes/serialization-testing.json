@@ -1,0 +1,177 @@
+{
+  "topicId": "serialization-testing",
+  "title": "Serialization & Testing",
+  "description": "Saving objects, and proving code works with tests.",
+  "formatsUsed": [
+    "predict-output",
+    "spot-the-bug",
+    "arrange-order",
+    "fill-blanks",
+    "matching",
+    "translate-code"
+  ],
+  "questions": [
+    {
+      "id": "st-01",
+      "format": "predict-output",
+      "prompt": "What does this print?",
+      "code": "const player = { name: \"Ava\", score: 42 };\nconst saved = JSON.stringify(player);\nconst back = JSON.parse(saved);\nconsole.log(back.score);",
+      "language": "javascript",
+      "options": [
+        "42",
+        "undefined",
+        "\"42\"",
+        "null"
+      ],
+      "answer": 0,
+      "explanation": "stringify freezes it to text; parse thaws it back — score survives the trip."
+    },
+    {
+      "id": "st-02",
+      "format": "spot-the-bug",
+      "prompt": "Why can't this Player be serialized?",
+      "code": "class Player {\n    String name;\n    int score;\n}\n// serializing a Player... fails!",
+      "language": "java",
+      "options": [
+        "It doesn't implement Serializable",
+        "Fields must be public",
+        "It needs a constructor",
+        "String isn't serializable"
+      ],
+      "answer": 0,
+      "explanation": "No 'implements Serializable' = no permission to serialize."
+    },
+    {
+      "id": "st-03",
+      "format": "arrange-order",
+      "prompt": "Order the TDD cycle.",
+      "lines": [
+        "Write code to pass",
+        "Refactor",
+        "Write a failing test"
+      ],
+      "answer": [
+        2,
+        0,
+        1
+      ],
+      "explanation": "Red (failing test) → green (make it pass) → refactor."
+    },
+    {
+      "id": "st-04",
+      "format": "fill-blanks",
+      "prompt": "This keyword excludes a field from serialization.",
+      "code": "private ___ String password;  // don't save this",
+      "language": "java",
+      "options": [
+        "transient",
+        "static",
+        "final",
+        "private"
+      ],
+      "answer": 0,
+      "explanation": "transient = skip this field when freezing the object."
+    },
+    {
+      "id": "st-05",
+      "format": "matching",
+      "prompt": "Match each testing term to its meaning.",
+      "pairs": [
+        {
+          "term": "Unit test",
+          "definition": "Tests one method in isolation"
+        },
+        {
+          "term": "Integration test",
+          "definition": "Tests pieces working together"
+        },
+        {
+          "term": "JUnit",
+          "definition": "Java's standard testing framework"
+        },
+        {
+          "term": "TDD",
+          "definition": "Write the failing test first"
+        }
+      ],
+      "explanation": "One piece, pieces together, the framework, test-first."
+    },
+    {
+      "id": "st-06",
+      "format": "translate-code",
+      "prompt": "What's the JavaScript equivalent of making an object saveable?",
+      "code": "class Player implements Serializable {\n    String name;\n}",
+      "from": "java",
+      "to": "javascript",
+      "options": [
+        "JSON.stringify(player) to save, JSON.parse(text) to restore",
+        "player.save()",
+        "Object.freeze(player)",
+        "delete player.name"
+      ],
+      "answer": 0,
+      "explanation": "JS has no Serializable — the stringify/parse round trip is the everyday equivalent."
+    },
+    {
+      "id": "st-07",
+      "format": "predict-output",
+      "prompt": "What does this test do?",
+      "code": "@Test\nvoid math() {\n    assertEquals(4, 2 + 2);\n}",
+      "language": "java",
+      "options": [
+        "Passes — 2 + 2 equals 4",
+        "Fails",
+        "Doesn't compile",
+        "Runs forever"
+      ],
+      "answer": 0,
+      "explanation": "assertEquals(expected, actual): 4 equals 4, so it's green."
+    },
+    {
+      "id": "st-08",
+      "format": "spot-the-bug",
+      "prompt": "What goes wrong at runtime?",
+      "code": "const data = JSON.stringify({ a: 1 });\nconst obj = JSON.parse(data);\nconsole.log(obj.b.c);  // boom",
+      "language": "javascript",
+      "options": [
+        "TypeError — obj.b is undefined, can't read .c of undefined",
+        "JSON.parse fails",
+        "Nothing — prints undefined",
+        "SyntaxError"
+      ],
+      "answer": 0,
+      "explanation": "Parsing worked fine; the crash is reading .c off undefined."
+    },
+    {
+      "id": "st-09",
+      "format": "fill-blanks",
+      "prompt": "TDD starts with a ___ test (red).",
+      "code": "// Step 1 of TDD: write a ___ test",
+      "language": "text",
+      "options": [
+        "failing",
+        "passing",
+        "random",
+        "private"
+      ],
+      "answer": 0,
+      "explanation": "Red first — the test must fail before the code exists."
+    },
+    {
+      "id": "st-10",
+      "format": "translate-code",
+      "prompt": "Which Java is the same assertion idea?",
+      "code": "function assertEquals(expected, actual) {\n  if (expected !== actual) throw new Error(\"fail\");\n}",
+      "from": "javascript",
+      "to": "java",
+      "options": [
+        "JUnit's assertEquals(expected, actual)",
+        "System.out.println(expected)",
+        "expected = actual;",
+        "try { } catch { }"
+      ],
+      "answer": 0,
+      "explanation": "Same contract in both: expected vs actual, fail loudly on mismatch."
+    }
+  ]
+}

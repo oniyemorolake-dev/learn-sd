@@ -1,0 +1,32 @@
+{
+  "topicId": "database-concepts",
+  "exercises": [
+    {
+      "id": "dc-ex-01",
+      "task": "Finish insert() so it rejects duplicate ids (the primary-key rule). Then run the test.",
+      "language": "javascript",
+      "starterCode": "const students = [];\nfunction insert(row) {\n  // TODO: if any existing row has the same id,\n  // print \"duplicate id\" and return; otherwise push the row\n}\ninsert({ id: 1, name: \"Ava\" });\ninsert({ id: 1, name: \"Ben\" });\nconsole.log(\"rows:\", students.length);",
+      "expectedOutput": "duplicate id\nrows: 1",
+      "hint": "students.some(s => s.id === row.id) spots the clash.",
+      "solution": "const students = [];\nfunction insert(row) {\n  if (students.some(s => s.id === row.id)) {\n    console.log(\"duplicate id\");\n    return;\n  }\n  students.push(row);\n}\ninsert({ id: 1, name: \"Ava\" });\ninsert({ id: 1, name: \"Ben\" });\nconsole.log(\"rows:\", students.length);"
+    },
+    {
+      "id": "dc-ex-02",
+      "task": "Finish validRow() to enforce the schema: id must be a number, name a string. Then run the test.",
+      "language": "javascript",
+      "starterCode": "function validRow(row) {\n  // TODO: return true only if row.id is a number\n  // and row.name is a string\n}\nconsole.log(validRow({ id: 1, name: \"Ava\" }));\nconsole.log(validRow({ id: \"x\", name: \"Ben\" }));",
+      "expectedOutput": "true\nfalse",
+      "hint": "typeof checks: 'number' for id, 'string' for name.",
+      "solution": "function validRow(row) {\n  return typeof row.id === \"number\" && typeof row.name === \"string\";\n}\nconsole.log(validRow({ id: 1, name: \"Ava\" }));\nconsole.log(validRow({ id: \"x\", name: \"Ben\" }));"
+    },
+    {
+      "id": "dc-ex-03",
+      "task": "Finish enroll() so it rejects unknown student ids (the foreign-key rule). Then run the test.",
+      "language": "javascript",
+      "starterCode": "const students = [{ id: 1 }, { id: 2 }];\nconst enrollments = [];\nfunction enroll(studentId, course) {\n  // TODO: if no student has this id, print \"no such student\";\n  // otherwise push { studentId, course }\n}\nenroll(1, \"CPRG 211\");\nenroll(9, \"CPRG 211\");\nconsole.log(\"enrollments:\", enrollments.length);",
+      "expectedOutput": "no such student\nenrollments: 1",
+      "hint": "some() checks the parent table before inserting the child row.",
+      "solution": "const students = [{ id: 1 }, { id: 2 }];\nconst enrollments = [];\nfunction enroll(studentId, course) {\n  if (!students.some(s => s.id === studentId)) {\n    console.log(\"no such student\");\n    return;\n  }\n  enrollments.push({ studentId, course });\n}\nenroll(1, \"CPRG 211\");\nenroll(9, \"CPRG 211\");\nconsole.log(\"enrollments:\", enrollments.length);"
+    }
+  ]
+}

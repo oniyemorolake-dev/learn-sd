@@ -6,22 +6,31 @@ import PrimaryButton from '../components/PrimaryButton.jsx';
 import Celebrate from '../components/Celebrate.jsx';
 import ComingSoon from '../components/ComingSoon.jsx';
 import { useApp } from '../context/AppContext.jsx';
-import { lessons, topicTitle } from '../lib/content.js';
+import { findInterviewLesson, lessons, topicTitle } from '../lib/content.js';
 
 export default function LessonScreen() {
-  const { view, go, completeLesson, toggleBookmark, isBookmarked } = useApp();
+  const { view, go, completeLesson, completeTrackLesson, toggleBookmark, isBookmarked } = useApp();
   const topicId = view.params.topicId;
-  const lesson = lessons[topicId];
+  const interviewLesson = findInterviewLesson(topicId);
+  const lesson = lessons[topicId] || interviewLesson;
+  const fromInterview = view.params.from === 'interview-track' || Boolean(interviewLesson);
+
+  function goHome() {
+    if (view.params.from === 'focus') go(view.params.returnTo || 'progress');
+    else if (fromInterview) go('interview-track', { from: view.params.entryFrom });
+    else go('topic', { topicId });
+  }
   const [index, setIndex] = useState(0);
   const [picked, setPicked] = useState(null);
   const [revealed, setRevealed] = useState(false);
+  const [checkPick, setCheckPick] = useState(null);
   const [done, setDone] = useState(false);
 
   if (!lesson) {
     return (
       <div>
-        <ScreenHeader title={topicTitle(topicId)} onBack={() => go('topic', { topicId })} />
-        <ComingSoon title={topicTitle(topicId)} onContinue={() => go('topic', { topicId })} />
+        <ScreenHeader title={topicTitle(topicId)} onBack={goHome} />
+        <ComingSoon title={topicTitle(topicId)} onContinue={goHome} />
       </div>
     );
   }
@@ -31,6 +40,8 @@ export default function LessonScreen() {
   const totalSteps = screens.length + (hasCheckIn ? 1 : 0);
   const onCheckIn = hasCheckIn && index >= screens.length;
   const bookmarkId = `lesson:${topicId}`;
+  const screen = !onCheckIn ? screens[index] : null;
+  const screenCheck = screen?.check;
 
   if (done) {
     return (
@@ -38,15 +49,28 @@ export default function LessonScreen() {
         title="Lesson complete"
         body="Small step, real progress. The quiz is waiting when you are ready."
         actionLabel="Continue"
-        onContinue={() => go('topic', { topicId })}
+        onContinue={goHome}
       />
     );
   }
 
-  function finish() {
-    const correct = picked === lesson.checkIn.answer;
-    completeLesson(topicId, correct);
-    setDone(true);
+  function goNext() {
+    if (onCheckIn) {
+      if (interviewLesson) completeTrackLesson('interview-prep', topicId);
+      else completeLesson(topicId, picked === lesson.checkIn.answer);
+      setDone(true);
+      return;
+    }
+    if (index + 1 >= screens.length && !hasCheckIn) {
+      if (interviewLesson) completeTrackLesson('interview-prep', topicId);
+      else completeLesson(topicId, true);
+      setDone(true);
+      return;
+    }
+    setIndex((n) => n + 1);
+    setPicked(null);
+    setRevealed(false);
+    setCheckPick(null);
   }
 
   return (
@@ -54,7 +78,7 @@ export default function LessonScreen() {
       <ScreenHeader
         title={lesson.title}
         kicker={onCheckIn ? 'Check-in' : `Screen ${index + 1} of ${screens.length}`}
-        onBack={() => go('topic', { topicId })}
+        onBack={goHome}
         extra={
           <button
             type="button"
@@ -73,17 +97,22 @@ export default function LessonScreen() {
           </button>
         }
       />
-      <ProgressBar value={index + (revealed ? 1 : 0)} max={totalSteps} />
+      <ProgressBar value={index + (onCheckIn && revealed ? 1 : 0)} max={totalSteps} />
 
       {!onCheckIn ? (
-        <article className="card">
-          <h2 style={{ marginTop: 0 }}>{screens[index].heading}</h2>
-          {screens[index].body.split('\n\n').map((para) => (
-            <p key={para}>{para}</p>
-          ))}
-          <CodeBlock language={screens[index].code?.language} snippet={screens[index].code?.snippet} />
-          {screens[index].keyPoint ? <p className="key-point">{screens[index].keyPoint}</p> : null}
-        </article>
+        <>
+          <article className="card">
+            <h2 style={{ marginTop: 0 }}>{screen.heading}</h2>
+            {screen.body.split('\n\n').map((para) => (
+              <p key={para}>{para}</p>
+            ))}
+            <CodeBlock language={screen.code?.language} snippet={screen.code?.snippet} />
+            {screen.keyPoint ? <p className="key-point">{screen.keyPoint}</p> : null}
+          </article>
+          {screenCheck ? (
+            <ScreenCheck check={screenCheck} pick={checkPick} onPick={setCheckPick} />
+          ) : null}
+        </>
       ) : (
         <article className="card stack">
           <h2 style={{ marginTop: 0 }}>{lesson.checkIn.prompt}</h2>
@@ -122,25 +151,49 @@ export default function LessonScreen() {
       )}
 
       {!onCheckIn ? (
-        <PrimaryButton
-          onClick={() => {
-            if (index + 1 >= screens.length && !hasCheckIn) {
-              completeLesson(topicId, true);
-              setDone(true);
-              return;
-            }
-            setIndex((n) => n + 1);
-          }}
-        >
+        <PrimaryButton disabled={Boolean(screenCheck) && checkPick === null} onClick={goNext}>
           Continue
         </PrimaryButton>
       ) : revealed ? (
-        <PrimaryButton onClick={finish}>Finish lesson</PrimaryButton>
+        <PrimaryButton onClick={goNext}>Finish lesson</PrimaryButton>
       ) : (
         <PrimaryButton disabled={picked === null} onClick={() => setRevealed(true)}>
           Check answer
         </PrimaryButton>
       )}
     </div>
+  );
+}
+
+function ScreenCheck({ check, pick, onPick }) {
+  const answered = pick !== null;
+  return (
+    <article className="card stack">
+      <p className="kicker">Quick check</p>
+      <p style={{ margin: 0, fontWeight: 800 }}>{check.question}</p>
+      {check.options.map((option, i) => {
+        let cls = 'choice';
+        if (pick === i) cls += ' selected';
+        if (answered && i === check.answer) cls += ' correct';
+        if (answered && pick === i && i !== check.answer) cls += ' wrong';
+        return (
+          <button
+            key={option}
+            type="button"
+            className={cls}
+            onClick={() => {
+              if (!answered) onPick(i);
+            }}
+          >
+            {option}
+          </button>
+        );
+      })}
+      {answered ? (
+        <div className={`feedback ${pick === check.answer ? 'ok' : ''}`}>
+          {pick === check.answer ? 'Yes — that matches.' : 'Not that one. Continue whenever you are ready.'}
+        </div>
+      ) : null}
+    </article>
   );
 }

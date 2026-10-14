@@ -1,0 +1,119 @@
+{
+  "topicId": "serialization-testing",
+  "title": "Serialization & Testing",
+  "description": "Serialization and testing methodology",
+  "courseId": "cprg-211",
+  "screens": [
+    {
+      "heading": "Serialization: objects to bytes",
+      "body": "Serialization converts an object into a stream of bytes so you can save it to a file or send it over a network. Deserialization rebuilds the object from those bytes later.\n\nIt's how objects survive beyond one run of your program — the object's state gets frozen, stored, and thawed back to life.",
+      "keyPoint": "Freeze an object to bytes; thaw it back later.",
+      "check": {
+        "question": "Serialization lets you…",
+        "options": [
+          "Save an object's state to a file and rebuild it later",
+          "Run code faster",
+          "Delete objects from memory"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "The Serializable interface",
+      "body": "In Java, a class opts into serialization by implementing Serializable — a marker interface with no methods to write. It just flags the class as 'okay to serialize.'\n\nAdd a serialVersionUID field: a version number for the class. If the class changes later, Java uses it to detect mismatched versions instead of rebuilding garbage.",
+      "keyPoint": "Implement Serializable; add a serialVersionUID.",
+      "code": {
+        "language": "java",
+        "snippet": "class Player implements Serializable {\n    private static final long serialVersionUID = 1L;\n    String name;\n    int score;\n}"
+      },
+      "check": {
+        "question": "Serializable is called a marker interface because…",
+        "options": [
+          "It has no methods — it just marks the class",
+          "It marks code as deleted",
+          "It runs automatically"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "transient: leave it out",
+      "body": "Mark a field transient and serialization skips it. Use it for data that shouldn't be saved: passwords, live connections, or anything rebuildable.\n\nAfter deserialization, transient fields come back as defaults (null, 0, false). Your code should re-initialize anything important in that state.",
+      "keyPoint": "transient fields are skipped when saving.",
+      "check": {
+        "question": "A password field should be marked transient because…",
+        "options": [
+          "It shouldn't be written into saved bytes",
+          "It makes login faster",
+          "It's required by the compiler"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Why testing matters",
+      "body": "Testing sits inside the development cycle, not after it. Every change gets checked so bugs are caught minutes after they're written, not months later by users.\n\nA bug found during coding costs almost nothing to fix. The same bug found by a customer costs enormously — in money, trust, and late nights.",
+      "keyPoint": "Test early: bugs are cheapest right after they're written.",
+      "check": {
+        "question": "The cheapest time to find a bug is…",
+        "options": [
+          "Right after it's written, during development",
+          "After release, by users",
+          "During the final demo"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Types of testing",
+      "body": "Unit testing checks one small piece alone — a single method. Integration testing checks pieces working together. System testing checks the whole app end to end.\n\nAcceptance testing asks the final question: does it do what the customer asked for? Each level catches different bugs.",
+      "keyPoint": "Unit → integration → system → acceptance: small to whole.",
+      "check": {
+        "question": "Testing a single method in isolation is…",
+        "options": [
+          "Unit testing",
+          "System testing",
+          "Acceptance testing"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Unit tests with JUnit",
+      "body": "JUnit is Java's standard testing framework. You write a test method, mark it @Test, and use assertions like assertEquals(expected, actual) to state what should be true.\n\nRun the tests and JUnit reports green (pass) or red (fail). A failing test is good news early — it found the bug before your users did.",
+      "keyPoint": "@Test + assertions = a check that runs itself.",
+      "code": {
+        "language": "java",
+        "snippet": "@Test\nvoid depositAddsToBalance() {\n    BankAccount a = new BankAccount();\n    a.deposit(50);\n    assertEquals(50, a.getBalance());\n}"
+      },
+      "check": {
+        "question": "assertEquals(50, a.getBalance()) is…",
+        "options": [
+          "A statement of what the correct result should be",
+          "A print statement",
+          "A loop"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "TDD: test-driven development",
+      "body": "TDD flips the order: write a failing test first (red), write just enough code to pass it (green), then clean up the code (refactor).\n\nIt feels backwards at first, but it forces you to design small, testable pieces — and you finish with a safety net that proves everything works.",
+      "keyPoint": "Red → green → refactor.",
+      "check": {
+        "question": "The first step of TDD is to…",
+        "options": [
+          "Write a failing test",
+          "Write the full feature",
+          "Refactor the code"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Go deeper",
+      "body": "JUnit 5 User Guide (the official docs): https://junit.org/junit5/docs/current/user-guide/\n\nOracle Java Tutorials — Serialization: https://docs.oracle.com/javase/tutorial/jndi/objects/serial.html",
+      "keyPoint": "The official JUnit guide and Oracle's serialization tutorial."
+    }
+  ]
+}

@@ -1,7 +1,8 @@
 import ScreenHeader from '../components/ScreenHeader.jsx';
 import ProgressBar from '../components/ProgressBar.jsx';
-import Footer from '../components/Footer.jsx';
 import CourseLabel from '../components/CourseLabel.jsx';
+import ReviewDue from '../components/ReviewDue.jsx';
+import FocusAreas from '../components/FocusAreas.jsx';
 import { useApp } from '../context/AppContext.jsx';
 import { flattenTopics, isTopicComplete } from '../lib/content.js';
 import { shiftStamp, todayStamp, xpIntoLevel } from '../lib/storage.js';
@@ -26,6 +27,16 @@ export default function ProgressScreen() {
   return (
     <div className="stack">
       <ScreenHeader title="Progress" kicker="Keep going" />
+
+      <ReviewDue
+        reviews={state.reviews}
+        onReview={(topicId) => go('quiz', { topicId, from: 'review', returnTo: 'progress' })}
+      />
+
+      <FocusAreas
+        attempts={state.attempts}
+        onStudy={(topicId, screen) => go(screen, { topicId, from: 'focus', returnTo: 'progress' })}
+      />
 
       <section className="card">
         <p className="kicker">Level {level}</p>
@@ -75,7 +86,6 @@ export default function ProgressScreen() {
         </span>
         <span className="badge">Open</span>
       </button>
-      <Footer />
     </div>
   );
 }

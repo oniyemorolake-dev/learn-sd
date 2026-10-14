@@ -1,0 +1,179 @@
+{
+  "topicId": "exception-handling",
+  "title": "Exception Handling",
+  "description": "Catching failures, throwing your own, and custom exceptions.",
+  "formatsUsed": [
+    "predict-output",
+    "spot-the-bug",
+    "arrange-order",
+    "fill-blanks",
+    "matching",
+    "translate-code"
+  ],
+  "questions": [
+    {
+      "id": "eh-01",
+      "format": "predict-output",
+      "prompt": "What does this print?",
+      "code": "try {\n    int[] a = {1, 2};\n    System.out.println(a[5]);\n} catch (ArrayIndexOutOfBoundsException e) {\n    System.out.println(\"caught\");\n}",
+      "language": "java",
+      "options": [
+        "caught",
+        "5",
+        "Compile error",
+        "nothing"
+      ],
+      "answer": 0,
+      "explanation": "Index 5 doesn't exist → exception → the catch runs instead of crashing."
+    },
+    {
+      "id": "eh-02",
+      "format": "spot-the-bug",
+      "prompt": "What's wrong with this catch order?",
+      "code": "try {\n    readFile();\n} catch (Exception e) {\n    System.out.println(\"general\");\n} catch (FileNotFoundException e) {\n    System.out.println(\"missing\");\n}",
+      "language": "java",
+      "options": [
+        "Exception catches everything first — the second catch is unreachable",
+        "Nothing is wrong",
+        "finally is missing",
+        "try needs two blocks"
+      ],
+      "answer": 0,
+      "explanation": "Specific catches must come before general ones, or the general one swallows everything."
+    },
+    {
+      "id": "eh-03",
+      "format": "arrange-order",
+      "prompt": "Order what happens when an exception is thrown in a try block.",
+      "lines": [
+        "Matching catch block runs",
+        "Rest of the try block is skipped",
+        "Exception is thrown",
+        "finally block runs"
+      ],
+      "answer": [
+        2,
+        1,
+        0,
+        3
+      ],
+      "explanation": "Thrown → try abandoned → catch handles → finally cleans up."
+    },
+    {
+      "id": "eh-04",
+      "format": "fill-blanks",
+      "prompt": "To raise an exception yourself, use ___.",
+      "code": "if (age < 0) {\n    ___ new IllegalArgumentException(\"bad age\");\n}",
+      "language": "java",
+      "options": [
+        "throw",
+        "throws",
+        "catch",
+        "try"
+      ],
+      "answer": 0,
+      "explanation": "throw = raise one now. throws = declare one might escape."
+    },
+    {
+      "id": "eh-05",
+      "format": "matching",
+      "prompt": "Match each keyword to its job.",
+      "pairs": [
+        {
+          "term": "try",
+          "definition": "Wraps code that might fail"
+        },
+        {
+          "term": "catch",
+          "definition": "Handles a thrown exception"
+        },
+        {
+          "term": "finally",
+          "definition": "Always runs — cleanup goes here"
+        },
+        {
+          "term": "throw",
+          "definition": "Raises an exception yourself"
+        }
+      ],
+      "explanation": "Wrap, handle, always-run, raise."
+    },
+    {
+      "id": "eh-06",
+      "format": "translate-code",
+      "prompt": "Which JavaScript is the same idea?",
+      "code": "try {\n    int n = Integer.parseInt(\"abc\");\n} catch (NumberFormatException e) {\n    System.out.println(\"not a number\");\n}",
+      "from": "java",
+      "to": "javascript",
+      "options": [
+        "try {\n  JSON.parse(\"abc\");\n} catch (e) {\n  console.log(\"not a number\");\n}",
+        "console.log(\"not a number\");",
+        "try { console.log(\"abc\"); } catch (e) { }",
+        "if (\"abc\") console.log(\"not a number\");"
+      ],
+      "answer": 0,
+      "explanation": "Both try something risky, both land in catch with a friendly message."
+    },
+    {
+      "id": "eh-07",
+      "format": "predict-output",
+      "prompt": "What does this print, in order?",
+      "code": "try {\n    System.out.println(\"A\");\n    throw new RuntimeException();\n} catch (RuntimeException e) {\n    System.out.println(\"B\");\n} finally {\n    System.out.println(\"C\");\n}",
+      "language": "java",
+      "options": [
+        "A B C",
+        "A C",
+        "B C",
+        "A B"
+      ],
+      "answer": 0,
+      "explanation": "A prints, the throw skips to catch (B), and finally (C) always runs."
+    },
+    {
+      "id": "eh-08",
+      "format": "spot-the-bug",
+      "prompt": "Why won't this compile?",
+      "code": "void load() {\n    Files.readString(Path.of(\"x.txt\"));  // throws IOException\n}",
+      "language": "java",
+      "options": [
+        "IOException is checked — must be caught or declared with throws",
+        "Path.of doesn't exist",
+        "readString needs a catch inside",
+        "Nothing is wrong"
+      ],
+      "answer": 0,
+      "explanation": "Checked exceptions are the compiler's rule: catch it or declare it."
+    },
+    {
+      "id": "eh-09",
+      "format": "fill-blanks",
+      "prompt": "A custom checked exception is made by ___ the Exception class.",
+      "code": "class MyError ___ Exception { }",
+      "language": "java",
+      "options": [
+        "extending",
+        "throwing",
+        "catching",
+        "importing"
+      ],
+      "answer": 0,
+      "explanation": "extends Exception = checked. extends RuntimeException = unchecked."
+    },
+    {
+      "id": "eh-10",
+      "format": "translate-code",
+      "prompt": "Which Java matches this custom exception?",
+      "code": "class OutOfStockError extends Error {\n  constructor(msg) { super(msg); }\n}",
+      "from": "javascript",
+      "to": "java",
+      "options": [
+        "class OutOfStockError extends Exception {\n    OutOfStockError(String msg) { super(msg); }\n}",
+        "class OutOfStockError { String msg; }",
+        "class OutOfStockError extends String { }",
+        "interface OutOfStockError { }"
+      ],
+      "answer": 0,
+      "explanation": "Both extend the exception base and pass the message up with super."
+    }
+  ]
+}

@@ -1,5 +1,4 @@
 import ScreenHeader from '../components/ScreenHeader.jsx';
-import Footer from '../components/Footer.jsx';
 import { useApp } from '../context/AppContext.jsx';
 import CourseLabel from '../components/CourseLabel.jsx';
 import { findCourseByCode, orderedSetupGuides } from '../lib/content.js';
@@ -17,6 +16,14 @@ export default function SetupScreen() {
         <span>
           <strong>AI Prompting</strong>
           <div className="muted">Lessons + practice on briefing a coding assistant.</div>
+        </span>
+        <span className="badge">Track</span>
+      </button>
+
+      <button type="button" className="track-entry" onClick={() => go('interview-track', { from: 'setup' })}>
+        <span>
+          <strong>Interview Prep</strong>
+          <div className="muted">Lessons, a rapid-fire quiz, and 12 JS problems.</div>
         </span>
         <span className="badge">Track</span>
       </button>
@@ -43,7 +50,6 @@ export default function SetupScreen() {
           </button>
         );
       })}
-      <Footer />
     </div>
   );
 }

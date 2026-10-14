@@ -1,0 +1,32 @@
+{
+  "topicId": "joins-relationships",
+  "exercises": [
+    {
+      "id": "jr-ex-01",
+      "task": "Write innerJoin(): match enrollments to students, keep matches only. Then run the test.",
+      "language": "javascript",
+      "starterCode": "const students = [{ id: 1, name: \"Ava\" }, { id: 2, name: \"Ben\" }];\nconst enrollments = [\n  { student_id: 1, course: \"C211\" },\n  { student_id: 9, course: \"C250\" },\n];\nfunction innerJoin() {\n  // TODO: return [{ name, course }] only for matching ids\n}\nconsole.log(innerJoin());",
+      "expectedOutput": "[ { name: 'Ava', course: 'C211' } ]",
+      "hint": "Loop enrollments, find() the student, skip when there's no match.",
+      "solution": "const students = [{ id: 1, name: \"Ava\" }, { id: 2, name: \"Ben\" }];\nconst enrollments = [\n  { student_id: 1, course: \"C211\" },\n  { student_id: 9, course: \"C250\" },\n];\nfunction innerJoin() {\n  const rows = [];\n  for (const e of enrollments) {\n    const s = students.find(s => s.id === e.student_id);\n    if (s) rows.push({ name: s.name, course: e.course });\n  }\n  return rows;\n}\nconsole.log(innerJoin());"
+    },
+    {
+      "id": "jr-ex-02",
+      "task": "Write leftJoin(): every student, NULL course when unmatched. Then run the test.",
+      "language": "javascript",
+      "starterCode": "const students = [{ id: 1, name: \"Ava\" }, { id: 2, name: \"Ben\" }];\nconst enrollments = [{ student_id: 1, course: \"C211\" }];\nfunction leftJoin() {\n  // TODO: return [{ name, course }] with course null when no enrollment\n}\nconsole.log(leftJoin());",
+      "expectedOutput": "[ { name: 'Ava', course: 'C211' }, { name: 'Ben', course: null } ]",
+      "hint": "map over students; find() the enrollment or use null.",
+      "solution": "const students = [{ id: 1, name: \"Ava\" }, { id: 2, name: \"Ben\" }];\nconst enrollments = [{ student_id: 1, course: \"C211\" }];\nfunction leftJoin() {\n  return students.map(s => {\n    const e = enrollments.find(e => e.student_id === s.id);\n    return { name: s.name, course: e ? e.course : null };\n  });\n}\nconsole.log(leftJoin());"
+    },
+    {
+      "id": "jr-ex-03",
+      "task": "Write checkFK(): find orphan enrollments pointing at no student. Then run the test.",
+      "language": "javascript",
+      "starterCode": "const students = [{ id: 1 }, { id: 2 }];\nconst enrollments = [{ student_id: 1 }, { student_id: 9 }];\nfunction checkFK() {\n  // TODO: return the student_ids with no matching student\n}\nconsole.log(checkFK());",
+      "expectedOutput": "[ 9 ]",
+      "hint": "filter ids where no student matches.",
+      "solution": "const students = [{ id: 1 }, { id: 2 }];\nconst enrollments = [{ student_id: 1 }, { student_id: 9 }];\nfunction checkFK() {\n  return enrollments\n    .map(e => e.student_id)\n    .filter(id => !students.some(s => s.id === id));\n}\nconsole.log(checkFK());"
+    }
+  ]
+}

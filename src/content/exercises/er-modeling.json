@@ -1,0 +1,32 @@
+{
+  "topicId": "er-modeling",
+  "exercises": [
+    {
+      "id": "er-ex-01",
+      "task": "Turn this ER description into entity objects. Then run the test.",
+      "language": "javascript",
+      "starterCode": "// ER: Book(book_id [key], title) — Author(author_id [key], name)\n// TODO: create book and author objects with those attributes\nconsole.log(book.book_id, book.title);\nconsole.log(author.name);",
+      "expectedOutput": "101 Dune\nFrank Herbert",
+      "hint": "Keys become the id fields: book_id, author_id.",
+      "solution": "const book = { book_id: 101, title: \"Dune\" };\nconst author = { author_id: 7, name: \"Frank Herbert\" };\nconsole.log(book.book_id, book.title);\nconsole.log(author.name);"
+    },
+    {
+      "id": "er-ex-02",
+      "task": "Enforce the one-to-many: one advisor per student, many students per advisor. Then run the test.",
+      "language": "javascript",
+      "starterCode": "const students = [\n  { name: \"Ava\", advisor: \"Dr. Lee\" },\n  { name: \"Ben\", advisor: \"Dr. Lee\" },\n];\nfunction adviseesOf(name) {\n  // TODO: return names of students whose advisor matches\n}\nconsole.log(adviseesOf(\"Dr. Lee\"));",
+      "expectedOutput": "[ 'Ava', 'Ben' ]",
+      "hint": "filter by advisor, then map to names.",
+      "solution": "const students = [\n  { name: \"Ava\", advisor: \"Dr. Lee\" },\n  { name: \"Ben\", advisor: \"Dr. Lee\" },\n];\nfunction adviseesOf(name) {\n  return students.filter(s => s.advisor === name).map(s => s.name);\n}\nconsole.log(adviseesOf(\"Dr. Lee\"));"
+    },
+    {
+      "id": "er-ex-03",
+      "task": "Build the junction table for the Students × Courses many-to-many. Then run the test.",
+      "language": "javascript",
+      "starterCode": "const students = [{ id: 1, name: \"Ava\" }, { id: 2, name: \"Ben\" }];\nconst courses = [{ code: \"C211\" }, { code: \"C250\" }];\n// TODO: enrollments junction table of { student_id, course_code }\n// Ava takes both courses, Ben takes C211\nconsole.log(enrollments.length);\nconsole.log(enrollments.filter(e => e.student_id === 1).map(e => e.course_code));",
+      "expectedOutput": "3\n[ 'C211', 'C250' ]",
+      "hint": "One row per enrollment, holding both keys.",
+      "solution": "const students = [{ id: 1, name: \"Ava\" }, { id: 2, name: \"Ben\" }];\nconst courses = [{ code: \"C211\" }, { code: \"C250\" }];\nconst enrollments = [\n  { student_id: 1, course_code: \"C211\" },\n  { student_id: 1, course_code: \"C250\" },\n  { student_id: 2, course_code: \"C211\" },\n];\nconsole.log(enrollments.length);\nconsole.log(enrollments.filter(e => e.student_id === 1).map(e => e.course_code));"
+    }
+  ]
+}

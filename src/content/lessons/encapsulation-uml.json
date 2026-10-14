@@ -1,0 +1,119 @@
+{
+  "topicId": "encapsulation-uml",
+  "title": "Encapsulation & UML",
+  "description": "Abstraction, encapsulation, UML class diagrams",
+  "courseId": "cprg-211",
+  "screens": [
+    {
+      "heading": "Abstraction: hide the complexity",
+      "body": "Abstraction means showing only what matters and hiding the rest. You drive a car with pedals and a wheel — you never think about fuel injectors.\n\nIn code, a well-designed class is the same: the user sees simple methods like start() and stop(), while the messy details stay hidden inside.",
+      "keyPoint": "Show the what, hide the how.",
+      "check": {
+        "question": "Abstraction is closest to…",
+        "options": [
+          "A car dashboard hiding the engine details",
+          "Making every field public",
+          "Deleting code you don't use"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Encapsulation: the protective wrapper",
+      "body": "Encapsulation bundles data and the methods that use it into one class, then guards the data with private. The outside world can only touch the data through your methods.\n\nThink of a vending machine: you press buttons (the public interface), but you can't reach inside and grab the snacks (the private state).",
+      "keyPoint": "Private data, public methods — controlled access only.",
+      "check": {
+        "question": "Encapsulation means…",
+        "options": [
+          "Bundling data with methods and guarding the data",
+          "Splitting code into as many files as possible",
+          "Writing longer method names"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Why guard the data?",
+      "body": "If balance is public, anyone can set it to -9999 and your program won't even blink. If it's private with a deposit() method, you can reject bad values in one place.\n\nThis also frees you to change the internals later. As long as the public methods keep working, nobody using your class cares how you rebuilt the inside.",
+      "keyPoint": "Validation in one place; freedom to change the inside.",
+      "code": {
+        "language": "java",
+        "snippet": "public void deposit(double amount) {\n    if (amount > 0) {\n        balance += amount;\n    }\n}"
+      },
+      "check": {
+        "question": "A private balance with a deposit() method lets you…",
+        "options": [
+          "Reject bad values in one controlled place",
+          "Make the program run faster",
+          "Delete the balance field"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "UML class diagrams: the blueprint drawing",
+      "body": "A UML class diagram draws a class as a box with three stacked compartments: name on top, fields in the middle, methods at the bottom.\n\nIt's a planning tool. You sketch the design before coding, so you can spot problems while they're still cheap to fix — on paper, not in a thousand lines of code.",
+      "keyPoint": "Name, fields, methods — three boxes, one sketch.",
+      "check": {
+        "question": "The three compartments of a UML class box are…",
+        "options": [
+          "Name, fields, methods",
+          "Input, process, output",
+          "Title, body, footer"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Reading the symbols",
+      "body": "UML has a tiny symbol language: + means public, - means private, # means protected. An underlined member is static.\n\nSo '- balance : double' reads as: a private field called balance of type double. '+ deposit(amount : double)' is a public method taking a double.",
+      "keyPoint": "+ public, - private, # protected, underlined = static.",
+      "code": {
+        "language": "text",
+        "snippet": "BankAccount\n-----------\n- balance : double\n+ deposit(amount : double) : void"
+      },
+      "check": {
+        "question": "In UML, '- balance : double' means…",
+        "options": [
+          "A private field named balance of type double",
+          "A public method named balance",
+          "A deleted field"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Relationships between classes",
+      "body": "Classes rarely live alone. UML draws lines between them: a plain line is an association (a Student takes Courses), an arrow is a dependency (uses temporarily).\n\nA hollow diamond means aggregation — a 'has-a' where parts can outlive the whole, like a Team has Players. A solid arrowhead pointing up means inheritance.",
+      "keyPoint": "Lines show how classes connect: uses, has-a, is-a.",
+      "check": {
+        "question": "A line with a hollow diamond between Team and Player shows…",
+        "options": [
+          "Aggregation — a Team has Players",
+          "That Team inherits from Player",
+          "That the two classes are unrelated"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "From diagram to code",
+      "body": "Reading a UML diagram is a translation skill: each box becomes a class, each field line becomes a field, each method line becomes a method signature.\n\nPractice by coding a small diagram by hand. If you can turn boxes into working classes, you truly understand the design — not just the syntax.",
+      "keyPoint": "Boxes become classes; lines become relationships.",
+      "check": {
+        "question": "The best way to learn UML-to-code is to…",
+        "options": [
+          "Hand-code a small diagram into working classes",
+          "Memorize every UML symbol",
+          "Skip diagrams and code directly"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Go deeper",
+      "body": "Oracle Java Tutorials — Object-Oriented Programming Concepts: https://docs.oracle.com/javase/tutorial/java/concepts/index.html\n\nOMG Unified Modeling Language specification (the official UML standard): https://www.omg.org/spec/UML/",
+      "keyPoint": "The official tutorials plus the actual UML standard."
+    }
+  ]
+}

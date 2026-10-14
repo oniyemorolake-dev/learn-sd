@@ -1,5 +1,6 @@
 import courses from '../content/courses.json';
 import aiPromptingTrack from '../content/tracks/ai-prompting.json';
+import interviewPrepTrack from '../content/tracks/interview-prep.json';
 
 const lessonModules = import.meta.glob('../content/lessons/*.json', {
   eager: true,
@@ -32,7 +33,9 @@ export const quizzes = byFileName(quizModules);
 export const exercises = byFileName(exerciseModules);
 export const setupGuides = byFileName(setupModules);
 
-export { courses, aiPromptingTrack };
+export const INTERVIEW_EXERCISE_IDS = ['ip-warmups', 'ip-logic', 'ip-patterns', 'ip-classics'];
+
+export { courses, aiPromptingTrack, interviewPrepTrack };
 
 export function courseDisplayName(course) {
   if (!course) return '';
@@ -52,11 +55,28 @@ export function findCourseByCode(code) {
 const TITLE_TWEAKS = {
   'arrays-strings': 'Arrays & Strings',
   'functions-scope': 'Functions & Scope',
+  'sorting-searching': 'Sorting & Searching',
+  'big-o-complexity': 'Big O & Complexity Analysis',
   'js-on-the-page': 'JavaScript on the page',
   'css-styling': 'CSS styling',
   'html-pages': 'HTML pages',
   'sql-queries': 'SQL queries',
   'sql-inside-code': 'SQL inside code',
+  'db-programming-basics': 'Why Put Code in the Database?',
+  'plsql-blocks': 'The Anatomy of a Database Block',
+  'loops-conditionals': 'Loops & Decisions in the Database',
+  'error-handling': 'When the Database Says No',
+  'triggers-events': 'Triggers: Code That Fires Itself',
+  'web-app-architecture': 'Web App Architecture',
+  'frontend-frameworks': 'Front-End Frameworks',
+  'rest-apis': 'REST APIs',
+  'backend-basics': 'Back-End Basics',
+  'fullstack-project': 'Full-Stack Project',
+  'ip-warmups': 'Warmups',
+  'ip-logic': 'Logic',
+  'ip-patterns': 'Patterns',
+  'ip-classics': 'Classics',
+  'interview-prep-quiz': 'Interview Rapid-Fire',
 };
 
 export function humanizeId(id) {
@@ -66,7 +86,12 @@ export function humanizeId(id) {
 }
 
 export function topicTitle(topicId) {
-  return lessons[topicId]?.title || quizzes[topicId]?.title || humanizeId(topicId);
+  return (
+    lessons[topicId]?.title ||
+    findInterviewLesson(topicId)?.title ||
+    quizzes[topicId]?.title ||
+    humanizeId(topicId)
+  );
 }
 
 export function topicDescription(topicId) {
@@ -164,8 +189,27 @@ function screensToText(title, description, screens) {
   return `Topic: ${title}\n${description || ''}\n\n${body}`;
 }
 
+function slugTitle(title, fallback) {
+  const slug = String(title || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+  return slug || fallback;
+}
+
+export function interviewPrepLessons() {
+  return (interviewPrepTrack.lessons || []).map((lesson, i) => ({
+    ...lesson,
+    id: lesson.id || slugTitle(lesson.title, `interview-lesson-${i + 1}`),
+  }));
+}
+
 export function findAiLesson(lessonId) {
   return aiPromptingTrack.lessons.find((item) => item.id === lessonId) || null;
+}
+
+export function findInterviewLesson(lessonId) {
+  return interviewPrepLessons().find((item) => item.id === lessonId) || null;
 }
 
 export function findAiPractice(practiceId) {
@@ -180,6 +224,12 @@ export function lessonContextText(topicId) {
 
 export function aiLessonContextText(lessonId) {
   const lesson = findAiLesson(lessonId);
+  if (!lesson) return '';
+  return screensToText(lesson.title, lesson.description, lesson.screens);
+}
+
+export function interviewLessonContextText(lessonId) {
+  const lesson = findInterviewLesson(lessonId);
   if (!lesson) return '';
   return screensToText(lesson.title, lesson.description, lesson.screens);
 }

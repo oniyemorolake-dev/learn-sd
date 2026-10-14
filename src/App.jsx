@@ -15,6 +15,9 @@ import BookmarksScreen from './screens/BookmarksScreen.jsx';
 import AiTrackScreen from './screens/AiTrackScreen.jsx';
 import AiLessonScreen from './screens/AiLessonScreen.jsx';
 import AiPracticeScreen from './screens/AiPracticeScreen.jsx';
+import InterviewTrackScreen from './screens/InterviewTrackScreen.jsx';
+import Footer from './components/Footer.jsx';
+import { SearchHost, SearchProvider } from './components/SearchOverlay.jsx';
 
 function ScreenRouter() {
   const { view } = useApp();
@@ -45,6 +48,8 @@ function ScreenRouter() {
       return <AiLessonScreen />;
     case 'ai-practice':
       return <AiPracticeScreen />;
+    case 'interview-track':
+      return <InterviewTrackScreen />;
     default:
       return <PathScreen />;
   }
@@ -53,13 +58,17 @@ function ScreenRouter() {
 export default function App() {
   return (
     <AppProvider>
-      <div className="app-shell">
-        <main className="app-main">
-          <ScreenRouter />
-        </main>
-        <Byte />
-        <TabBar />
-      </div>
+      <SearchProvider>
+        <div className="app-shell">
+          <main className="app-main">
+            <ScreenRouter />
+            <Footer />
+          </main>
+          <Byte />
+          <TabBar />
+          <SearchHost />
+        </div>
+      </SearchProvider>
     </AppProvider>
   );
 }

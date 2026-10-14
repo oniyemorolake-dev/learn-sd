@@ -1,0 +1,179 @@
+{
+  "topicId": "inheritance-polymorphism",
+  "title": "Inheritance & Polymorphism",
+  "description": "Reuse through inheritance, many forms, abstract classes, interfaces.",
+  "formatsUsed": [
+    "predict-output",
+    "spot-the-bug",
+    "arrange-order",
+    "fill-blanks",
+    "matching",
+    "translate-code"
+  ],
+  "questions": [
+    {
+      "id": "ip-01",
+      "format": "predict-output",
+      "prompt": "What does this print?",
+      "code": "class Animal { void speak() { System.out.println(\"...\"); } }\nclass Dog extends Animal { void speak() { System.out.println(\"woof\"); } }\nAnimal a = new Dog();\na.speak();",
+      "language": "java",
+      "options": [
+        "woof",
+        "...",
+        "Compile error",
+        "nothing"
+      ],
+      "answer": 0,
+      "explanation": "The variable is Animal but the object is Dog — the object's method wins."
+    },
+    {
+      "id": "ip-02",
+      "format": "spot-the-bug",
+      "prompt": "Why does @Override cause a compile error here?",
+      "code": "class Dog extends Animal {   // parent has: void speak()\n    @Override\n    void speak(String volume) { System.out.println(\"woof\"); }\n}",
+      "language": "java",
+      "options": [
+        "The signature doesn't match the parent's speak()",
+        "@Override is only for interfaces",
+        "speak must be private",
+        "Nothing — it compiles fine"
+      ],
+      "answer": 0,
+      "explanation": "@Override asks the compiler to verify — and the extra parameter means it's not an override."
+    },
+    {
+      "id": "ip-03",
+      "format": "arrange-order",
+      "prompt": "Order these from most general to most specific.",
+      "lines": [
+        "Dog",
+        "Animal",
+        "Mammal",
+        "LivingThing"
+      ],
+      "answer": [
+        3,
+        1,
+        2,
+        0
+      ],
+      "explanation": "LivingThing → Animal → Mammal → Dog, top of the tree to the leaf."
+    },
+    {
+      "id": "ip-04",
+      "format": "fill-blanks",
+      "prompt": "A subclass ___ its parent.",
+      "code": "class Dog ___ Animal { }",
+      "language": "java",
+      "options": [
+        "extends",
+        "implements",
+        "inherits",
+        "imports"
+      ],
+      "answer": 0,
+      "explanation": "extends = inheritance. implements = interfaces."
+    },
+    {
+      "id": "ip-05",
+      "format": "matching",
+      "prompt": "Match each term to its meaning.",
+      "pairs": [
+        {
+          "term": "Inheritance",
+          "definition": "A subclass reuses a parent's members"
+        },
+        {
+          "term": "Polymorphism",
+          "definition": "One interface, many behaviors"
+        },
+        {
+          "term": "Abstract class",
+          "definition": "Can't be instantiated; may have abstract methods"
+        },
+        {
+          "term": "Interface",
+          "definition": "A contract a class implements"
+        }
+      ],
+      "explanation": "Reuse, many-forms, unfinished blueprint, contract."
+    },
+    {
+      "id": "ip-06",
+      "format": "translate-code",
+      "prompt": "Which JavaScript is the same override?",
+      "code": "class Dog extends Animal {\n    @Override\n    void speak() { System.out.println(\"woof\"); }\n}",
+      "from": "java",
+      "to": "javascript",
+      "options": [
+        "class Dog extends Animal {\n  speak() { console.log(\"woof\"); }\n}",
+        "class Dog {\n  speak() { console.log(\"woof\"); }\n}",
+        "function speak() { return \"woof\"; }",
+        "class Dog implements Animal { }"
+      ],
+      "answer": 0,
+      "explanation": "JS needs no @Override — a same-named method in the subclass just overrides."
+    },
+    {
+      "id": "ip-07",
+      "format": "predict-output",
+      "prompt": "What does this print?",
+      "code": "abstract class Shape { abstract double area(); }\nclass Square extends Shape {\n    double s;\n    Square(double s) { this.s = s; }\n    double area() { return s * s; }\n}\nShape sh = new Square(4);\nSystem.out.println(sh.area());",
+      "language": "java",
+      "options": [
+        "16.0",
+        "16",
+        "0.0",
+        "Compile error"
+      ],
+      "answer": 0,
+      "explanation": "Dynamic dispatch: the Square object runs Square's area() → 4*4 = 16.0."
+    },
+    {
+      "id": "ip-08",
+      "format": "spot-the-bug",
+      "prompt": "What's wrong?",
+      "code": "class Bird extends Animal, Flyable { }",
+      "language": "java",
+      "options": [
+        "A class can extend only one parent — use implements for Flyable",
+        "Bird must be abstract",
+        "Nothing is wrong",
+        "Flyable must come first"
+      ],
+      "answer": 0,
+      "explanation": "One extends max. The fix: class Bird extends Animal implements Flyable."
+    },
+    {
+      "id": "ip-09",
+      "format": "fill-blanks",
+      "prompt": "An interface is ___ , so a class provides all the method bodies.",
+      "code": "class Drone ___ Flyable, Camera { }",
+      "language": "java",
+      "options": [
+        "implements",
+        "extends",
+        "imports",
+        "overrides"
+      ],
+      "answer": 0,
+      "explanation": "implements signs the contract — and you can sign more than one."
+    },
+    {
+      "id": "ip-10",
+      "format": "translate-code",
+      "prompt": "Which Java shows the same polymorphism?",
+      "code": "const pets = [new Dog(), new Cat()];\nfor (const p of pets) p.speak();",
+      "from": "javascript",
+      "to": "java",
+      "options": [
+        "Animal[] pets = {new Dog(), new Cat()};\nfor (Animal p : pets) p.speak();",
+        "Dog[] pets = {new Dog(), new Cat()};",
+        "for (int i = 0; i < 2; i++) System.out.println(\"speak\");",
+        "Object p = new Dog();\np.speak();"
+      ],
+      "answer": 0,
+      "explanation": "One Animal-typed loop, many behaviors — polymorphism in both languages."
+    }
+  ]
+}

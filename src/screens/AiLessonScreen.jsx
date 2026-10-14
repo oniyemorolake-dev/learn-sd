@@ -5,7 +5,6 @@ import ProgressBar from '../components/ProgressBar.jsx';
 import PrimaryButton from '../components/PrimaryButton.jsx';
 import Celebrate from '../components/Celebrate.jsx';
 import ComingSoon from '../components/ComingSoon.jsx';
-import Footer from '../components/Footer.jsx';
 import { useApp } from '../context/AppContext.jsx';
 import { findAiLesson } from '../lib/content.js';
 
@@ -41,7 +40,6 @@ export default function AiLessonScreen() {
           actionLabel="Continue"
           onContinue={() => go('ai-track', { from })}
         />
-        <Footer />
       </div>
     );
   }
@@ -123,7 +121,6 @@ export default function AiLessonScreen() {
           Check answer
         </PrimaryButton>
       )}
-      <Footer />
     </div>
   );
 }

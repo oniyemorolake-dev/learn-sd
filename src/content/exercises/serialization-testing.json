@@ -1,0 +1,32 @@
+{
+  "topicId": "serialization-testing",
+  "exercises": [
+    {
+      "id": "st-ex-01",
+      "task": "Save the game state to a JSON string, then bring it back. Then run the test.",
+      "language": "javascript",
+      "starterCode": "const game = { level: 5, score: 1200 };\n// TODO: const saved = JSON.stringify(game);\n//        const loaded = JSON.parse(saved);\nconsole.log(loaded.level, loaded.score);",
+      "expectedOutput": "5 1200",
+      "hint": "stringify to save, parse to restore.",
+      "solution": "const game = { level: 5, score: 1200 };\nconst saved = JSON.stringify(game);\nconst loaded = JSON.parse(saved);\nconsole.log(loaded.level, loaded.score);"
+    },
+    {
+      "id": "st-ex-02",
+      "task": "Serialize the user WITHOUT the password field. Then run the test.",
+      "language": "javascript",
+      "starterCode": "const user = { name: \"Ava\", password: \"s3cret\" };\n// TODO: build a safe copy without password, then stringify it\nconsole.log(/* the JSON string */);",
+      "expectedOutput": "{\"name\":\"Ava\"}",
+      "hint": "Destructure the password away, stringify the rest.",
+      "solution": "const user = { name: \"Ava\", password: \"s3cret\" };\nconst { password, ...safe } = user;\nconsole.log(JSON.stringify(safe));"
+    },
+    {
+      "id": "st-ex-03",
+      "task": "Write a tiny assertEquals and use it to test add(). Then run the test.",
+      "language": "javascript",
+      "starterCode": "function add(a, b) { return a + b; }\n// TODO: function assertEquals(expected, actual, label)\n// prints \"PASS label\" or \"FAIL label\"\nassertEquals(4, add(2, 2), \"adds positives\");\nassertEquals(0, add(-1, 1), \"handles negatives\");",
+      "expectedOutput": "PASS adds positives\nPASS handles negatives",
+      "hint": "Compare with ===, then console.log PASS or FAIL with the label.",
+      "solution": "function add(a, b) { return a + b; }\nfunction assertEquals(expected, actual, label) {\n  if (expected === actual) console.log(\"PASS \" + label);\n  else console.log(\"FAIL \" + label);\n}\nassertEquals(4, add(2, 2), \"adds positives\");\nassertEquals(0, add(-1, 1), \"handles negatives\");"
+    }
+  ]
+}

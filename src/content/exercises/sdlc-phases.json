@@ -1,0 +1,32 @@
+{
+  "exercises": [
+    {
+      "expectedOutput": "Missing phase: testing",
+      "hint": "List all six correct phases, then filter out the ones already in plan.",
+      "id": "sdlc-ex-01",
+      "language": "javascript",
+      "solution": "const plan = [\"requirements\", \"design\", \"build\", \"deploy\"];\nconst correct = [\"requirements\", \"design\", \"build\", \"testing\", \"deploy\", \"maintain\"];\nconst missing = correct.filter(p => !plan.includes(p));\nconsole.log(\"Missing phase: \" + missing[0]);",
+      "starterCode": "const plan = [\"requirements\", \"design\", \"build\", \"deploy\"];\n// TODO: find which SDLC phase is missing from this plan\n// console.log(\"Missing phase: \" + missingPhase);",
+      "task": "A team's plan skipped a phase. Find which one is missing."
+    },
+    {
+      "expectedOutput": "Diagrams & blueprints",
+      "hint": "It's just a property lookup on the deliverables object.",
+      "id": "sdlc-ex-02",
+      "language": "javascript",
+      "solution": "const deliverables = {\n  requirements: \"Requirements list\",\n  design: \"Diagrams & blueprints\",\n  build: \"Working code\",\n  test: \"Test report\",\n  deploy: \"Live app\"\n};\nconsole.log(deliverables.design);",
+      "starterCode": "const deliverables = {\n  requirements: \"Requirements list\",\n  design: \"Diagrams & blueprints\",\n  build: \"Working code\",\n  test: \"Test report\",\n  deploy: \"Live app\"\n};\n// TODO: print the deliverable of the design phase",
+      "task": "Print what the design phase hands to the next phase."
+    },
+    {
+      "expectedOutput": "Agile",
+      "hint": "Stable requirements → waterfall. Changing requirements → agile.",
+      "id": "sdlc-ex-03",
+      "language": "javascript",
+      "solution": "function recommend(stableRequirements) {\n  return stableRequirements ? \"Waterfall\" : \"Agile\";\n}\nconsole.log(recommend(false));",
+      "starterCode": "function recommend(stableRequirements) {\n  // TODO: return \"Waterfall\" if requirements are stable, else \"Agile\"\n}\nconsole.log(recommend(false));",
+      "task": "Recommend an SDLC approach for a project whose requirements will change."
+    }
+  ],
+  "topicId": "sdlc-phases"
+}

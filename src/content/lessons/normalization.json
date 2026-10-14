@@ -1,0 +1,115 @@
+{
+  "topicId": "normalization",
+  "title": "Normalization",
+  "description": "1NF, 2NF, 3NF",
+  "courseId": "cprg-250",
+  "screens": [
+    {
+      "heading": "The problem: messy tables",
+      "body": "Imagine one giant table holding orders, customers, and products all mixed together. Customer names repeat on every order row. That's redundant — and redundancy breeds bugs.\n\nIf a customer changes their phone number, you must update ten rows. Miss one, and your data contradicts itself. These are called update anomalies.",
+      "keyPoint": "Repeated data → update anomalies.",
+      "check": {
+        "question": "Storing a customer's phone on every order row risks…",
+        "options": [
+          "Update anomalies — changing it in one place but not another",
+          "Faster queries",
+          "Smaller tables"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "1NF: atomic values, no repeating groups",
+      "body": "First normal form says: every cell holds one single value — atomic, indivisible. No lists, no comma-separated phone numbers in one cell.\n\nIt also bans repeating groups: instead of phone1, phone2, phone3 columns, use a separate table (or rows). One fact per cell, one kind of fact per table.",
+      "keyPoint": "One value per cell. No lists, no repeating columns.",
+      "check": {
+        "question": "Which violates 1NF?",
+        "options": [
+          "A 'phone_numbers' cell holding '555-01, 555-02'",
+          "A separate Phones table with one number per row",
+          "A customer_id integer column"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "2NF: the whole key, nothing but the key",
+      "body": "Second normal form builds on 1NF: every non-key column must depend on the whole primary key — not just part of it.\n\nIf a table's key is (order_id, product_id) but product_name depends only on product_id, that's a partial dependency. Move product_name into a Products table keyed by product_id.",
+      "keyPoint": "No column may depend on only part of the key.",
+      "check": {
+        "question": "In an OrderItems table keyed by (order_id, product_id), product_name depends only on product_id. This violates…",
+        "options": [
+          "2NF — partial dependency",
+          "1NF",
+          "3NF"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "3NF: no transitive dependencies",
+      "body": "Third normal form: no non-key column may depend on another non-key column. Dependencies must go straight to the key — no middlemen.\n\nIf customer_id → city, and city → tax_rate, then tax_rate depends transitively on customer_id through city. Move (city, tax_rate) into its own table.",
+      "keyPoint": "Non-key columns can't depend on other non-key columns.",
+      "check": {
+        "question": "A table has customer_id → city → tax_rate. To reach 3NF you…",
+        "options": [
+          "Move city and tax_rate into their own table",
+          "Delete the tax_rate column",
+          "Add more columns"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "The ladder: 1NF → 2NF → 3NF",
+      "body": "Each normal form includes the ones below it: 3NF implies 2NF implies 1NF. You climb the ladder one rung at a time.\n\nIn practice, most working databases land at 3NF. It kills the common anomalies without splitting tables into confetti. Know the ladder; aim for the third rung.",
+      "keyPoint": "3NF includes 2NF includes 1NF.",
+      "check": {
+        "question": "A table in 3NF is automatically in…",
+        "options": [
+          "1NF and 2NF",
+          "Only 3NF",
+          "No other normal form"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "When to break the rules: denormalization",
+      "body": "Normalization optimizes for correct writes; sometimes reads matter more. A report that joins six tables a thousand times a day might deserve a pre-computed column.\n\nThat's denormalization: deliberately reintroducing redundancy for speed. It's a trade-off, not a failure — you accept trickier writes for faster reads.",
+      "keyPoint": "Denormalize deliberately for read speed.",
+      "check": {
+        "question": "Denormalization is…",
+        "options": [
+          "Deliberate redundancy traded for faster reads",
+          "A normalization mistake",
+          "Deleting old data"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Normalization in practice",
+      "body": "Take an Orders table with customer_name and customer_phone on every row. Step one: pull customers into their own table with a customer_id key — the repeated data vanishes.\n\nOrders keeps just customer_id as a foreign key. Update a phone number once, and every order instantly reflects it. That's the whole payoff in one move.",
+      "keyPoint": "Split repeating groups into their own tables.",
+      "code": {
+        "language": "sql",
+        "snippet": "-- before: Orders(order_id, customer_name, customer_phone, ...)\n-- after:\nCREATE TABLE Customers (\n    customer_id INT PRIMARY KEY,\n    name TEXT,\n    phone TEXT\n);"
+      },
+      "check": {
+        "question": "After splitting customers out of Orders, a phone change needs…",
+        "options": [
+          "One update in the Customers table",
+          "Updates on every order row",
+          "A new database"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Go deeper",
+      "body": "PostgreSQL documentation — Data Definition (official): https://www.postgresql.org/docs/current/ddl.html\n\nMySQL documentation — Database Design (official): https://dev.mysql.com/doc/refman/8.4/en/database-design.html",
+      "keyPoint": "Official docs on designing clean table structures."
+    }
+  ]
+}

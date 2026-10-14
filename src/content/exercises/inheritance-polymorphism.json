@@ -1,0 +1,32 @@
+{
+  "topicId": "inheritance-polymorphism",
+  "exercises": [
+    {
+      "id": "ip-ex-01",
+      "task": "Make Dog extend Animal and give it a bark() method. Then run the test.",
+      "language": "javascript",
+      "starterCode": "class Animal {\n  constructor(name) { this.name = name; }\n  speak() { return \"...\"; }\n}\n// TODO: class Dog extends Animal with bark()\n// bark() returns \"NAME says woof\"\nconst d = new Dog(\"Rex\");\nconsole.log(d.bark());\nconsole.log(d instanceof Animal);",
+      "expectedOutput": "Rex says woof\ntrue",
+      "hint": "class Dog extends Animal { ... } — bark() can use this.name inherited from the parent.",
+      "solution": "class Animal {\n  constructor(name) { this.name = name; }\n  speak() { return \"...\"; }\n}\nclass Dog extends Animal {\n  bark() { return `${this.name} says woof`; }\n}\nconst d = new Dog(\"Rex\");\nconsole.log(d.bark());\nconsole.log(d instanceof Animal);"
+    },
+    {
+      "id": "ip-ex-02",
+      "task": "Override describe() in Student to add the major, calling super first. Then run the test.",
+      "language": "javascript",
+      "starterCode": "class Person {\n  constructor(name) { this.name = name; }\n  describe() { return `I am ${this.name}`; }\n}\nclass Student extends Person {\n  constructor(name, major) {\n    super(name);\n    this.major = major;\n  }\n  // TODO: override describe() → super.describe() + `, studying MAJOR`\n}\nconst s = new Student(\"Ava\", \"CS\");\nconsole.log(s.describe());",
+      "expectedOutput": "I am Ava, studying CS",
+      "hint": "super.describe() gives the parent's string — then add to it.",
+      "solution": "class Person {\n  constructor(name) { this.name = name; }\n  describe() { return `I am ${this.name}`; }\n}\nclass Student extends Person {\n  constructor(name, major) {\n    super(name);\n    this.major = major;\n  }\n  describe() { return `${super.describe()}, studying ${this.major}`; }\n}\nconst s = new Student(\"Ava\", \"CS\");\nconsole.log(s.describe());"
+    },
+    {
+      "id": "ip-ex-03",
+      "task": "Write makeAllSpeak() that works for any Animal subclass. Then run the test.",
+      "language": "javascript",
+      "starterCode": "class Animal { speak() { return \"...\"; } }\nclass Dog extends Animal { speak() { return \"woof\"; } }\nclass Cat extends Animal { speak() { return \"meow\"; } }\nfunction makeAllSpeak(animals) {\n  // TODO: return an array of each animal's speak()\n}\nconsole.log(makeAllSpeak([new Dog(), new Cat()]));",
+      "expectedOutput": "[ 'woof', 'meow' ]",
+      "hint": "Loop (or map) and call .speak() — each object answers in its own way.",
+      "solution": "class Animal { speak() { return \"...\"; } }\nclass Dog extends Animal { speak() { return \"woof\"; } }\nclass Cat extends Animal { speak() { return \"meow\"; } }\nfunction makeAllSpeak(animals) {\n  return animals.map(a => a.speak());\n}\nconsole.log(makeAllSpeak([new Dog(), new Cat()]));"
+    }
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "topicId": "joins-relationships",
+  "title": "JOINs & Relationships",
+  "description": "JOINs, foreign keys, constraints",
+  "courseId": "cprg-250",
+  "screens": [
+    {
+      "heading": "Data lives in many tables",
+      "body": "Good databases split data across tables — Students here, Enrollments there. That's clean design, but questions span tables: 'which courses is Ava taking?'\n\nJOINs answer cross-table questions by matching rows through their keys. They're the reason foreign keys exist: the keys are the meeting points.",
+      "keyPoint": "JOINs reunite data that normalization split apart.",
+      "check": {
+        "question": "You JOIN tables to…",
+        "options": [
+          "Answer questions that span multiple tables",
+          "Make queries run slower",
+          "Delete duplicate tables"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Foreign keys make JOINs possible",
+      "body": "A JOIN matches rows where a foreign key equals a primary key: Enrollments.student_id = Students.student_id. The keys are the bridge.\n\nWithout that link, the database can't know which enrollment belongs to which student. Design the keys right, and JOINs become natural.",
+      "keyPoint": "JOINs walk across the foreign-key bridges.",
+      "check": {
+        "question": "Enrollments JOIN Students ON Enrollments.student_id = Students.student_id matches rows where…",
+        "options": [
+          "The IDs are equal",
+          "The names are equal",
+          "Any row matches any row"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "INNER JOIN: matches only",
+      "body": "INNER JOIN returns only rows with a match on both sides. Students INNER JOIN Enrollments shows students who enrolled — students with no enrollments vanish.\n\nIt's the default JOIN and the most common. If you just write JOIN, you get an INNER JOIN.",
+      "keyPoint": "INNER JOIN keeps only matched rows.",
+      "code": {
+        "language": "sql",
+        "snippet": "SELECT Students.name, Courses.title\nFROM Students\nJOIN Enrollments\n  ON Students.student_id = Enrollments.student_id\nJOIN Courses\n  ON Enrollments.course_code = Courses.course_code;"
+      },
+      "check": {
+        "question": "Students INNER JOIN Enrollments excludes…",
+        "options": [
+          "Students with no enrollments",
+          "Students with enrollments",
+          "All students"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "LEFT JOIN: keep every left row",
+      "body": "LEFT JOIN keeps every row from the left (first) table, even with no match — unmatched spots fill with NULL. 'All students, with their enrollments if any.'\n\nThis is how you find what's missing: add WHERE Enrollments.student_id IS NULL and you get students who enrolled in nothing.",
+      "keyPoint": "LEFT JOIN keeps all left rows; gaps become NULL.",
+      "code": {
+        "language": "sql",
+        "snippet": "SELECT Students.name, Enrollments.course_code\nFROM Students\nLEFT JOIN Enrollments\n  ON Students.student_id = Enrollments.student_id;"
+      },
+      "check": {
+        "question": "A LEFT JOIN from Students to Enrollments shows…",
+        "options": [
+          "Every student, with NULLs where there's no enrollment",
+          "Only students with enrollments",
+          "Only enrollments"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "RIGHT, FULL, and self JOINs",
+      "body": "RIGHT JOIN is LEFT JOIN mirrored — it keeps all rows from the right table. FULL JOIN keeps everything from both sides, with NULLs wherever there's no match.\n\nA self-JOIN joins a table to itself: Employees JOIN Employees pairs each person with their manager, using the manager_id foreign key. Same table, two roles.",
+      "keyPoint": "RIGHT mirrors LEFT; FULL keeps both; self-JOIN pairs rows in one table.",
+      "check": {
+        "question": "To list each employee with their manager's name from one Employees table, you use…",
+        "options": [
+          "A self-JOIN",
+          "A JOIN to another database",
+          "No JOIN at all"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Constraints guard relationships",
+      "body": "Constraints are rules the database enforces. NOT NULL bans empties, UNIQUE bans duplicates, CHECK enforces conditions.\n\nForeign-key constraints are special: they forbid orphan rows. You can't insert an enrollment for student 999 if no student 999 exists — the database rejects it.",
+      "keyPoint": "Constraints reject bad data before it lands.",
+      "code": {
+        "language": "sql",
+        "snippet": "student_id INT NOT NULL REFERENCES Students(student_id)"
+      },
+      "check": {
+        "question": "A foreign-key constraint on Enrollments.student_id prevents…",
+        "options": [
+          "Enrollments pointing at nonexistent students",
+          "Students from enrolling",
+          "Duplicate course codes"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "JOIN pitfalls",
+      "body": "Two classic mistakes: forgetting the ON clause gives a cross join — every row matched to every row, exploding your results. And joining on the wrong column silently returns wrong answers.\n\nAlso watch duplicates: if the 'many' side has three rows, the 'one' side's data repeats three times. That's normal — but don't COUNT(*) it without thinking.",
+      "keyPoint": "Always double-check your ON clause.",
+      "check": {
+        "question": "Forgetting the ON clause in a JOIN produces…",
+        "options": [
+          "A cross join — every row paired with every row",
+          "An empty result",
+          "Always a syntax error"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "heading": "Go deeper",
+      "body": "PostgreSQL JOIN reference (official): https://www.postgresql.org/docs/current/queries-table-expressions.html\n\nMySQL JOIN reference (official): https://dev.mysql.com/doc/refman/8.4/en/join.html",
+      "keyPoint": "The official JOIN references, two dialects."
+    }
+  ]
+}

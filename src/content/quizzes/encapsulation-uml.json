@@ -1,0 +1,177 @@
+{
+  "topicId": "encapsulation-uml",
+  "title": "Encapsulation & UML",
+  "description": "Hiding complexity, guarding data, and reading UML diagrams.",
+  "formatsUsed": [
+    "predict-output",
+    "spot-the-bug",
+    "arrange-order",
+    "fill-blanks",
+    "matching",
+    "translate-code"
+  ],
+  "questions": [
+    {
+      "id": "eu-01",
+      "format": "predict-output",
+      "prompt": "What does this print?",
+      "code": "class Wallet {\n    private int cash = 100;\n    public int getCash() { return cash; }\n}\nWallet w = new Wallet();\nSystem.out.println(w.getCash());",
+      "language": "java",
+      "options": [
+        "100",
+        "0",
+        "null",
+        "Compile error"
+      ],
+      "answer": 0,
+      "explanation": "cash is private but getCash() is public — the getter is the legal way in."
+    },
+    {
+      "id": "eu-02",
+      "format": "spot-the-bug",
+      "prompt": "What's the encapsulation problem?",
+      "code": "class Account {\n    public double balance;\n    public void withdraw(double a) { balance -= a; }\n}",
+      "language": "java",
+      "options": [
+        "balance is public — anyone can set it to anything",
+        "withdraw should be private",
+        "double is the wrong type",
+        "Nothing is wrong"
+      ],
+      "answer": 0,
+      "explanation": "A public field has no guard. Make it private and validate inside withdraw()."
+    },
+    {
+      "id": "eu-03",
+      "format": "arrange-order",
+      "prompt": "Order the UML compartments top to bottom.",
+      "lines": [
+        "Methods",
+        "Class name",
+        "Fields"
+      ],
+      "answer": [
+        1,
+        2,
+        0
+      ],
+      "explanation": "Name on top, fields in the middle, methods at the bottom."
+    },
+    {
+      "id": "eu-04",
+      "format": "fill-blanks",
+      "prompt": "In UML, which symbol marks a private member?",
+      "code": "___ balance : double",
+      "language": "text",
+      "options": [
+        "-",
+        "+",
+        "#",
+        "_"
+      ],
+      "answer": 0,
+      "explanation": "Minus = private, plus = public, hash = protected."
+    },
+    {
+      "id": "eu-05",
+      "format": "matching",
+      "prompt": "Match each UML symbol to its meaning.",
+      "pairs": [
+        {
+          "term": "+",
+          "definition": "Public"
+        },
+        {
+          "term": "-",
+          "definition": "Private"
+        },
+        {
+          "term": "#",
+          "definition": "Protected"
+        },
+        {
+          "term": "Underlined",
+          "definition": "Static"
+        }
+      ],
+      "explanation": "Plus, minus, hash, underline — the four symbols you read most."
+    },
+    {
+      "id": "eu-06",
+      "format": "translate-code",
+      "prompt": "This UML box — which Java matches it?",
+      "code": "Player\n-----------\n- score : int\n+ addPoints(p : int) : void",
+      "from": "uml",
+      "to": "java",
+      "options": [
+        "class Player {\n    private int score;\n    public void addPoints(int p) { score += p; }\n}",
+        "class Player {\n    public int score;\n    private void addPoints(int p) { }\n}",
+        "interface Player { int score; }",
+        "class Player extends score { }"
+      ],
+      "answer": 0,
+      "explanation": "Minus → private field, plus → public method. The symbols translate directly."
+    },
+    {
+      "id": "eu-07",
+      "format": "predict-output",
+      "prompt": "What does this print?",
+      "code": "class Thermostat {\n    private int temp = 20;\n    public void warmer() { temp += 1; }\n    public int getTemp() { return temp; }\n}\nThermostat t = new Thermostat();\nt.warmer(); t.warmer();\nSystem.out.println(t.getTemp());",
+      "language": "java",
+      "options": [
+        "22",
+        "20",
+        "21",
+        "Compile error"
+      ],
+      "answer": 0,
+      "explanation": "20 + 1 + 1 = 22. The private field only changes through the public method."
+    },
+    {
+      "id": "eu-08",
+      "format": "spot-the-bug",
+      "prompt": "The UML says the field is private. What's wrong?",
+      "code": "// UML:  - name : String   (private field)\nclass Student {\n    public String name;\n}",
+      "language": "java",
+      "options": [
+        "The code declares it public, contradicting the UML",
+        "String should be lowercase",
+        "Nothing — UML is just a suggestion",
+        "The class needs a constructor"
+      ],
+      "answer": 0,
+      "explanation": "The diagram is the design contract: minus means the code must say private."
+    },
+    {
+      "id": "eu-09",
+      "format": "fill-blanks",
+      "prompt": "Hiding internal details behind a simple interface is called ___.",
+      "code": "// ___ : show the what, hide the how",
+      "language": "text",
+      "options": [
+        "abstraction",
+        "compilation",
+        "inheritance",
+        "recursion"
+      ],
+      "answer": 0,
+      "explanation": "Abstraction = show the what, hide the how. (And yes — that first clause was a trap.)"
+    },
+    {
+      "id": "eu-10",
+      "format": "translate-code",
+      "prompt": "Which Java matches this JavaScript encapsulation?",
+      "code": "class Safe {\n  #code = 1234;\n  open(guess) { return guess === this.#code; }\n}",
+      "from": "javascript",
+      "to": "java",
+      "options": [
+        "class Safe {\n    private int code = 1234;\n    boolean open(int guess) { return guess == code; }\n}",
+        "class Safe { public int code = 1234; }",
+        "class Safe { int open() { return 1234; } }",
+        "interface Safe { boolean open(int guess); }"
+      ],
+      "answer": 0,
+      "explanation": "JS #code (truly private) maps to Java's private field — same guard, different syntax."
+    }
+  ]
+}

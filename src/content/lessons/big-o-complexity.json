@@ -1,1 +1,127 @@
-{"courseId":"cprg-304","description":"How to describe how your code slows down as data grows — and answer the most-asked interview question.","screens":[{"body":"Big O is a way to describe how slow your code gets as your data gets bigger. Not how many seconds it takes — how the work GROWS. If doubling your data doubles the work, that's O(n). If doubling your data quadruples the work, that's O(n²).","heading":"Big O in 30 seconds","keyPoint":"Big O describes growth, not speed."},{"body":"O(1) means the work stays the same no matter how big your data is. Grabbing an item from an array by its index is O(1) — it's one step whether the array has 10 items or 10 million.","code":{"language":"javascript","snippet":"const first = users[0]; // one step, always"},"heading":"O(1) — constant time","keyPoint":"One step, always = O(1)."},{"body":"O(n) means the work grows step-for-step with your data. One loop over an array of n items does n steps of work. Twice the items, twice the work. Most simple loops are O(n).","code":{"language":"javascript","snippet":"for (let i = 0; i < users.length; i++) {\n  console.log(users[i]); // runs n times\n}"},"heading":"O(n) — linear time","keyPoint":"One loop over n items = O(n)."},{"body":"A loop inside a loop. For each of the n items, you do n more steps of work. That's n × n = n² steps. This gets slow FAST — 1,000 items means 1,000,000 steps. If an interviewer spots this in your code, they'll ask how you'd fix it.","code":{"language":"javascript","snippet":"for (let i = 0; i < n; i++) {\n  for (let j = 0; j < n; j++) {\n    console.log(i, j); // runs n × n times\n  }\n}"},"heading":"O(n²) — quadratic time","keyPoint":"Nested loops over the same data = O(n²). Watch out."},{"body":"O(log n) means you throw away half the data with every step. Binary search works like this: check the middle, discard the half that can't contain your answer, repeat. Even with a million items, you only need about 20 steps.","code":{"language":"javascript","snippet":"// binary search: pick the middle, discard half, repeat\n// 1,000,000 items → ~20 steps"},"heading":"O(log n) — logarithmic time","keyPoint":"Halving the problem each step = O(log n). Very fast."},{"body":"Three steps. 1) Count the loops — each loop over n multiplies the work by n. 2) Drop the constants — O(2n) is just O(n); at scale, the 2 doesn't matter. 3) Keep only the biggest term — O(n² + n) is just O(n²); the n² drowns out everything else.","heading":"How to figure it out","keyPoint":"Count loops, drop constants, keep the biggest term."},{"body":"\"What's the time complexity of your code?\" is one of the most-asked interview questions there is. Now you have the framework: walk through your loops, name the Big O, and if it's O(n²), say how you'd improve it. That's the whole game — and it's exactly what your SwiftGigs code walkthrough needs too.","heading":"Why interviews love this","keyPoint":"Name your loops, name your Big O."},{"body":"Official docs worth bookmarking:","heading":"Go deeper","keyPoint":"MDN: Big O notation guide · Visualgo.net: see sorting algorithms run step by step"}],"title":"Big O & Complexity Analysis","topicId":"big-o-complexity"}
+{
+  "courseId": "cprg-304",
+  "description": "How to describe how your code slows down as data grows — and answer the most-asked interview question.",
+  "screens": [
+    {
+      "body": "Big O is a way to describe how slow your code gets as your data gets bigger. Not how many seconds it takes — how the work GROWS. If doubling your data doubles the work, that's O(n). If doubling your data quadruples the work, that's O(n²).",
+      "heading": "Big O in 30 seconds",
+      "keyPoint": "Big O describes growth, not speed.",
+      "check": {
+        "question": "What does Big O describe?",
+        "options": [
+          "How many seconds the code takes on your laptop",
+          "How the work grows as the data gets bigger",
+          "How pretty the variable names are"
+        ],
+        "answer": 1
+      }
+    },
+    {
+      "body": "O(1) means the work stays the same no matter how big your data is. Grabbing an item from an array by its index is O(1) — it's one step whether the array has 10 items or 10 million.",
+      "code": {
+        "language": "javascript",
+        "snippet": "const first = users[0]; // one step, always"
+      },
+      "heading": "O(1) — constant time",
+      "keyPoint": "One step, always = O(1).",
+      "check": {
+        "question": "Grabbing users[0] from an array is which Big O?",
+        "options": [
+          "O(1)",
+          "O(n)",
+          "O(n²)"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "body": "O(n) means the work grows step-for-step with your data. One loop over an array of n items does n steps of work. Twice the items, twice the work. Most simple loops are O(n).",
+      "code": {
+        "language": "javascript",
+        "snippet": "for (let i = 0; i < users.length; i++) {\n  console.log(users[i]); // runs n times\n}"
+      },
+      "heading": "O(n) — linear time",
+      "keyPoint": "One loop over n items = O(n).",
+      "check": {
+        "question": "One loop over n items is usually:",
+        "options": [
+          "O(1)",
+          "O(n)",
+          "O(n²)"
+        ],
+        "answer": 1
+      }
+    },
+    {
+      "body": "A loop inside a loop. For each of the n items, you do n more steps of work. That's n × n = n² steps. This gets slow FAST — 1,000 items means 1,000,000 steps. If an interviewer spots this in your code, they'll ask how you'd fix it.",
+      "code": {
+        "language": "javascript",
+        "snippet": "for (let i = 0; i < n; i++) {\n  for (let j = 0; j < n; j++) {\n    console.log(i, j); // runs n × n times\n  }\n}"
+      },
+      "heading": "O(n²) — quadratic time",
+      "keyPoint": "Nested loops over the same data = O(n²). Watch out.",
+      "check": {
+        "question": "A loop inside a loop, both over n, is:",
+        "options": [
+          "O(n)",
+          "O(log n)",
+          "O(n²)"
+        ],
+        "answer": 2
+      }
+    },
+    {
+      "body": "O(log n) means you throw away half the data with every step. Binary search works like this: check the middle, discard the half that can't contain your answer, repeat. Even with a million items, you only need about 20 steps.",
+      "code": {
+        "language": "javascript",
+        "snippet": "// binary search: pick the middle, discard half, repeat\n// 1,000,000 items → ~20 steps"
+      },
+      "heading": "O(log n) — logarithmic time",
+      "keyPoint": "Halving the problem each step = O(log n). Very fast.",
+      "check": {
+        "question": "Binary search is fast because each step:",
+        "options": [
+          "Checks every leftover item",
+          "Throws away about half the remaining data",
+          "Sorts the array again"
+        ],
+        "answer": 1
+      }
+    },
+    {
+      "body": "Three steps. 1) Count the loops — each loop over n multiplies the work by n. 2) Drop the constants — O(2n) is just O(n); at scale, the 2 doesn't matter. 3) Keep only the biggest term — O(n² + n) is just O(n²); the n² drowns out everything else.",
+      "heading": "How to figure it out",
+      "keyPoint": "Count loops, drop constants, keep the biggest term.",
+      "check": {
+        "question": "When you simplify Big O, you should:",
+        "options": [
+          "Keep every constant, like O(2n + 5)",
+          "Drop constants and keep the biggest term",
+          "Always call it O(n²) to be safe"
+        ],
+        "answer": 1
+      }
+    },
+    {
+      "body": "\"What's the time complexity of your code?\" is one of the most-asked interview questions there is. Now you have the framework: walk through your loops, name the Big O, and if it's O(n²), say how you'd improve it. That's the whole game — and it's exactly what your SwiftGigs code walkthrough needs too.",
+      "heading": "Why interviews love this",
+      "keyPoint": "Name your loops, name your Big O.",
+      "check": {
+        "question": "If your code is O(n²), a strong interview move is to:",
+        "options": [
+          "Hide the nested loop",
+          "Name the Big O and say how you would improve it",
+          "Rewrite it in another language"
+        ],
+        "answer": 1
+      }
+    },
+    {
+      "body": "Official docs worth bookmarking:",
+      "heading": "Go deeper",
+      "keyPoint": "MDN: Big O notation guide · Visualgo.net: see sorting algorithms run step by step"
+    }
+  ],
+  "title": "Big O & Complexity Analysis",
+  "topicId": "big-o-complexity"
+}

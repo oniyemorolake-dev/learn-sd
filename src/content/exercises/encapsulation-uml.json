@@ -1,0 +1,32 @@
+{
+  "topicId": "encapsulation-uml",
+  "exercises": [
+    {
+      "id": "eu-ex-01",
+      "task": "Build the class described in the comment (a UML box). Then run the test.",
+      "language": "javascript",
+      "starterCode": "// UML: Thermostat\n// - temp: number (private)\n// + warmer(): void\n// + getTemp(): number\nclass Thermostat {\n  // TODO\n}\nconst t = new Thermostat();\nt.warmer();\nt.warmer();\nconsole.log(\"temp:\", t.getTemp());",
+      "expectedOutput": "temp: 22",
+      "hint": "#temp = 20; warmer() adds 1; getTemp() returns it.",
+      "solution": "class Thermostat {\n  #temp = 20;\n  warmer() { this.#temp += 1; }\n  getTemp() { return this.#temp; }\n}\nconst t = new Thermostat();\nt.warmer();\nt.warmer();\nconsole.log(\"temp:\", t.getTemp());"
+    },
+    {
+      "id": "eu-ex-02",
+      "task": "Finish withdraw() so it never lets the balance go negative. Then run the test.",
+      "language": "javascript",
+      "starterCode": "class Account {\n  #balance = 100;\n  withdraw(amount) {\n    // TODO: subtract only if there are enough funds\n  }\n  getBalance() { return this.#balance; }\n}\nconst a = new Account();\na.withdraw(30);\na.withdraw(999);\nconsole.log(\"balance:\", a.getBalance());",
+      "expectedOutput": "balance: 70",
+      "hint": "Check amount <= this.#balance before subtracting.",
+      "solution": "class Account {\n  #balance = 100;\n  withdraw(amount) {\n    if (amount <= this.#balance) this.#balance -= amount;\n  }\n  getBalance() { return this.#balance; }\n}\nconst a = new Account();\na.withdraw(30);\na.withdraw(999);\nconsole.log(\"balance:\", a.getBalance());"
+    },
+    {
+      "id": "eu-ex-03",
+      "task": "Expose a read-only id: a getter, but no way to change it. Then run the test.",
+      "language": "javascript",
+      "starterCode": "class Ticket {\n  #id = \"T-1001\";\n  // TODO: getId() getter — and nothing else\n}\nconst t = new Ticket();\nconsole.log(\"id:\", t.getId());\nconsole.log(\"keys:\", Object.keys(t).length);",
+      "expectedOutput": "id: T-1001\nkeys: 0",
+      "hint": "# fields don't show up in Object.keys — that's encapsulation you can see.",
+      "solution": "class Ticket {\n  #id = \"T-1001\";\n  getId() { return this.#id; }\n}\nconst t = new Ticket();\nconsole.log(\"id:\", t.getId());\nconsole.log(\"keys:\", Object.keys(t).length);"
+    }
+  ]
+}

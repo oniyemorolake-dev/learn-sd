@@ -1,0 +1,123 @@
+{
+  "courseId": "cprg-304",
+  "description": "Linear vs binary search, bubble sort vs merge sort — and why sorting unlocks fast searching.",
+  "screens": [
+    {
+      "body": "Searching means finding something in a pile of data. Two classic ways: check every item one by one (linear search), or — if the pile is sorted — keep cutting it in half (binary search). One is simple, the other is fast.",
+      "heading": "Searching: the 30-second version",
+      "keyPoint": "Linear = simple. Binary = fast, but needs sorted data.",
+      "check": {
+        "question": "Binary search needs which extra condition?",
+        "options": [
+          "The array must be sorted",
+          "The array must be huge",
+          "The array must hold only numbers"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "body": "Start at the beginning, check each item, stop when you find it. Worst case you check every single item — that's O(n). It works on any array, sorted or not.",
+      "code": {
+        "language": "javascript",
+        "snippet": "function linearSearch(arr, target) {\n  for (let i = 0; i < arr.length; i++) {\n    if (arr[i] === target) return i;\n  }\n  return -1;\n}"
+      },
+      "heading": "Linear search — O(n)",
+      "keyPoint": "Works anywhere. Costs O(n).",
+      "check": {
+        "question": "Worst-case linear search on n items is:",
+        "options": [
+          "O(1)",
+          "O(n)",
+          "O(n²)"
+        ],
+        "answer": 1
+      }
+    },
+    {
+      "body": "Only works on SORTED data. Check the middle: if your target is smaller, throw away the right half; if bigger, throw away the left half. Repeat. A million sorted items? About 20 steps.",
+      "code": {
+        "language": "java",
+        "snippet": "int low = 0, high = arr.length - 1;\nwhile (low <= high) {\n  int mid = (low + high) / 2;\n  if (arr[mid] == target) return mid;\n  if (arr[mid] < target) low = mid + 1;\n  else high = mid - 1;\n}"
+      },
+      "heading": "Binary search — O(log n)",
+      "keyPoint": "Sorted data + halving = O(log n).",
+      "check": {
+        "question": "If the middle value is too small, binary search:",
+        "options": [
+          "Throws away the left half",
+          "Throws away the right half",
+          "Starts over from index 0"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "body": "Binary search needs sorted data — so sorting isn't just tidiness, it unlocks the fast search. That's why your course pairs them: sort once (even if it's pricey), then search cheaply forever.",
+      "heading": "Why sorting matters",
+      "keyPoint": "Sort once, search fast forever.",
+      "check": {
+        "question": "Why pair sorting with searching in this topic?",
+        "options": [
+          "Sorting is always faster than searching",
+          "A sort once can unlock fast binary search later",
+          "Unsorted data is required for binary search"
+        ],
+        "answer": 1
+      }
+    },
+    {
+      "body": "Walk through the array, compare each pair of neighbors, swap them if they're out of order. The biggest value 'bubbles' to the end on every pass. Simple to write, slow to run: O(n²).",
+      "code": {
+        "language": "javascript",
+        "snippet": "for (let i = 0; i < arr.length; i++) {\n  for (let j = 0; j < arr.length - 1; j++) {\n    if (arr[j] > arr[j + 1]) {\n      [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];\n    }\n  }\n}"
+      },
+      "heading": "Bubble sort — O(n²)",
+      "keyPoint": "Easy to write, O(n²) to run.",
+      "check": {
+        "question": "Bubble sort is:",
+        "options": [
+          "Easy to write and O(n²)",
+          "Hard to write and O(1)",
+          "The usual built-in for huge data"
+        ],
+        "answer": 0
+      }
+    },
+    {
+      "body": "Split the array in half, sort each half, then merge the sorted halves back together. Splitting goes log n levels deep, and merging each level costs n work — total O(n log n). Way faster than bubble sort on big data.",
+      "heading": "Merge sort — O(n log n)",
+      "keyPoint": "Split, sort, merge = O(n log n).",
+      "check": {
+        "question": "Merge sort gets O(n log n) by:",
+        "options": [
+          "Comparing every pair in one pass",
+          "Splitting, sorting halves, then merging",
+          "Always swapping neighbors"
+        ],
+        "answer": 1
+      }
+    },
+    {
+      "body": "Tiny data? Anything works — even bubble sort. Big data? You want O(n log n) like merge sort. In real life you'll mostly call your language's built-in sort (O(n log n) under the hood) — but interviews want you to know what's inside it.",
+      "heading": "How to pick",
+      "keyPoint": "Know the insides, use the built-in.",
+      "check": {
+        "question": "For big data in real code, you usually:",
+        "options": [
+          "Hand-write bubble sort",
+          "Use the language built-in sort, and still know what is inside",
+          "Skip sorting forever"
+        ],
+        "answer": 1
+      }
+    },
+    {
+      "body": "Visualgo.net — watch every sorting algorithm run step by step. MDN: Array.prototype.sort.",
+      "heading": "Go deeper",
+      "keyPoint": "See it move on Visualgo."
+    }
+  ],
+  "title": "Sorting & Searching",
+  "topicId": "sorting-searching"
+}

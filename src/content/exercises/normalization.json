@@ -1,0 +1,32 @@
+{
+  "topicId": "normalization",
+  "exercises": [
+    {
+      "id": "nm-ex-01",
+      "task": "Write is1NF(): every value must be atomic — no arrays or nested objects. Then run the test.",
+      "language": "javascript",
+      "starterCode": "function is1NF(row) {\n  // TODO: return true if no value is an array or object\n}\nconsole.log(is1NF({ id: 1, name: \"Ava\" }));\nconsole.log(is1NF({ id: 2, phones: [\"555-01\"] }));",
+      "expectedOutput": "true\nfalse",
+      "hint": "Object.values + every: reject typeof 'object' (but allow null).",
+      "solution": "function is1NF(row) {\n  return Object.values(row).every(v => typeof v !== \"object\" || v === null);\n}\nconsole.log(is1NF({ id: 1, name: \"Ava\" }));\nconsole.log(is1NF({ id: 2, phones: [\"555-01\"] }));"
+    },
+    {
+      "id": "nm-ex-02",
+      "task": "Split customers out of orders (3NF): dedupe customers, slim the orders. Then run the test.",
+      "language": "javascript",
+      "starterCode": "const orders = [\n  { order_id: 1, customer: \"Ava\", phone: \"555-01\" },\n  { order_id: 2, customer: \"Ava\", phone: \"555-01\" },\n  { order_id: 3, customer: \"Ben\", phone: \"555-02\" },\n];\n// TODO: customers = unique [{ name, phone }]\n//        slim = orders mapped to [{ order_id, customer }]\nconsole.log(\"customers:\", customers.length);\nconsole.log(\"phones stored:\", customers.length);\nconsole.log(\"slim keys:\", Object.keys(slim[0]).join(\",\"));",
+      "expectedOutput": "customers: 2\nphones stored: 2\nslim keys: order_id,customer",
+      "hint": "Use a Map keyed by customer name to dedupe, then slim orders to id + name.",
+      "solution": "const orders = [\n  { order_id: 1, customer: \"Ava\", phone: \"555-01\" },\n  { order_id: 2, customer: \"Ava\", phone: \"555-01\" },\n  { order_id: 3, customer: \"Ben\", phone: \"555-02\" },\n];\nconst seen = new Map();\nfor (const o of orders) {\n  if (!seen.has(o.customer)) seen.set(o.customer, o.phone);\n}\nconst customers = [...seen].map(([name, phone]) => ({ name, phone }));\nconst slim = orders.map(o => ({ order_id: o.order_id, customer: o.customer }));\nconsole.log(\"customers:\", customers.length);\nconsole.log(\"phones stored:\", customers.length);\nconsole.log(\"slim keys:\", Object.keys(slim[0]).join(\",\"));"
+    },
+    {
+      "id": "nm-ex-03",
+      "task": "Write hasTransitiveDep(): spot when one city maps to two different tax rates. Then run the test.",
+      "language": "javascript",
+      "starterCode": "// city determines taxRate, but neither is the key → 3NF violation\nfunction hasTransitiveDep(rows) {\n  // TODO: return true if two rows share a city but have different taxRates\n}\nconst ok = [\n  { id: 1, city: \"Calgary\", taxRate: 0.05 },\n  { id: 2, city: \"Edmonton\", taxRate: 0.05 },\n];\nconst bad = [\n  { id: 1, city: \"Calgary\", taxRate: 0.05 },\n  { id: 2, city: \"Calgary\", taxRate: 0.09 },\n];\nconsole.log(hasTransitiveDep(ok));\nconsole.log(hasTransitiveDep(bad));",
+      "expectedOutput": "false\ntrue",
+      "hint": "Track each city's taxRate in an object; a second, different rate means trouble.",
+      "solution": "function hasTransitiveDep(rows) {\n  const byCity = {};\n  for (const r of rows) {\n    if (byCity[r.city] !== undefined && byCity[r.city] !== r.taxRate) return true;\n    byCity[r.city] = r.taxRate;\n  }\n  return false;\n}\nconst ok = [\n  { id: 1, city: \"Calgary\", taxRate: 0.05 },\n  { id: 2, city: \"Edmonton\", taxRate: 0.05 },\n];\nconst bad = [\n  { id: 1, city: \"Calgary\", taxRate: 0.05 },\n  { id: 2, city: \"Calgary\", taxRate: 0.09 },\n];\nconsole.log(hasTransitiveDep(ok));\nconsole.log(hasTransitiveDep(bad));"
+    }
+  ]
+}

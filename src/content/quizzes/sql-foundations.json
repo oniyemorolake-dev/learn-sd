@@ -1,0 +1,179 @@
+{
+  "topicId": "sql-foundations",
+  "title": "SQL Foundations",
+  "description": "Asking questions with SELECT, and changing data safely.",
+  "formatsUsed": [
+    "predict-output",
+    "spot-the-bug",
+    "arrange-order",
+    "fill-blanks",
+    "matching",
+    "translate-code"
+  ],
+  "questions": [
+    {
+      "id": "sf-01",
+      "format": "predict-output",
+      "prompt": "What does this return?",
+      "code": "SELECT UPPER('ava');",
+      "language": "sql",
+      "options": [
+        "AVA",
+        "ava",
+        "Ava",
+        "null"
+      ],
+      "answer": 0,
+      "explanation": "UPPER() uppercases the whole string."
+    },
+    {
+      "id": "sf-02",
+      "format": "spot-the-bug",
+      "prompt": "What's wrong?",
+      "code": "SELECT name\nFROM Students\nWHERE city = Calgary;",
+      "language": "sql",
+      "options": [
+        "Calgary needs single quotes — it's text",
+        "WHERE comes before FROM",
+        "SELECT needs *",
+        "Nothing is wrong"
+      ],
+      "answer": 0,
+      "explanation": "Bare Calgary looks like a column name. Text literals need 'single quotes'."
+    },
+    {
+      "id": "sf-03",
+      "format": "arrange-order",
+      "prompt": "Order the clauses as they appear in a SELECT query.",
+      "lines": [
+        "WHERE",
+        "SELECT ... FROM",
+        "ORDER BY",
+        "LIMIT"
+      ],
+      "answer": [
+        1,
+        0,
+        2,
+        3
+      ],
+      "explanation": "SELECT → WHERE → ORDER BY → LIMIT. That order is the law."
+    },
+    {
+      "id": "sf-04",
+      "format": "fill-blanks",
+      "prompt": "Sort with ___.",
+      "code": "SELECT name FROM Students\n___ BY score DESC;",
+      "language": "sql",
+      "options": [
+        "ORDER",
+        "SORT",
+        "GROUP",
+        "FILTER"
+      ],
+      "answer": 0,
+      "explanation": "ORDER BY — DESC for high-to-low."
+    },
+    {
+      "id": "sf-05",
+      "format": "matching",
+      "prompt": "Match each SQL verb to its job.",
+      "pairs": [
+        {
+          "term": "SELECT",
+          "definition": "Chooses which columns to return"
+        },
+        {
+          "term": "WHERE",
+          "definition": "Filters which rows to return"
+        },
+        {
+          "term": "INSERT",
+          "definition": "Adds new rows"
+        },
+        {
+          "term": "GROUP BY",
+          "definition": "Splits rows into groups for aggregates"
+        }
+      ],
+      "explanation": "Columns, rows, new rows, groups."
+    },
+    {
+      "id": "sf-06",
+      "format": "translate-code",
+      "prompt": "Which JavaScript does the same?",
+      "code": "SELECT name FROM Students WHERE age >= 18;",
+      "from": "sql",
+      "to": "javascript",
+      "options": [
+        "students.filter(s => s.age >= 18).map(s => s.name)",
+        "students.map(s => s.name).filter(s => s.age >= 18)",
+        "students.slice(0, 18)",
+        "students.forEach(s => s.name)"
+      ],
+      "answer": 0,
+      "explanation": "WHERE = filter first, then SELECT name = map. Order matters!"
+    },
+    {
+      "id": "sf-07",
+      "format": "predict-output",
+      "prompt": "The table has 30 rows. What does this return?",
+      "code": "SELECT COUNT(*) FROM Students;",
+      "language": "sql",
+      "options": [
+        "30",
+        "*",
+        "0",
+        "30 rows"
+      ],
+      "answer": 0,
+      "explanation": "COUNT(*) collapses all rows into one number: 30."
+    },
+    {
+      "id": "sf-08",
+      "format": "spot-the-bug",
+      "prompt": "The intent was to remove ONE student. What's the disaster?",
+      "code": "DELETE FROM Students;  -- intended: remove one student",
+      "language": "sql",
+      "options": [
+        "No WHERE — deletes every row",
+        "DELETE needs SELECT first",
+        "FROM is wrong",
+        "Nothing is wrong"
+      ],
+      "answer": 0,
+      "explanation": "No WHERE means every row matches. The table is now empty."
+    },
+    {
+      "id": "sf-09",
+      "format": "fill-blanks",
+      "prompt": "Add a row with ___.",
+      "code": "___ INTO Students (name)\nVALUES ('Ava');",
+      "language": "sql",
+      "options": [
+        "INSERT",
+        "ADD",
+        "PUT",
+        "CREATE"
+      ],
+      "answer": 0,
+      "explanation": "INSERT INTO ... VALUES — the row-adding spell."
+    },
+    {
+      "id": "sf-10",
+      "format": "translate-code",
+      "prompt": "Which SQL does the same?",
+      "code": "const top = players\n  .sort((a, b) => b.score - a.score)\n  .slice(0, 5);",
+      "from": "javascript",
+      "to": "sql",
+      "options": [
+        "SELECT * FROM Players ORDER BY score DESC LIMIT 5;",
+        "SELECT TOP score FROM Players;",
+        "SELECT * FROM Players LIMIT 5 ORDER BY score;",
+        "SELECT 5 FROM Players;"
+      ],
+      "answer": 0,
+      "explanation": "sort descending = ORDER BY ... DESC, slice(0,5) = LIMIT 5."
+    }
+  ]
+}

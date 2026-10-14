@@ -8,6 +8,45 @@ import ComingSoon from '../components/ComingSoon.jsx';
 import { useApp } from '../context/AppContext.jsx';
 import { quizzes, topicTitle } from '../lib/content.js';
 import { shuffle, shuffleChoices } from '../lib/shuffle.js';
+import { appendAttempt, conqueredLine, topicFocus } from '../lib/focus.js';
+import { todayStamp } from '../lib/storage.js';
+
+const CODE_LANGUAGES = new Set([
+  'javascript',
+  'js',
+  'java',
+  'python',
+  'sql',
+  'plsql',
+  'pl/sql',
+  'jsx',
+  'bash',
+  'html',
+  'css',
+  'json',
+  'text',
+  'typescript',
+]);
+
+function reviewCelebrateBody(isReview, score, total, clearedFocus) {
+  if (clearedFocus) {
+    return `${score} / ${total}. That one just left Focus Areas.`;
+  }
+  if (!isReview) {
+    return score === total
+      ? 'Clean sweep. That knowledge is yours.'
+      : 'Every miss is a map. Retry whenever you like.';
+  }
+  const pct = total > 0 ? score / total : 0;
+  if (pct < 0.8) return "Let's see this one again tomorrow.";
+  return 'Nice review. This one can rest a little longer.';
+}
+
+function blockLanguage(question) {
+  const raw = question.language || question.from;
+  if (!raw) return undefined;
+  return CODE_LANGUAGES.has(String(raw).toLowerCase()) ? raw : undefined;
+}
 
 function prepareQuestions(raw) {
   return shuffle(raw).map((question) => {
@@ -32,7 +71,7 @@ function prepareQuestions(raw) {
 }
 
 export default function QuizScreen() {
-  const { view, go, completeQuiz, toggleBookmark, isBookmarked } = useApp();
+  const { view, go, state, completeQuiz, toggleBookmark, isBookmarked } = useApp();
   const topicId = view.params.topicId;
   const quiz = quizzes[topicId];
   const [questions, setQuestions] = useState(() => (quiz ? prepareQuestions(quiz.questions) : []));
@@ -40,13 +79,21 @@ export default function QuizScreen() {
   const [picked, setPicked] = useState(null);
   const [revealed, setRevealed] = useState(false);
   const [score, setScore] = useState(0);
+  const [wrongFormats, setWrongFormats] = useState([]);
   const [finished, setFinished] = useState(false);
+  const [clearedFocus, setClearedFocus] = useState(false);
+
+  function goHome() {
+    if (view.params.from === 'review' || view.params.from === 'focus') go(view.params.returnTo || 'path');
+    else if (view.params.from === 'interview-track') go('interview-track', { from: view.params.entryFrom });
+    else go('topic', { topicId });
+  }
 
   if (!quiz) {
     return (
       <div>
-        <ScreenHeader title={topicTitle(topicId)} onBack={() => go('topic', { topicId })} />
-        <ComingSoon title="Quiz coming soon" onContinue={() => go('topic', { topicId })} />
+        <ScreenHeader title={topicTitle(topicId)} onBack={goHome} />
+        <ComingSoon title="Quiz coming soon" onContinue={goHome} />
       </div>
     );
   }
@@ -74,12 +121,20 @@ export default function QuizScreen() {
 
   function check() {
     if (isCorrect()) setScore((n) => n + 1);
+    else setWrongFormats((list) => [...list, question.format || 'multiple-choice']);
     setRevealed(true);
   }
 
   function next() {
     if (index + 1 >= questions.length) {
-      completeQuiz(topicId, score, questions.length);
+      const nextAttempts = appendAttempt(state.attempts?.[topicId], {
+        score,
+        total: questions.length,
+        wrongFormats,
+        date: todayStamp(),
+      });
+      setClearedFocus(Boolean(topicFocus(state.attempts?.[topicId])) && !topicFocus(nextAttempts));
+      completeQuiz(topicId, score, questions.length, wrongFormats);
       setFinished(true);
       return;
     }
@@ -94,21 +149,24 @@ export default function QuizScreen() {
     setPicked(null);
     setRevealed(false);
     setScore(0);
+    setWrongFormats([]);
     setFinished(false);
+    setClearedFocus(false);
   }
 
   if (finished) {
     return (
       <div className="stack">
         <Celebrate
-          title={`${score} / ${questions.length}`}
-          body={
-            score === questions.length
-              ? 'Clean sweep. That knowledge is yours.'
-              : 'Every miss is a map. Retry whenever you like.'
-          }
-          actionLabel="Back to topic"
-          onContinue={() => go('topic', { topicId })}
+          title={clearedFocus ? conqueredLine(topicTitle(topicId)) : `${score} / ${questions.length}`}
+          body={reviewCelebrateBody(
+            view.params.from === 'review',
+            score,
+            questions.length,
+            clearedFocus,
+          )}
+          actionLabel={view.params.from === 'review' || view.params.from === 'focus' ? 'Done' : 'Back to topic'}
+          onContinue={goHome}
         />
         <button type="button" className="btn-secondary" onClick={retry}>
           Retry quiz
@@ -129,7 +187,7 @@ export default function QuizScreen() {
       <ScreenHeader
         title={quiz.title}
         kicker={`Question ${index + 1} of ${questions.length}`}
-        onBack={() => go('topic', { topicId })}
+        onBack={goHome}
         extra={
           <button
             type="button"
@@ -189,7 +247,7 @@ function QuestionCard({ question, picked, setPicked, revealed, onMoveItems, onMa
           {question.from} → {question.to}
         </p>
       ) : null}
-      <CodeBlock language={question.language} snippet={question.code} />
+      <CodeBlock language={blockLanguage(question)} snippet={question.code} />
       {question.options.map((option, i) => {
         let cls = 'choice';
         if (picked === i) cls += ' selected';

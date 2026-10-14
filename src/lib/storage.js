@@ -1,4 +1,30 @@
 const STORAGE_KEY = 'learn-sd-v1';
+export const THEME_KEY = 'learn-sd-theme';
+
+export function loadTheme() {
+  try {
+    return localStorage.getItem(THEME_KEY) === 'light' ? 'light' : 'dark';
+  } catch {
+    return 'dark';
+  }
+}
+
+export function saveTheme(theme) {
+  try {
+    localStorage.setItem(THEME_KEY, theme === 'light' ? 'light' : 'dark');
+  } catch {
+    // Private mode — theme still applies for this session.
+  }
+}
+
+export function applyTheme(theme) {
+  const next = theme === 'light' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  document.querySelector('meta[name="theme-color"]')?.setAttribute(
+    'content',
+    next === 'light' ? '#f6f2fb' : '#0F0B1E',
+  );
+}
 
 export function emptyState() {
   return {
@@ -7,6 +33,8 @@ export function emptyState() {
     exercises: {},
     bookmarks: [],
     tracks: {},
+    reviews: {},
+    attempts: {},
     xp: 0,
     streak: { count: 0, lastDate: null, days: {} },
   };

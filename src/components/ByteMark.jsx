@@ -1,7 +1,7 @@
 export default function ByteMark({ size = 40 }) {
   return (
     <svg width={size} height={size} viewBox="0 0 64 64" fill="none" aria-hidden="true">
-      <rect x="12" y="18" width="40" height="34" rx="12" fill="#1E1838" />
+      <rect x="12" y="18" width="40" height="34" rx="12" fill="var(--surface)" />
       <rect x="14" y="20" width="36" height="30" rx="10" fill="#7C3AED" />
       <circle cx="26" cy="36" r="4.5" fill="#2DD4BF" />
       <circle cx="38" cy="36" r="4.5" fill="#2DD4BF" />

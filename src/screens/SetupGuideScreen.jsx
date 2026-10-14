@@ -3,7 +3,6 @@ import ScreenHeader from '../components/ScreenHeader.jsx';
 import ProgressBar from '../components/ProgressBar.jsx';
 import PrimaryButton from '../components/PrimaryButton.jsx';
 import ComingSoon from '../components/ComingSoon.jsx';
-import Footer from '../components/Footer.jsx';
 import { useApp } from '../context/AppContext.jsx';
 import { findCourseByCode, setupGuides } from '../lib/content.js';
 
@@ -47,7 +46,6 @@ export default function SetupGuideScreen() {
       ) : (
         <PrimaryButton onClick={() => setStep((n) => n + 1)}>Continue</PrimaryButton>
       )}
-      <Footer />
     </div>
   );
 }

@@ -1,0 +1,179 @@
+{
+  "topicId": "database-concepts",
+  "title": "Database Concepts",
+  "description": "What databases are, how the DBMS helps, and how keys link tables.",
+  "formatsUsed": [
+    "predict-output",
+    "spot-the-bug",
+    "arrange-order",
+    "fill-blanks",
+    "matching",
+    "translate-code"
+  ],
+  "questions": [
+    {
+      "id": "dc-01",
+      "format": "predict-output",
+      "prompt": "What does this return?",
+      "code": "SELECT 2 + 3 * 4;",
+      "language": "sql",
+      "options": [
+        "14",
+        "20",
+        "24",
+        "9"
+      ],
+      "answer": 0,
+      "explanation": "Multiplication first: 3*4=12, then 2+12=14. SQL follows normal math order."
+    },
+    {
+      "id": "dc-02",
+      "format": "spot-the-bug",
+      "prompt": "What's wrong with this table?",
+      "code": "CREATE TABLE Students (\n    name TEXT PRIMARY KEY,\n    name TEXT\n);",
+      "language": "sql",
+      "options": [
+        "Two columns named name — and name is a poor primary key",
+        "TEXT is an invalid type",
+        "PRIMARY KEY must come last",
+        "Nothing is wrong"
+      ],
+      "answer": 0,
+      "explanation": "Duplicate column name, plus names aren't unique — a student_id would be the right key."
+    },
+    {
+      "id": "dc-03",
+      "format": "arrange-order",
+      "prompt": "Order these from smallest to largest.",
+      "lines": [
+        "Database",
+        "Table",
+        "Row",
+        "Column value"
+      ],
+      "answer": [
+        3,
+        2,
+        1,
+        0
+      ],
+      "explanation": "Value → row → table → database. Each level contains the one before it."
+    },
+    {
+      "id": "dc-04",
+      "format": "fill-blanks",
+      "prompt": "This marks the column as the table's unique identifier.",
+      "code": "student_id INT ___ ,",
+      "language": "sql",
+      "options": [
+        "PRIMARY KEY",
+        "FOREIGN KEY",
+        "NOT NULL",
+        "INDEX"
+      ],
+      "answer": 0,
+      "explanation": "PRIMARY KEY = unique, never empty, identifies every row."
+    },
+    {
+      "id": "dc-05",
+      "format": "matching",
+      "prompt": "Match each term to its meaning.",
+      "pairs": [
+        {
+          "term": "Database",
+          "definition": "Organized collection of data"
+        },
+        {
+          "term": "DBMS",
+          "definition": "Software that manages the database"
+        },
+        {
+          "term": "Primary key",
+          "definition": "Uniquely identifies each row"
+        },
+        {
+          "term": "Foreign key",
+          "definition": "Points to another table's primary key"
+        }
+      ],
+      "explanation": "Data, the software, the ID, the link."
+    },
+    {
+      "id": "dc-06",
+      "format": "translate-code",
+      "prompt": "Which JavaScript does the same thing?",
+      "code": "SELECT name FROM Students;",
+      "from": "sql",
+      "to": "javascript",
+      "options": [
+        "students.map(s => s.name)",
+        "students.filter(s => s.name)",
+        "students.length",
+        "students.push({name: 'x'})"
+      ],
+      "answer": 0,
+      "explanation": "SELECT name = project one column = map to that property."
+    },
+    {
+      "id": "dc-07",
+      "format": "predict-output",
+      "prompt": "What does this return?",
+      "code": "SELECT LENGTH('hello');",
+      "language": "sql",
+      "options": [
+        "5",
+        "4",
+        "hello",
+        "0"
+      ],
+      "answer": 0,
+      "explanation": "'hello' has 5 characters."
+    },
+    {
+      "id": "dc-08",
+      "format": "spot-the-bug",
+      "prompt": "What's wrong? (Students has columns student_id and name — no 'id'.)",
+      "code": "CREATE TABLE Enrollments (\n    student_id INT REFERENCES Students(id),\n    course TEXT\n);",
+      "language": "sql",
+      "options": [
+        "The foreign key references a column that doesn't exist",
+        "INT is the wrong type",
+        "REFERENCES must come first",
+        "Nothing is wrong"
+      ],
+      "answer": 0,
+      "explanation": "Students.id doesn't exist — the reference must point at Students(student_id)."
+    },
+    {
+      "id": "dc-09",
+      "format": "fill-blanks",
+      "prompt": "The ___ is the database blueprint — structure, not data.",
+      "code": "-- the ___ describes tables, columns, and keys",
+      "language": "text",
+      "options": [
+        "schema",
+        "query",
+        "backup",
+        "index"
+      ],
+      "answer": 0,
+      "explanation": "Schema = the blueprint. Data = what fills it."
+    },
+    {
+      "id": "dc-10",
+      "format": "translate-code",
+      "prompt": "Which SQL does the same filtering?",
+      "code": "const calgary = students.filter(s => s.city === 'Calgary');",
+      "from": "javascript",
+      "to": "sql",
+      "options": [
+        "SELECT * FROM Students WHERE city = 'Calgary';",
+        "SELECT city FROM Students;",
+        "DELETE FROM Students WHERE city = 'Calgary';",
+        "SELECT * FROM Students ORDER BY city;"
+      ],
+      "answer": 0,
+      "explanation": "filter() on a condition = WHERE with that condition."
+    }
+  ]
+}

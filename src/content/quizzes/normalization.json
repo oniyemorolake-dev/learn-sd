@@ -1,0 +1,177 @@
+{
+  "topicId": "normalization",
+  "title": "Normalization",
+  "description": "Killing redundancy with 1NF, 2NF, and 3NF.",
+  "formatsUsed": [
+    "predict-output",
+    "spot-the-bug",
+    "arrange-order",
+    "fill-blanks",
+    "matching",
+    "translate-code"
+  ],
+  "questions": [
+    {
+      "id": "nm-01",
+      "format": "predict-output",
+      "prompt": "How many phone numbers are crammed into this one cell?",
+      "code": "const phones = \"555-01, 555-02\";\nconsole.log(phones.split(\",\").length);",
+      "language": "javascript",
+      "options": [
+        "2",
+        "1",
+        "0",
+        "undefined"
+      ],
+      "answer": 0,
+      "explanation": "Two values in one cell — exactly what 1NF forbids."
+    },
+    {
+      "id": "nm-02",
+      "format": "spot-the-bug",
+      "prompt": "Which normal form does product_name violate?",
+      "code": "CREATE TABLE OrderItems (\n    order_id INT,\n    product_id INT,\n    product_name TEXT,   -- depends only on product_id\n    PRIMARY KEY (order_id, product_id)\n);",
+      "language": "sql",
+      "options": [
+        "2NF — it depends on only part of the key",
+        "1NF",
+        "3NF",
+        "None"
+      ],
+      "answer": 0,
+      "explanation": "The key is (order_id, product_id) but product_name needs only product_id — partial dependency."
+    },
+    {
+      "id": "nm-03",
+      "format": "arrange-order",
+      "prompt": "Order the normal forms from weakest to strongest.",
+      "lines": [
+        "3NF",
+        "1NF",
+        "2NF"
+      ],
+      "answer": [
+        1,
+        2,
+        0
+      ],
+      "explanation": "1NF → 2NF → 3NF, each building on the last."
+    },
+    {
+      "id": "nm-04",
+      "format": "fill-blanks",
+      "prompt": "tax_rate depends on customer_id through city — a ___ dependency.",
+      "code": "-- customer_id → city → tax_rate  (___ dependency)",
+      "language": "text",
+      "options": [
+        "transitive",
+        "partial",
+        "circular",
+        "direct"
+      ],
+      "answer": 0,
+      "explanation": "A depends on B depends on C = transitive — 3NF's target."
+    },
+    {
+      "id": "nm-05",
+      "format": "matching",
+      "prompt": "Match each normal form to its rule.",
+      "pairs": [
+        {
+          "term": "1NF",
+          "definition": "Atomic values, no repeating groups"
+        },
+        {
+          "term": "2NF",
+          "definition": "No partial dependency on part of the key"
+        },
+        {
+          "term": "3NF",
+          "definition": "No transitive dependency via another column"
+        },
+        {
+          "term": "Denormalization",
+          "definition": "Deliberate redundancy for read speed"
+        }
+      ],
+      "explanation": "Atomic, whole-key, no-middlemen, deliberate rule-breaking."
+    },
+    {
+      "id": "nm-06",
+      "format": "translate-code",
+      "prompt": "This split — which JavaScript models it?",
+      "code": "-- split repeating customer data out of Orders\nCREATE TABLE Customers (customer_id INT PRIMARY KEY, phone TEXT);",
+      "from": "sql",
+      "to": "javascript",
+      "options": [
+        "const customers = [{ customer_id: 1, phone: \"555-01\" }];\nconst orders = [{ order_id: 101, customer_id: 1 }];",
+        "const orders = [{ order_id: 101, phone: \"555-01\" }];",
+        "const data = \"split\";",
+        "customers.push(orders);"
+      ],
+      "answer": 0,
+      "explanation": "Customers live once in their own array; orders just hold the key."
+    },
+    {
+      "id": "nm-07",
+      "format": "predict-output",
+      "prompt": "How many distinct phones are stored across these redundant rows?",
+      "code": "const orders = [\n  { id: 1, customer: \"Ava\", phone: \"555-01\" },\n  { id: 2, customer: \"Ava\", phone: \"555-01\" }\n];\nconst phones = new Set(orders.map(o => o.phone));\nconsole.log(phones.size);",
+      "language": "javascript",
+      "options": [
+        "1",
+        "2",
+        "0",
+        "undefined"
+      ],
+      "answer": 0,
+      "explanation": "One real phone number stored twice — the redundancy normalization removes."
+    },
+    {
+      "id": "nm-08",
+      "format": "spot-the-bug",
+      "prompt": "Which normal form is violated? (city determines taxRate, neither is the key)",
+      "code": "const customer = { id: 7, city: \"Calgary\", taxRate: 0.05 };\n// taxRate depends on city, not on id",
+      "language": "javascript",
+      "options": [
+        "3NF — transitive dependency via city",
+        "1NF",
+        "2NF",
+        "None — this is fine"
+      ],
+      "answer": 0,
+      "explanation": "taxRate depends on city (a non-key column), not directly on the key — classic 3NF violation."
+    },
+    {
+      "id": "nm-09",
+      "format": "fill-blanks",
+      "prompt": "A key with more than one column is a ___ key — and only this kind makes 2NF relevant.",
+      "code": "PRIMARY KEY (order_id, product_id)  -- a ___ key",
+      "language": "text",
+      "options": [
+        "composite",
+        "single-column",
+        "foreign",
+        "weak"
+      ],
+      "answer": 0,
+      "explanation": "Partial dependency needs a composite key to be partial on — single-column keys can't violate 2NF."
+    },
+    {
+      "id": "nm-10",
+      "format": "translate-code",
+      "prompt": "Which SQL table design matches this 1NF shape?",
+      "code": "// one phone per row — 1NF\nconst phones = [\n  { customer_id: 1, phone: \"555-01\" },\n  { customer_id: 1, phone: \"555-02\" }\n];",
+      "from": "javascript",
+      "to": "sql",
+      "options": [
+        "CREATE TABLE Phones (\n    customer_id INT,\n    phone TEXT\n);",
+        "CREATE TABLE Phones (customer_id INT, phone1 TEXT, phone2 TEXT);",
+        "CREATE TABLE Phones (data TEXT);",
+        "CREATE Phones;"
+      ],
+      "answer": 0,
+      "explanation": "One value per cell, one phone per row — repeating groups become rows, not columns."
+    }
+  ]
+}

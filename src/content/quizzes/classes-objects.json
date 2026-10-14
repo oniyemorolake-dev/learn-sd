@@ -1,0 +1,179 @@
+{
+  "topicId": "classes-objects",
+  "title": "Classes & Objects",
+  "description": "Blueprints, objects, instance vs static, and who can touch what.",
+  "formatsUsed": [
+    "predict-output",
+    "spot-the-bug",
+    "arrange-order",
+    "fill-blanks",
+    "matching",
+    "translate-code"
+  ],
+  "questions": [
+    {
+      "id": "co-01",
+      "format": "predict-output",
+      "prompt": "What does this print?",
+      "code": "class Counter {\n    static int n = 0;\n    Counter() { n++; }\n}\nCounter a = new Counter();\nCounter b = new Counter();\nSystem.out.println(Counter.n);",
+      "language": "java",
+      "options": [
+        "1",
+        "2",
+        "0",
+        "3"
+      ],
+      "answer": 1,
+      "explanation": "n is static — one shared copy. The constructor ran twice, so n is 2."
+    },
+    {
+      "id": "co-02",
+      "format": "spot-the-bug",
+      "prompt": "What's wrong with d.name = \"Rex\"?",
+      "code": "class Dog {\n    private String name;\n    public String getName() { return name; }\n}\nDog d = new Dog();\nd.name = \"Rex\";  // direct access",
+      "language": "java",
+      "options": [
+        "name is private — outside code can't touch it directly",
+        "Nothing, this works fine",
+        "Should call d.getName() instead",
+        "The string needs different quotes"
+      ],
+      "answer": 0,
+      "explanation": "private blocks direct access from outside the class. You'd need a setter like setName()."
+    },
+    {
+      "id": "co-03",
+      "format": "arrange-order",
+      "prompt": "Order these from first to last when an object is created.",
+      "lines": [
+        "Constructor body runs",
+        "Reference is assigned to the variable",
+        "Memory is allocated",
+        "Fields get default values"
+      ],
+      "answer": [
+        2,
+        3,
+        0,
+        1
+      ],
+      "explanation": "Memory first, fields get defaults, the constructor runs, then the reference is assigned."
+    },
+    {
+      "id": "co-04",
+      "format": "fill-blanks",
+      "prompt": "Creating an object needs the ___ keyword.",
+      "code": "Dog d = ___ Dog(\"Rex\");",
+      "language": "java",
+      "options": [
+        "new",
+        "make",
+        "create",
+        "class"
+      ],
+      "answer": 0,
+      "explanation": "new allocates the memory and runs the constructor."
+    },
+    {
+      "id": "co-05",
+      "format": "matching",
+      "prompt": "Match each term to its meaning.",
+      "pairs": [
+        {
+          "term": "Class",
+          "definition": "Blueprint that objects are built from"
+        },
+        {
+          "term": "Object",
+          "definition": "One instance built from a class"
+        },
+        {
+          "term": "Constructor",
+          "definition": "Special method that runs at creation"
+        },
+        {
+          "term": "Static",
+          "definition": "Belongs to the class, shared by all objects"
+        }
+      ],
+      "explanation": "Class = blueprint, object = instance, constructor = setup, static = shared."
+    },
+    {
+      "id": "co-06",
+      "format": "translate-code",
+      "prompt": "Which JavaScript is the same class?",
+      "code": "class Dog {\n    String name;\n    Dog(String name) { this.name = name; }\n}",
+      "from": "java",
+      "to": "javascript",
+      "options": [
+        "class Dog {\n  constructor(name) { this.name = name; }\n}",
+        "function Dog(name) { return name; }",
+        "const Dog = { name: \"\" };",
+        "class Dog extends name {}"
+      ],
+      "answer": 0,
+      "explanation": "Java's constructor becomes JavaScript's constructor() method — same idea, different keyword."
+    },
+    {
+      "id": "co-07",
+      "format": "predict-output",
+      "prompt": "What does this print?",
+      "code": "class Cat {\n    String name = \"Kitty\";\n    Cat(String n) { name = n; }\n}\nCat c = new Cat(\"Miso\");\nSystem.out.println(c.name);",
+      "language": "java",
+      "options": [
+        "Miso",
+        "Kitty",
+        "null",
+        "KittyMiso"
+      ],
+      "answer": 0,
+      "explanation": "The constructor overwrote the field initializer — name is now \"Miso\"."
+    },
+    {
+      "id": "co-08",
+      "format": "spot-the-bug",
+      "prompt": "What's wrong with 'int Box()'?",
+      "code": "class Box {\n    Box() { }\n    int Box() { return 5; }  // looks like a constructor?",
+      "language": "java",
+      "options": [
+        "A constructor can't have a return type — this is just a method",
+        "Constructors must be private",
+        "Nothing is wrong",
+        "It should be static"
+      ],
+      "answer": 0,
+      "explanation": "The moment you add 'int', it's an ordinary method that happens to share the class name."
+    },
+    {
+      "id": "co-09",
+      "format": "fill-blanks",
+      "prompt": "This kind of variable is ___.",
+      "code": "static int count = 0;  // ___ variable",
+      "language": "java",
+      "options": [
+        "static",
+        "private",
+        "final",
+        "local"
+      ],
+      "answer": 0,
+      "explanation": "static = one copy shared by every object of the class."
+    },
+    {
+      "id": "co-10",
+      "format": "translate-code",
+      "prompt": "Which Java version matches this JavaScript?",
+      "code": "class Circle {\n  constructor(r) { this.r = r; }\n  area() { return 3.14 * this.r * this.r; }\n}",
+      "from": "javascript",
+      "to": "java",
+      "options": [
+        "class Circle {\n    double r;\n    Circle(double r) { this.r = r; }\n    double area() { return 3.14 * r * r; }\n}",
+        "class Circle { double area() { return 3.14; } }",
+        "interface Circle { double r; }",
+        "Circle(r) { this.r = r; }"
+      ],
+      "answer": 0,
+      "explanation": "Fields declared with types, a same-name constructor, and a typed method — the Java mirror of the JS class."
+    }
+  ]
+}

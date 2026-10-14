@@ -9,7 +9,7 @@ import { flattenCodeLabTopics, flattenTopics, isTopicComplete } from '../lib/con
 import { shiftStamp, todayStamp, xpIntoLevel } from '../lib/storage.js';
 
 export default function ProgressScreen() {
-  const { state, go, level } = useApp();
+  const { state, go, level, persistHint } = useApp();
   const topics = flattenTopics();
   const done = topics.filter((item) => isTopicComplete(item.topicId, state)).length;
   const byCourse = [];
@@ -38,6 +38,12 @@ export default function ProgressScreen() {
   return (
     <div className="stack">
       <ScreenHeader title="Progress" kicker="Keep going" />
+
+      {persistHint ? (
+        <div className="feedback" role="status">
+          {persistHint}
+        </div>
+      ) : null}
 
       <ReviewDue
         reviews={state.reviews}

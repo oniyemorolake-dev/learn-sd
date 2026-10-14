@@ -1,4 +1,4 @@
-import { emptyState, STORAGE_PREFIX, STORAGE_KEY, todayStamp } from './storage.js';
+import { emptyState, hasProgress, normalizeState, STORAGE_PREFIX, STORAGE_KEY, todayStamp } from './storage.js';
 
 export const BACKUP_APP = 'learn-sd';
 
@@ -59,14 +59,7 @@ export function parseBackup(raw) {
 }
 
 export function hasStoredProgress(state) {
-  if (!state) return false;
-  if (Number(state.xp) > 0) return true;
-  if (state.streak?.count > 0) return true;
-  if (state.bookmarks?.length) return true;
-  for (const key of ['lessons', 'quizzes', 'exercises', 'tracks', 'reviews', 'attempts']) {
-    if (state[key] && Object.keys(state[key]).length) return true;
-  }
-  return false;
+  return hasProgress(state);
 }
 
 export function applyBackup(data, store = readStore()) {
@@ -81,7 +74,7 @@ export function applyBackup(data, store = readStore()) {
   }
   try {
     const next = store.getItem(STORAGE_KEY);
-    return next ? { ...emptyState(), ...JSON.parse(next) } : emptyState();
+    return next ? normalizeState(JSON.parse(next)) : emptyState();
   } catch {
     return emptyState();
   }

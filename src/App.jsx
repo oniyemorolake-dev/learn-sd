@@ -18,6 +18,8 @@ import AiPracticeScreen from './screens/AiPracticeScreen.jsx';
 import InterviewTrackScreen from './screens/InterviewTrackScreen.jsx';
 import CodeLabScreen from './screens/CodeLabScreen.jsx';
 import CodeLanguageScreen from './screens/CodeLanguageScreen.jsx';
+import ExamSetupScreen from './screens/ExamSetupScreen.jsx';
+import ExamScreen from './screens/ExamScreen.jsx';
 import Footer from './components/Footer.jsx';
 import { SearchHost, SearchProvider } from './components/SearchOverlay.jsx';
 
@@ -56,6 +58,10 @@ function ScreenRouter() {
       return <CodeLabScreen />;
     case 'code-language':
       return <CodeLanguageScreen />;
+    case 'exam-setup':
+      return <ExamSetupScreen />;
+    case 'exam':
+      return <ExamScreen />;
     default:
       return <PathScreen />;
   }

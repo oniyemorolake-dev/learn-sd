@@ -12,6 +12,14 @@ export default function PracticeScreen() {
       <ScreenHeader title="Practice" kicker="Hands-on" />
       <p className="lede">Run real code. Compare it to the expected output.</p>
 
+      <button type="button" className="track-entry" onClick={() => go('exam-setup')}>
+        <span>
+          <strong>Mock Exam</strong>
+          <div className="muted">A mixed exam from every quiz you have. 10, 20, or 30 questions.</div>
+        </span>
+        <span className="badge">Exam</span>
+      </button>
+
       <button type="button" className="list-row" onClick={() => go('playground')}>
         <span>
           <strong>Code Playground</strong>

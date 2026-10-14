@@ -1,33 +1,16 @@
 import { useState } from 'react';
 import ScreenHeader from '../components/ScreenHeader.jsx';
-import CodeBlock from '../components/CodeBlock.jsx';
 import ProgressBar from '../components/ProgressBar.jsx';
 import PrimaryButton from '../components/PrimaryButton.jsx';
 import Celebrate from '../components/Celebrate.jsx';
 import ComingSoon from '../components/ComingSoon.jsx';
+import QuestionCard from '../components/QuestionCard.jsx';
 import { useApp } from '../context/AppContext.jsx';
 import { codeLabTopicParams, findCodeLabTopic, quizzes, topicTitle } from '../lib/content.js';
 import { prepareQuizQuestions } from '../lib/quiz.js';
+import { isQuestionCorrect } from '../lib/exam.js';
 import { appendAttempt, conqueredLine, topicFocus } from '../lib/focus.js';
 import { todayStamp } from '../lib/storage.js';
-
-const CODE_LANGUAGES = new Set([
-  'javascript',
-  'js',
-  'java',
-  'python',
-  'sql',
-  'plsql',
-  'pl/sql',
-  'jsx',
-  'bash',
-  'html',
-  'css',
-  'json',
-  'text',
-  'typescript',
-  'tsx',
-]);
 
 function reviewCelebrateBody(isReview, score, total, clearedFocus) {
   if (clearedFocus) {
@@ -41,12 +24,6 @@ function reviewCelebrateBody(isReview, score, total, clearedFocus) {
   const pct = total > 0 ? score / total : 0;
   if (pct < 0.8) return "Let's see this one again tomorrow.";
   return 'Nice review. This one can rest a little longer.';
-}
-
-function blockLanguage(question) {
-  const raw = question.language || question.from;
-  if (!raw) return undefined;
-  return CODE_LANGUAGES.has(String(raw).toLowerCase()) ? raw : undefined;
 }
 
 export default function QuizScreen() {
@@ -89,18 +66,8 @@ export default function QuizScreen() {
     );
   }
 
-  function isCorrect() {
-    if (question.format === 'arrange-order') {
-      return question.items.map((item) => item.originalIndex).join() === question.answer.join();
-    }
-    if (question.format === 'matching') {
-      return question.terms.every((term) => question.matches[term.i] === term.definition);
-    }
-    return picked === question.answer;
-  }
-
   function check() {
-    if (isCorrect()) setScore((n) => n + 1);
+    if (isQuestionCorrect(question, picked)) setScore((n) => n + 1);
     else setWrongFormats((list) => [...list, question.format || 'multiple-choice']);
     setRevealed(true);
   }
@@ -197,7 +164,7 @@ export default function QuizScreen() {
         onMatch={(matches) => patchQuestion({ matches })}
       />
       {revealed ? (
-        <div className={`feedback ${isCorrect() ? 'ok' : ''}`}>{question.explanation}</div>
+        <div className={`feedback ${isQuestionCorrect(question, picked) ? 'ok' : ''}`}>{question.explanation}</div>
       ) : null}
       {revealed ? (
         <PrimaryButton onClick={next}>{index + 1 >= questions.length ? 'See score' : 'Next'}</PrimaryButton>
@@ -207,111 +174,5 @@ export default function QuizScreen() {
         </PrimaryButton>
       )}
     </div>
-  );
-}
-
-function QuestionCard({ question, picked, setPicked, revealed, onMoveItems, onMatch }) {
-  if (question.format === 'arrange-order') {
-    return <ArrangeQuestion question={question} revealed={revealed} onMoveItems={onMoveItems} />;
-  }
-  if (question.format === 'matching') {
-    return <MatchingQuestion question={question} revealed={revealed} onMatch={onMatch} />;
-  }
-
-  return (
-    <article className="card stack">
-      <p className="kicker">{question.format.replace(/-/g, ' ')}</p>
-      <h2 style={{ margin: 0 }}>{question.prompt}</h2>
-      {question.from && question.to ? (
-        <p className="muted">
-          {question.from} → {question.to}
-        </p>
-      ) : null}
-      <CodeBlock language={blockLanguage(question)} snippet={question.code} />
-      {question.options.map((option, i) => {
-        let cls = 'choice';
-        if (picked === i) cls += ' selected';
-        if (revealed && i === question.answer) cls += ' correct';
-        if (revealed && picked === i && i !== question.answer) cls += ' wrong';
-        return (
-          <button key={i} type="button" className={cls} onClick={() => !revealed && setPicked(i)}>
-            <pre style={{ margin: 0, fontFamily: 'inherit', whiteSpace: 'pre-wrap' }}>{option}</pre>
-          </button>
-        );
-      })}
-    </article>
-  );
-}
-
-function ArrangeQuestion({ question, revealed, onMoveItems }) {
-  function move(from, to) {
-    if (revealed) return;
-    if (to < 0 || to >= question.items.length) return;
-    const next = [...question.items];
-    const [item] = next.splice(from, 1);
-    next.splice(to, 0, item);
-    onMoveItems(next);
-  }
-
-  return (
-    <article className="card">
-      <p className="kicker">arrange order</p>
-      <h2 style={{ marginTop: 0 }}>{question.prompt}</h2>
-      {question.items.map((item, i) => (
-        <div className="arrange-line" key={`${item.originalIndex}-${i}`}>
-          <button type="button" className="icon-btn" aria-label="Move up" onClick={() => move(i, i - 1)}>
-            ↑
-          </button>
-          <code>{item.text}</code>
-          <button type="button" className="icon-btn" aria-label="Move down" onClick={() => move(i, i + 1)}>
-            ↓
-          </button>
-        </div>
-      ))}
-    </article>
-  );
-}
-
-function MatchingQuestion({ question, revealed, onMatch }) {
-  const [term, setTerm] = useState(null);
-
-  function pickDef(definition) {
-    if (revealed || term === null) return;
-    onMatch({ ...question.matches, [term]: definition });
-    setTerm(null);
-  }
-
-  return (
-    <article className="card">
-      <p className="kicker">matching</p>
-      <h2 style={{ marginTop: 0 }}>{question.prompt}</h2>
-      <p className="muted">Tap a term, then tap its meaning.</p>
-      <div className="match-grid">
-        <div className="stack">
-          {question.terms.map((item) => (
-            <button
-              key={item.term}
-              type="button"
-              className={`choice ${term === item.i ? 'selected' : ''} ${
-                revealed && question.matches[item.i] === item.definition ? 'correct' : ''
-              }`}
-              onClick={() => !revealed && setTerm(item.i)}
-            >
-              <strong>{item.term}</strong>
-              {question.matches[item.i] ? (
-                <div className="muted">{question.matches[item.i]}</div>
-              ) : null}
-            </button>
-          ))}
-        </div>
-        <div className="stack">
-          {question.defs.map((definition) => (
-            <button key={definition} type="button" className="choice" onClick={() => pickDef(definition)}>
-              {definition}
-            </button>
-          ))}
-        </div>
-      </div>
-    </article>
   );
 }

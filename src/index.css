@@ -214,6 +214,11 @@ svg {
   color: var(--text);
 }
 
+.btn-secondary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 .progress-track {
   height: 8px;
   background: var(--surface-2);
@@ -948,6 +953,83 @@ svg {
   background: var(--surface);
   color: var(--text);
   font-weight: 700;
+}
+
+.exam-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.exam-chip {
+  min-height: 44px;
+  min-width: 72px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 800;
+}
+
+.exam-chip.selected {
+  border-color: var(--primary-to);
+  background: var(--accent-dim);
+  color: var(--accent-text);
+}
+
+.exam-timer {
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+.exam-timer.low {
+  background: rgba(245, 158, 11, 0.16);
+  color: var(--warn);
+}
+
+.exam-nav {
+  display: flex;
+  gap: 10px;
+}
+
+.exam-nav .btn-primary,
+.exam-nav .btn-secondary {
+  flex: 1;
+}
+
+.exam-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
+  gap: 8px;
+}
+
+.exam-dot {
+  min-height: 44px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.exam-dot.answered {
+  background: var(--accent-dim);
+  color: var(--accent-text);
+  border-color: transparent;
+}
+
+.exam-dot.current {
+  border-color: var(--primary-to);
+  color: var(--text);
+  box-shadow: inset 0 0 0 1px var(--primary-to);
 }
 
 @media (max-width: 520px) {

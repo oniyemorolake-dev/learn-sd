@@ -15,7 +15,7 @@ export function tabForView(view) {
     return 'code';
   }
 
-  if (['practice', 'exercise', 'playground'].includes(name)) return 'practice';
+  if (['practice', 'exercise', 'playground', 'exam-setup', 'exam'].includes(name)) return 'practice';
   if (['setup', 'guide', 'ai-track', 'ai-lesson', 'ai-practice', 'interview-track'].includes(name)) {
     return 'setup';
   }

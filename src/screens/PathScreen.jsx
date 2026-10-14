@@ -6,7 +6,7 @@ import { courses, getNodeState, topicTitle } from '../lib/content.js';
 import { focusTopicIds } from '../lib/focus.js';
 
 export default function PathScreen() {
-  const { state, go } = useApp();
+  const { state, go, persistHint } = useApp();
   const focusIds = focusTopicIds(state.attempts);
 
   return (
@@ -21,6 +21,11 @@ export default function PathScreen() {
         }
       />
       <p className="lede">One topic at a time. Follow the glowing node.</p>
+      {persistHint ? (
+        <div className="feedback" role="status">
+          {persistHint}
+        </div>
+      ) : null}
 
       <ReviewDue
         reviews={state.reviews}

@@ -7,6 +7,7 @@ import Celebrate from '../components/Celebrate.jsx';
 import ComingSoon from '../components/ComingSoon.jsx';
 import { useApp } from '../context/AppContext.jsx';
 import { codeLabTopicParams, findCodeLabTopic, findInterviewLesson, lessons, topicTitle } from '../lib/content.js';
+import { shuffleAnswerBlock } from '../lib/shuffle.js';
 
 export default function LessonScreen() {
   const { view, go, completeLesson, completeTrackLesson, toggleBookmark, isBookmarked } = useApp();
@@ -26,6 +27,7 @@ export default function LessonScreen() {
   const [revealed, setRevealed] = useState(false);
   const [checkPick, setCheckPick] = useState(null);
   const [done, setDone] = useState(false);
+  const [shuffledCheckIn] = useState(() => shuffleAnswerBlock(lesson?.checkIn));
 
   if (!lesson) {
     return (
@@ -37,7 +39,8 @@ export default function LessonScreen() {
   }
 
   const screens = lesson.screens || [];
-  const hasCheckIn = Boolean(lesson.checkIn);
+  const checkIn = shuffledCheckIn || lesson.checkIn;
+  const hasCheckIn = Boolean(checkIn);
   const totalSteps = screens.length + (hasCheckIn ? 1 : 0);
   const onCheckIn = hasCheckIn && index >= screens.length;
   const bookmarkId = `lesson:${topicId}`;
@@ -58,7 +61,7 @@ export default function LessonScreen() {
   function goNext() {
     if (onCheckIn) {
       if (interviewLesson) completeTrackLesson('interview-prep', topicId);
-      else completeLesson(topicId, picked === lesson.checkIn.answer);
+      else completeLesson(topicId, picked === checkIn.answer);
       setDone(true);
       return;
     }
@@ -111,32 +114,26 @@ export default function LessonScreen() {
             {screen.keyPoint ? <p className="key-point">{screen.keyPoint}</p> : null}
           </article>
           {screenCheck ? (
-            <ScreenCheck check={screenCheck} pick={checkPick} onPick={setCheckPick} />
+            <ScreenCheck
+              key={screen.heading || index}
+              check={screenCheck}
+              pick={checkPick}
+              onPick={setCheckPick}
+            />
           ) : null}
         </>
       ) : (
         <article className="card stack">
-          <h2 style={{ marginTop: 0 }}>{lesson.checkIn.prompt}</h2>
-          {lesson.checkIn.options.map((option, i) => {
-            let cls = 'choice';
-            if (picked === i) cls += ' selected';
-            if (revealed && i === lesson.checkIn.answer) cls += ' correct';
-            if (revealed && picked === i && i !== lesson.checkIn.answer) cls += ' wrong';
-            return (
-              <button
-                key={option}
-                type="button"
-                className={cls}
-                onClick={() => !revealed && setPicked(i)}
-              >
-                {option}
-              </button>
-            );
-          })}
+          <h2 style={{ marginTop: 0 }}>{checkIn.prompt}</h2>
+          <ChoiceButtons
+            options={checkIn.options}
+            answer={checkIn.answer}
+            picked={picked}
+            revealed={revealed}
+            onPick={setPicked}
+          />
           {revealed ? (
-            <div className={`feedback ${picked === lesson.checkIn.answer ? 'ok' : ''}`}>
-              {lesson.checkIn.explanation}
-            </div>
+            <div className={`feedback ${picked === checkIn.answer ? 'ok' : ''}`}>{checkIn.explanation}</div>
           ) : null}
           {revealed && lesson.goDeeper?.length ? (
             <div className="go-deeper">
@@ -166,33 +163,38 @@ export default function LessonScreen() {
   );
 }
 
+function ChoiceButtons({ options, answer, picked, revealed, onPick }) {
+  const correctIndex = Number(answer);
+  return (options || []).map((option, i) => {
+    let cls = 'choice';
+    if (picked === i) cls += ' selected';
+    if (revealed && i === correctIndex) cls += ' correct';
+    if (revealed && picked === i && i !== correctIndex) cls += ' wrong';
+    return (
+      <button key={`${i}:${option}`} type="button" className={cls} onClick={() => !revealed && onPick(i)}>
+        {option}
+      </button>
+    );
+  });
+}
+
 function ScreenCheck({ check, pick, onPick }) {
+  const [mixed] = useState(() => shuffleAnswerBlock(check) || check);
   const answered = pick !== null;
   return (
     <article className="card stack">
       <p className="kicker">Quick check</p>
-      <p style={{ margin: 0, fontWeight: 800 }}>{check.question}</p>
-      {check.options.map((option, i) => {
-        let cls = 'choice';
-        if (pick === i) cls += ' selected';
-        if (answered && i === check.answer) cls += ' correct';
-        if (answered && pick === i && i !== check.answer) cls += ' wrong';
-        return (
-          <button
-            key={option}
-            type="button"
-            className={cls}
-            onClick={() => {
-              if (!answered) onPick(i);
-            }}
-          >
-            {option}
-          </button>
-        );
-      })}
+      <p style={{ margin: 0, fontWeight: 800 }}>{mixed.question}</p>
+      <ChoiceButtons
+        options={mixed.options}
+        answer={mixed.answer}
+        picked={pick}
+        revealed={answered}
+        onPick={onPick}
+      />
       {answered ? (
-        <div className={`feedback ${pick === check.answer ? 'ok' : ''}`}>
-          {pick === check.answer ? 'Yes — that matches.' : 'Not that one. Continue whenever you are ready.'}
+        <div className={`feedback ${pick === mixed.answer ? 'ok' : ''}`}>
+          {pick === mixed.answer ? 'Yes — that matches.' : 'Not that one. Continue whenever you are ready.'}
         </div>
       ) : null}
     </article>

@@ -30,7 +30,7 @@ function ScreenRouter() {
     case 'topic':
       return <TopicScreen />;
     case 'lesson':
-      return <LessonScreen />;
+      return <LessonScreen key={view.params.topicId} />;
     case 'quiz':
       return <QuizScreen key={view.params.topicId} />;
     case 'practice':
@@ -50,7 +50,7 @@ function ScreenRouter() {
     case 'ai-track':
       return <AiTrackScreen />;
     case 'ai-lesson':
-      return <AiLessonScreen />;
+      return <AiLessonScreen key={view.params.lessonId} />;
     case 'ai-practice':
       return <AiPracticeScreen />;
     case 'interview-track':

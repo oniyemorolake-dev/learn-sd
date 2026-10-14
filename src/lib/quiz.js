@@ -1,4 +1,4 @@
-import { shuffle, shuffleChoices } from './shuffle.js';
+import { shuffle, shuffleAnswerBlock } from './shuffle.js';
 
 const SKIP_OPTION_SHUFFLE = new Set(['matching', 'arrange-order']);
 
@@ -15,8 +15,7 @@ export function shuffleQuestionOptions(question) {
   if (options.length < 2 || source < 0 || source >= options.length) {
     return { ...question, options };
   }
-  const mixed = shuffleChoices(options, source);
-  return { ...question, options: mixed.options, answer: mixed.answer };
+  return { ...question, ...shuffleAnswerBlock({ options, answer: source }) };
 }
 
 function prepareQuestion(question) {

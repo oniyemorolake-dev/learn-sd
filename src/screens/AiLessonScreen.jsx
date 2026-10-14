@@ -7,6 +7,7 @@ import Celebrate from '../components/Celebrate.jsx';
 import ComingSoon from '../components/ComingSoon.jsx';
 import { useApp } from '../context/AppContext.jsx';
 import { findAiLesson } from '../lib/content.js';
+import { shuffleAnswerBlock } from '../lib/shuffle.js';
 
 export default function AiLessonScreen() {
   const { view, go, completeTrackLesson } = useApp();
@@ -16,6 +17,7 @@ export default function AiLessonScreen() {
   const [picked, setPicked] = useState(null);
   const [revealed, setRevealed] = useState(false);
   const [done, setDone] = useState(false);
+  const [shuffledCheckIn] = useState(() => shuffleAnswerBlock(lesson?.checkIn));
 
   if (!lesson) {
     return (
@@ -27,7 +29,8 @@ export default function AiLessonScreen() {
   }
 
   const screens = lesson.screens || [];
-  const hasCheckIn = Boolean(lesson.checkIn);
+  const checkIn = shuffledCheckIn || lesson.checkIn;
+  const hasCheckIn = Boolean(checkIn);
   const totalSteps = screens.length + (hasCheckIn ? 1 : 0);
   const onCheckIn = hasCheckIn && index >= screens.length;
 
@@ -64,21 +67,21 @@ export default function AiLessonScreen() {
         </article>
       ) : (
         <article className="card stack">
-          <h2 style={{ marginTop: 0 }}>{lesson.checkIn.prompt}</h2>
-          {lesson.checkIn.options.map((option, i) => {
+          <h2 style={{ marginTop: 0 }}>{checkIn.prompt}</h2>
+          {checkIn.options.map((option, i) => {
             let cls = 'choice';
             if (picked === i) cls += ' selected';
-            if (revealed && i === lesson.checkIn.answer) cls += ' correct';
-            if (revealed && picked === i && i !== lesson.checkIn.answer) cls += ' wrong';
+            if (revealed && i === checkIn.answer) cls += ' correct';
+            if (revealed && picked === i && i !== checkIn.answer) cls += ' wrong';
             return (
-              <button key={option} type="button" className={cls} onClick={() => !revealed && setPicked(i)}>
+              <button key={`${i}:${option}`} type="button" className={cls} onClick={() => !revealed && setPicked(i)}>
                 {option}
               </button>
             );
           })}
           {revealed ? (
-            <div className={`feedback ${picked === lesson.checkIn.answer ? 'ok' : ''}`}>
-              {lesson.checkIn.explanation}
+            <div className={`feedback ${picked === checkIn.answer ? 'ok' : ''}`}>
+              {checkIn.explanation}
             </div>
           ) : null}
           {revealed && lesson.goDeeper?.length ? (
@@ -110,7 +113,7 @@ export default function AiLessonScreen() {
       ) : revealed ? (
         <PrimaryButton
           onClick={() => {
-            completeTrackLesson('ai-prompting', lesson.id, picked === lesson.checkIn.answer);
+            completeTrackLesson('ai-prompting', lesson.id, picked === checkIn.answer);
             setDone(true);
           }}
         >

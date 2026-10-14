@@ -7,7 +7,7 @@ export function shuffle(list) {
   return next;
 }
 
-export function shuffleChoices(options, answerIndex) {
+export function shuffleOptions(options, answerIndex) {
   const list = Array.isArray(options) ? [...options] : [];
   const source = Number.parseInt(answerIndex, 10);
   const packed = list.map((label, index) => ({ label, index }));
@@ -17,4 +17,12 @@ export function shuffleChoices(options, answerIndex) {
     options: mixed.map((item) => item.label),
     answer: answer === -1 || !Number.isInteger(source) ? source : answer,
   };
+}
+
+export const shuffleChoices = shuffleOptions;
+
+export function shuffleAnswerBlock(item) {
+  if (!item || !Array.isArray(item.options)) return item;
+  const mixed = shuffleOptions(item.options, item.answer);
+  return { ...item, options: mixed.options, answer: mixed.answer };
 }

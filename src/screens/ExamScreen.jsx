@@ -121,6 +121,7 @@ export default function ExamScreen() {
       ) : null}
       <ProgressBar value={session.index} max={session.questions.length} />
       <QuestionCard
+        key={examQuestionKeySafe(question, session.index)}
         question={question}
         picked={question.picked}
         setPicked={(picked) => patchCurrent({ picked })}

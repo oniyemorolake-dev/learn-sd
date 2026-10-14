@@ -1,0 +1,17 @@
+{
+  "name": "Learn SD",
+  "short_name": "Learn SD",
+  "description": "A calm, bite-sized study path for SAIT Software Development students.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0F0B1E",
+  "theme_color": "#0F0B1E",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

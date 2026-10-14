@@ -118,11 +118,7 @@ export function readProgress(store = getStore()) {
   try {
     return { state: normalizeState(JSON.parse(raw)), persistError: null };
   } catch {
-    try {
-      store.setItem(CORRUPT_KEY, raw);
-    } catch {
-      // Keep going — we still must not crash the app.
-    }
+    stashCorrupt(store, raw);
     return { state: emptyState(), persistError: 'corrupt' };
   }
 }
@@ -131,23 +127,30 @@ export function loadState(store = getStore()) {
   return readProgress(store).state;
 }
 
+function stashCorrupt(store, raw) {
+  if (!store || raw == null) return;
+  try {
+    store.setItem(CORRUPT_KEY, raw);
+  } catch {
+    // Keep going — we still must not crash the app.
+  }
+}
+
 export function saveState(state, store = getStore()) {
   if (!store) return { ok: false, reason: 'blocked' };
   const normalized = normalizeState(state);
   try {
     const existingRaw = store.getItem(STORAGE_KEY);
-    if (!hasProgress(normalized) && existingRaw) {
-      try {
-        if (hasProgress(JSON.parse(existingRaw))) {
-          return { ok: true, skipped: true };
-        }
-      } catch {
+    if (!hasProgress(normalized)) {
+      if (existingRaw) {
         try {
-          store.setItem(CORRUPT_KEY, existingRaw);
+          JSON.parse(existingRaw);
         } catch {
-          // Ignore stash failure; still try to write a clean state below.
+          stashCorrupt(store, existingRaw);
         }
       }
+      // Never write an empty snapshot — that is how reloads were wiping XP.
+      return { ok: true, skipped: true };
     }
     store.setItem(STORAGE_KEY, JSON.stringify(normalized));
     return { ok: true };

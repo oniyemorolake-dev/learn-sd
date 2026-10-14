@@ -30,6 +30,7 @@ export default function QuizScreen() {
   const { view, go, state, completeQuiz, toggleBookmark, isBookmarked } = useApp();
   const topicId = view.params.topicId;
   const quiz = quizzes[topicId];
+  const [attempt, setAttempt] = useState(0);
   const [questions, setQuestions] = useState(() => (quiz ? prepareQuizQuestions(quiz.questions) : []));
   const [index, setIndex] = useState(0);
   const [picked, setPicked] = useState(null);
@@ -91,6 +92,7 @@ export default function QuizScreen() {
   }
 
   function retry() {
+    setAttempt((n) => n + 1);
     setQuestions(prepareQuizQuestions(quiz.questions));
     setIndex(0);
     setPicked(null);
@@ -156,6 +158,7 @@ export default function QuizScreen() {
       />
       <ProgressBar value={index} max={questions.length} />
       <QuestionCard
+        key={`${topicId}:${attempt}:${question.id}`}
         question={question}
         picked={picked}
         setPicked={setPicked}

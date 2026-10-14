@@ -21,6 +21,7 @@ import CodeLanguageScreen from './screens/CodeLanguageScreen.jsx';
 import ExamSetupScreen from './screens/ExamSetupScreen.jsx';
 import ExamScreen from './screens/ExamScreen.jsx';
 import Footer from './components/Footer.jsx';
+import UpdateBanner from './components/UpdateBanner.jsx';
 import { SearchHost, SearchProvider } from './components/SearchOverlay.jsx';
 
 function ScreenRouter() {
@@ -31,7 +32,7 @@ function ScreenRouter() {
     case 'lesson':
       return <LessonScreen />;
     case 'quiz':
-      return <QuizScreen />;
+      return <QuizScreen key={view.params.topicId} />;
     case 'practice':
       return <PracticeScreen />;
     case 'exercise':
@@ -73,6 +74,7 @@ export default function App() {
       <SearchProvider>
         <div className="app-shell">
           <main className="app-main">
+            <UpdateBanner />
             <ScreenRouter />
             <Footer />
           </main>

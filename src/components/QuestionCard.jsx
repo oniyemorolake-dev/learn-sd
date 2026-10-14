@@ -44,10 +44,11 @@ export default function QuestionCard({ question, picked, setPicked, revealed, on
       ) : null}
       <CodeBlock language={blockLanguage(question)} snippet={question.code} />
       {(question.options || []).map((option, i) => {
+        const correctIndex = Number(question.answer);
         let cls = 'choice';
         if (picked === i) cls += ' selected';
-        if (revealed && i === question.answer) cls += ' correct';
-        if (revealed && picked === i && i !== question.answer) cls += ' wrong';
+        if (revealed && i === correctIndex) cls += ' correct';
+        if (revealed && picked === i && i !== correctIndex) cls += ' wrong';
         return (
           <button key={i} type="button" className={cls} onClick={() => !revealed && setPicked(i)}>
             <pre style={{ margin: 0, fontFamily: 'inherit', whiteSpace: 'pre-wrap' }}>{option}</pre>

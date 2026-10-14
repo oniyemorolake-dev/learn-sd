@@ -34,23 +34,19 @@ export function AppProvider({ children }) {
   const [persistError, setPersistError] = useState(boot.current.persistError);
   const [view, setView] = useState(loadView);
   const [theme, setTheme] = useState(loadTheme);
-  const stateRef = useRef(state);
+  const stateRef = useRef(boot.current.state);
   const persistErrorRef = useRef(boot.current.persistError);
-  stateRef.current = state;
 
   const commit = useCallback((updater) => {
-    setState((prev) => {
-      const next = typeof updater === 'function' ? updater(prev) : { ...prev, ...updater };
-      const result = saveState(next);
-      persistErrorRef.current = result.ok ? null : result.reason;
-      return next;
-    });
-    queueMicrotask(() => setPersistError(persistErrorRef.current));
+    const prev = stateRef.current;
+    const next = typeof updater === 'function' ? updater(prev) : { ...prev, ...updater };
+    stateRef.current = next;
+    const result = saveState(next);
+    if (!result.ok) persistErrorRef.current = result.reason;
+    else if (!result.skipped) persistErrorRef.current = null;
+    setState(next);
+    setPersistError(persistErrorRef.current);
   }, []);
-
-  useEffect(() => {
-    saveState(state);
-  }, [state]);
 
   useEffect(() => {
     function hydrate() {
@@ -59,11 +55,11 @@ export function AppProvider({ children }) {
         setPersistError('blocked');
         return;
       }
-      setState((current) => {
-        if (hasProgress(current)) return current;
-        return hasProgress(stored.state) ? stored.state : current;
-      });
       if (stored.persistError) setPersistError(stored.persistError);
+      if (!hasProgress(stateRef.current) && hasProgress(stored.state)) {
+        stateRef.current = stored.state;
+        setState(stored.state);
+      }
     }
     function flush() {
       saveState(stateRef.current);
@@ -73,13 +69,15 @@ export function AppProvider({ children }) {
     }
     window.addEventListener('pageshow', hydrate);
     window.addEventListener('pagehide', flush);
+    window.addEventListener('beforeunload', flush);
     document.addEventListener('visibilitychange', onHidden);
-    const timer = window.setTimeout(hydrate, 0);
+    const timers = [0, 50, 250].map((ms) => window.setTimeout(hydrate, ms));
     return () => {
       window.removeEventListener('pageshow', hydrate);
       window.removeEventListener('pagehide', flush);
+      window.removeEventListener('beforeunload', flush);
       document.removeEventListener('visibilitychange', onHidden);
-      window.clearTimeout(timer);
+      timers.forEach((id) => window.clearTimeout(id));
     };
   }, []);
 
@@ -257,9 +255,11 @@ export function AppProvider({ children }) {
 
   const restoreProgress = useCallback((backup) => {
     const next = applyBackup(backup);
+    stateRef.current = next;
     setState(next);
     const result = saveState(next);
-    setPersistError(result.ok ? null : result.reason);
+    persistErrorRef.current = result.ok ? null : result.reason;
+    setPersistError(persistErrorRef.current);
     setTheme(loadTheme());
   }, []);
 

@@ -57,7 +57,7 @@ export function isQuestionCorrect(question, picked = question?.picked) {
   if (question.format === 'matching') {
     return (question.terms || []).every((term) => question.matches?.[term.i] === term.definition);
   }
-  return picked === question.answer;
+  return typeof picked === 'number' && picked === Number(question.answer);
 }
 
 export function examTopicGroup(topicId) {

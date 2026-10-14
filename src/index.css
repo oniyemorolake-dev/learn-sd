@@ -883,6 +883,35 @@ svg {
   flex-shrink: 0;
 }
 
+.update-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  margin: 0 0 16px;
+  background: var(--accent-dim);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+}
+
+.update-banner p {
+  margin: 0;
+  font-weight: 800;
+}
+
+.update-banner .btn-secondary {
+  width: auto;
+  min-height: 40px;
+  padding: 8px 14px;
+  flex-shrink: 0;
+}
+
+.setup-build {
+  margin: 12px 0 0;
+  font-size: 0.82rem;
+}
+
 .search-overlay {
   position: absolute;
   inset: 0;

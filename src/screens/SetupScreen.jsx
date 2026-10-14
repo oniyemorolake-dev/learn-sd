@@ -2,6 +2,7 @@ import ScreenHeader from '../components/ScreenHeader.jsx';
 import { useApp } from '../context/AppContext.jsx';
 import CourseLabel from '../components/CourseLabel.jsx';
 import { findCourseByCode, orderedSetupGuides } from '../lib/content.js';
+import { formatBuildLabel, reloadApp } from '../lib/version.js';
 
 export default function SetupScreen() {
   const { go } = useApp();
@@ -9,7 +10,15 @@ export default function SetupScreen() {
 
   return (
     <div className="stack">
-      <ScreenHeader title="Get set up" kicker="Environment" />
+      <ScreenHeader
+        title="Get set up"
+        kicker="Environment"
+        extra={
+          <button type="button" className="icon-btn" aria-label="Reload app" onClick={reloadApp}>
+            ↻
+          </button>
+        }
+      />
       <p className="lede">Short checklists. One command at a time. No extra noise.</p>
 
       <button type="button" className="track-entry" onClick={() => go('ai-track', { from: 'setup' })}>
@@ -52,6 +61,17 @@ export default function SetupScreen() {
           );
         })}
       </div>
+
+      <section className="card">
+        <p className="kicker">This device</p>
+        <p className="muted" style={{ marginTop: 0 }}>
+          Home-screen apps hide the browser refresh button. Use this if a lesson looks stuck.
+        </p>
+        <button type="button" className="btn-secondary" onClick={reloadApp}>
+          Reload app
+        </button>
+        <p className="muted setup-build">{formatBuildLabel()}</p>
+      </section>
     </div>
   );
 }

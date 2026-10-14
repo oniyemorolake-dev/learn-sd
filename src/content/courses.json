@@ -113,9 +113,9 @@
           "title": "Object-Oriented Programming 3",
           "displayName": "Object-Oriented Programming 3",
           "topics": [
-            "data-structures",
             "big-o-complexity",
             "sorting-searching",
+            "data-structures",
             "recursion",
             "putting-pieces-together"
           ]

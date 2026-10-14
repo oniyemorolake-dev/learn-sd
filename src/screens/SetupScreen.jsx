@@ -28,28 +28,30 @@ export default function SetupScreen() {
         <span className="badge">Track</span>
       </button>
 
-      {guides.map((guide) => {
-        const course = findCourseByCode(guide.forCourse);
-        return (
-          <button
-            key={guide.id}
-            type="button"
-            className="list-row"
-            onClick={() => go('guide', { guideId: guide.id })}
-          >
-            <span>
-              <strong>{guide.title}</strong>
-              {course ? (
-                <CourseLabel course={course} />
-              ) : (
-                <div className="muted">Everyone</div>
-              )}
-              <div className="muted">{guide.steps.length} steps</div>
-            </span>
-            <span className="badge">Open</span>
-          </button>
-        );
-      })}
+      <div className="card-grid">
+        {guides.map((guide) => {
+          const course = findCourseByCode(guide.forCourse);
+          return (
+            <button
+              key={guide.id}
+              type="button"
+              className="list-row"
+              onClick={() => go('guide', { guideId: guide.id })}
+            >
+              <span>
+                <strong>{guide.title}</strong>
+                {course ? (
+                  <CourseLabel course={course} />
+                ) : (
+                  <div className="muted">Everyone</div>
+                )}
+                <div className="muted">{guide.steps.length} steps</div>
+              </span>
+              <span className="badge">Open</span>
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }

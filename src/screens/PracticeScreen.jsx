@@ -20,26 +20,28 @@ export default function PracticeScreen() {
         <span className="badge">Open</span>
       </button>
 
-      {topics.map((item) => {
-        const list = exercises[item.topicId].exercises;
-        const done = list.filter((ex) => state.exercises[ex.id]).length;
-        return (
-          <button
-            key={item.topicId}
-            type="button"
-            className="list-row"
-            onClick={() => go('exercise', { topicId: item.topicId })}
-          >
-            <span>
-              <strong>{topicTitle(item.topicId)}</strong>
-              <CourseLabel course={item.course} />
-            </span>
-            <span className={`badge ${done === list.length ? 'done' : ''}`}>
-              {done}/{list.length}
-            </span>
-          </button>
-        );
-      })}
+      <div className="card-grid">
+        {topics.map((item) => {
+          const list = exercises[item.topicId].exercises;
+          const done = list.filter((ex) => state.exercises[ex.id]).length;
+          return (
+            <button
+              key={item.topicId}
+              type="button"
+              className="list-row"
+              onClick={() => go('exercise', { topicId: item.topicId })}
+            >
+              <span>
+                <strong>{topicTitle(item.topicId)}</strong>
+                <CourseLabel course={item.course} />
+              </span>
+              <span className={`badge ${done === list.length ? 'done' : ''}`}>
+                {done}/{list.length}
+              </span>
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }

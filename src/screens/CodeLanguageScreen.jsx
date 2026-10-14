@@ -30,25 +30,27 @@ export default function CodeLanguageScreen() {
       />
       <p className="lede">{language.tagline}</p>
 
-      {language.topics.map((topicId, i) => {
-        const done = isTopicComplete(topicId, state);
-        return (
-          <button
-            key={topicId}
-            type="button"
-            className="list-row"
-            onClick={() => go('topic', { topicId, from: 'code-lab', languageId: language.id })}
-          >
-            <span>
-              <strong>
-                {i + 1}. {topicTitle(topicId)}
-              </strong>
-              {topicDescription(topicId) ? <div className="muted">{topicDescription(topicId)}</div> : null}
-            </span>
-            <span className={`badge ${done ? 'done' : ''}`}>{done ? 'Done' : 'Open'}</span>
-          </button>
-        );
-      })}
+      <div className="card-grid">
+        {language.topics.map((topicId, i) => {
+          const done = isTopicComplete(topicId, state);
+          return (
+            <button
+              key={topicId}
+              type="button"
+              className="list-row"
+              onClick={() => go('topic', { topicId, from: 'code-lab', languageId: language.id })}
+            >
+              <span>
+                <strong>
+                  {i + 1}. {topicTitle(topicId)}
+                </strong>
+                {topicDescription(topicId) ? <div className="muted">{topicDescription(topicId)}</div> : null}
+              </span>
+              <span className={`badge ${done ? 'done' : ''}`}>{done ? 'Done' : 'Open'}</span>
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }

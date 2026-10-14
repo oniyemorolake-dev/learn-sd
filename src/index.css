@@ -21,6 +21,9 @@
   --tab-bg: rgba(15, 11, 30, 0.92);
   --radius: 18px;
   --tab-h: 72px;
+  --shell-max: 480px;
+  --content-max: 480px;
+  --page-pad: 20px;
   --font: 'Nunito', system-ui, sans-serif;
   --mono: 'JetBrains Mono', ui-monospace, monospace;
   --shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
@@ -94,7 +97,8 @@ svg {
 
 .app-shell {
   min-height: 100dvh;
-  max-width: 480px;
+  width: 100%;
+  max-width: var(--shell-max);
   margin: 0 auto;
   position: relative;
   background: radial-gradient(1200px 400px at 50% -120px, var(--shell-glow) 0%, var(--bg) 70%);
@@ -102,7 +106,10 @@ svg {
 }
 
 .app-main {
-  padding: 20px 20px calc(var(--tab-h) + 84px);
+  width: 100%;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 20px var(--page-pad) calc(var(--tab-h) + 84px);
   min-height: 100dvh;
 }
 
@@ -157,6 +164,12 @@ svg {
 }
 
 .stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card-grid {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -247,7 +260,7 @@ svg {
   left: 50%;
   transform: translateX(-50%);
   bottom: 0;
-  width: min(480px, 100%);
+  width: min(var(--shell-max), 100%);
   height: calc(var(--tab-h) + env(safe-area-inset-bottom));
   padding-bottom: env(safe-area-inset-bottom);
   display: grid;
@@ -506,7 +519,7 @@ svg {
 
 .byte-fab {
   position: fixed;
-  right: max(16px, calc(50% - 240px + 16px));
+  right: max(16px, calc(50% - (var(--shell-max) / 2) + 16px));
   bottom: calc(var(--tab-h) + 12px + env(safe-area-inset-bottom));
   width: 56px;
   height: 56px;
@@ -523,7 +536,7 @@ svg {
   left: 50%;
   transform: translateX(-50%);
   bottom: calc(var(--tab-h) + env(safe-area-inset-bottom));
-  width: min(480px, 100%);
+  width: min(var(--shell-max), 100%);
   height: min(62vh, 520px);
   background: var(--surface);
   border: 1px solid var(--border);
@@ -944,5 +957,120 @@ svg {
 
   .search-overlay {
     position: fixed;
+  }
+}
+
+@media (min-width: 600px) {
+  :root,
+  [data-theme='dark'],
+  [data-theme='light'] {
+    --shell-max: 100%;
+    --content-max: 720px;
+    --page-pad: 28px;
+  }
+
+  .app-shell {
+    max-width: none;
+    border-inline: 0;
+  }
+
+  .tab-bar {
+    left: 0;
+    transform: none;
+    width: 100%;
+  }
+
+  .byte-fab {
+    right: 24px;
+  }
+
+  .byte-panel {
+    left: auto;
+    right: 24px;
+    transform: none;
+    width: min(480px, calc(100% - 48px));
+  }
+}
+
+@media (min-width: 768px) {
+  :root,
+  [data-theme='dark'],
+  [data-theme='light'] {
+    --shell-max: 100%;
+    --content-max: 1120px;
+    --page-pad: 36px;
+    --tab-h: 76px;
+  }
+
+  html,
+  body,
+  #root {
+    font-size: 18px;
+  }
+
+  .app-shell {
+    max-width: none;
+    border-inline: 0;
+    background: radial-gradient(1600px 520px at 50% -160px, var(--shell-glow) 0%, var(--bg) 70%);
+  }
+
+  .app-main {
+    padding-top: 28px;
+    padding-bottom: calc(var(--tab-h) + 96px);
+  }
+
+  .tab-bar {
+    left: 0;
+    transform: none;
+    width: 100%;
+  }
+
+  .tab-btn {
+    font-size: 0.78rem;
+    gap: 4px;
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+  }
+
+  .card-grid .list-row,
+  .card-grid .code-lang-card {
+    height: 100%;
+  }
+
+  .editor {
+    min-height: 260px;
+  }
+
+  .byte-fab {
+    right: 24px;
+  }
+
+  .byte-panel {
+    left: auto;
+    right: 24px;
+    transform: none;
+    width: min(520px, calc(100% - 48px));
+    height: min(70vh, 640px);
+  }
+
+  .search-overlay {
+    padding: 24px var(--page-pad) calc(var(--tab-h) + 32px);
+  }
+}
+
+@media (min-width: 1180px) {
+  :root,
+  [data-theme='dark'],
+  [data-theme='light'] {
+    --content-max: 1280px;
+    --page-pad: 48px;
+  }
+
+  .card-grid {
+    grid-template-columns: 1fr 1fr 1fr;
   }
 }

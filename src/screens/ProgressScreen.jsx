@@ -80,26 +80,30 @@ export default function ProgressScreen() {
 
       <section className="stack">
         <p className="kicker">By course</p>
-        {byCourse.map((group) => (
-          <div key={group.course.id} className="list-row">
-            <CourseLabel course={group.course} />
-            <span className={`badge ${group.complete === group.total ? 'done' : ''}`}>
-              {group.complete}/{group.total}
-            </span>
-          </div>
-        ))}
+        <div className="card-grid">
+          {byCourse.map((group) => (
+            <div key={group.course.id} className="list-row">
+              <CourseLabel course={group.course} />
+              <span className={`badge ${group.complete === group.total ? 'done' : ''}`}>
+                {group.complete}/{group.total}
+              </span>
+            </div>
+          ))}
+        </div>
       </section>
 
       <section className="stack">
         <p className="kicker">Code Lab</p>
-        {byLab.map((group) => (
-          <div key={group.course.id} className="list-row">
-            <CourseLabel course={group.course} />
-            <span className={`badge ${group.complete === group.total ? 'done' : ''}`}>
-              {group.complete}/{group.total}
-            </span>
-          </div>
-        ))}
+        <div className="card-grid">
+          {byLab.map((group) => (
+            <div key={group.course.id} className="list-row">
+              <CourseLabel course={group.course} />
+              <span className={`badge ${group.complete === group.total ? 'done' : ''}`}>
+                {group.complete}/{group.total}
+              </span>
+            </div>
+          ))}
+        </div>
       </section>
 
       <button type="button" className="list-row" onClick={() => go('bookmarks')}>

@@ -11,28 +11,30 @@ export default function CodeLabScreen() {
       <ScreenHeader title="Code Lab" kicker="Languages" />
       <p className="lede">Pick a group. Five topics. Same lesson → quiz → practice flow.</p>
 
-      {codeLab.languages.map((language) => {
-        const done = language.topics.filter((topicId) => isTopicComplete(topicId, state)).length;
-        return (
-          <button
-            key={language.id}
-            type="button"
-            className="list-row code-lang-card"
-            onClick={() => go('code-language', { languageId: language.id })}
-          >
-            <span>
-              <strong>
-                {language.emoji} {language.name}
-              </strong>
-              <div className="muted">{language.tagline}</div>
-              <ProgressBar value={done} max={language.topics.length} />
-            </span>
-            <span className={`badge ${done === language.topics.length ? 'done' : ''}`}>
-              {done}/{language.topics.length}
-            </span>
-          </button>
-        );
-      })}
+      <div className="card-grid">
+        {codeLab.languages.map((language) => {
+          const done = language.topics.filter((topicId) => isTopicComplete(topicId, state)).length;
+          return (
+            <button
+              key={language.id}
+              type="button"
+              className="list-row code-lang-card"
+              onClick={() => go('code-language', { languageId: language.id })}
+            >
+              <span>
+                <strong>
+                  {language.emoji} {language.name}
+                </strong>
+                <div className="muted">{language.tagline}</div>
+                <ProgressBar value={done} max={language.topics.length} />
+              </span>
+              <span className={`badge ${done === language.topics.length ? 'done' : ''}`}>
+                {done}/{language.topics.length}
+              </span>
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }
